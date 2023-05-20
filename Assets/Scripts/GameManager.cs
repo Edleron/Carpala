@@ -41,6 +41,6 @@ public class TestCode : MonoBehaviour
             _timeCounter = 0;
         }
 
-        Debug.Log(_fps);
+        // Debug.Log(_fps);
     }
 }
