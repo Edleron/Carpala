@@ -1,0 +1,25 @@
+{
+  "levelDataList": [
+    {
+      "LevelNumber": 1,
+      "LevelName": "Level 1",
+      "LevelDescription": "This is Level 1",
+      "LevelDifficulty": "Easy",
+      "TargetScore": 100
+    },
+    {
+      "LevelNumber": 2,
+      "LevelName": "Level 2",
+      "LevelDescription": "This is Level 2",
+      "LevelDifficulty": "Medium",
+      "TargetScore": 200
+    },
+    {
+      "LevelNumber": 3,
+      "LevelName": "Level 3",
+      "LevelDescription": "This is Level 3",
+      "LevelDifficulty": "Hard",
+      "TargetScore": 300
+    }
+  ]
+}
