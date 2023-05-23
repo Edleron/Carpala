@@ -9,25 +9,23 @@ namespace Game.Level
     public class LevelTransmiter
     {
         private int currentLevel;
+        private int currentSection;
         private List<LevelData> levelDataList;
 
         public LevelTransmiter()
         {
-            // Seviye verilerini yükle
+            currentLevel = 1; // Todo
+            currentSection = 5; // Todo
             levelDataList = LoadLevelDataFromSource();
-            currentLevel = 1; // Varsayılan olarak ilk seviye
         }
 
         public void StartCurrentLevel()
         {
-            LevelData currentLevelData = GetLevelData(currentLevel);
-            // Seviye başlatma işlemleri
+            LevelData currentLevelData = GetLevelData();
         }
 
         public void CompleteCurrentLevel()
         {
-            // Seviye tamamlama işlemleri
-
             if (currentLevel < levelDataList.Count)
             {
                 currentLevel++;
@@ -39,29 +37,42 @@ namespace Game.Level
             }
         }
 
-        private LevelData GetLevelData(int levelNumber)
+        public void CompleteCurrentSection()
         {
-            // levelNumber'a göre seviye verilerini döndür
+            if (currentSection < levelDataList[currentLevel].Section)
+            {
+                currentSection++;
+            }
+            else
+            {
+                CompleteCurrentLevel();
+            }
+        }
+
+        public LevelData GetLevelData()
+        {
             return levelDataList[currentLevel]; // Todo
+        }
+
+        public int GetSectionData()
+        {
+            return currentSection;
         }
 
         private List<LevelData> LoadLevelDataFromSource()
         {
-            string filePath = Application.dataPath + "/LevelData.json";
-            Debug.Log("File path: " + filePath);
-
+            string filePath = Application.dataPath + "/LevelData.json"; // Todo
             if (File.Exists(filePath))
             {
-                Debug.Log("File exists");
                 try
                 {
                     string jsonData = File.ReadAllText(filePath);
-                    Debug.Log("JSON data: " + jsonData);
+
+                    // Debug.Log("JSON data: " + jsonData);
 
                     LevelDataListWrapper wrapper = JsonUtility.FromJson<LevelDataListWrapper>(jsonData);
                     if (wrapper != null && wrapper.levelDataList != null)
                     {
-                        Debug.Log("Data loaded successfully");
                         return wrapper.levelDataList;
                     }
                     else
