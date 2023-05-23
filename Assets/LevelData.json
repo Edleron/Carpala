@@ -5,21 +5,27 @@
       "LevelName": "Level 1",
       "LevelDescription": "This is Level 1",
       "LevelDifficulty": "Easy",
-      "TargetScore": 100
+      "TargetScore": 100,
+      "Section": 15,
+      "PrepareStamp": [0, 4]
     },
     {
       "LevelNumber": 2,
       "LevelName": "Level 2",
       "LevelDescription": "This is Level 2",
       "LevelDifficulty": "Medium",
-      "TargetScore": 200
+      "TargetScore": 200,
+      "Section": 10,
+      "PrepareStamp": [1, 7, 4]
     },
     {
       "LevelNumber": 3,
       "LevelName": "Level 3",
       "LevelDescription": "This is Level 3",
       "LevelDifficulty": "Hard",
-      "TargetScore": 300
+      "TargetScore": 300,
+      "Section": 5,
+      "PrepareStamp": [1, 2, 4, 6]
     }
   ]
 }
