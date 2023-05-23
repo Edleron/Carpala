@@ -6,19 +6,36 @@ namespace Game.Level
 
     public class LevelManager : MonoBehaviour
     {
+        public static LevelManager Instance { get; private set; }
+
         private LevelTransmiter levelTransmiter;
+
+        private void Awake()
+        {
+            Instance = this;
+            levelTransmiter = new LevelTransmiter();
+        }
 
         private void Start()
         {
-            levelTransmiter = new LevelTransmiter();
             levelTransmiter.StartCurrentLevel();
-            Invoke("levelTransmiter.CompleteCurrentLevel", 2);
         }
 
         private void Update()
         {
-            // Oyun içerisinde gerekli koşullara göre seviye durumları değiştirilir
 
+        }
+
+        public int[] GetStampValue()
+        {
+            int[] arr = levelTransmiter.GetLevelData().PrepareStamp;
+            return arr;
+        }
+
+        public int GetSectionValue()
+        {
+            int value = levelTransmiter.GetSectionData();
+            return value;
         }
     }
 }
