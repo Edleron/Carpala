@@ -14,7 +14,7 @@ namespace Game.Level
 
         public LevelTransmiter()
         {
-            currentLevel = 1; // Todo
+            currentLevel = 0; // Todo
             currentSection = 5; // Todo
             levelDataList = LoadLevelDataFromSource();
         }
