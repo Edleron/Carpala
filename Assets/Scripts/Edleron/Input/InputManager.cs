@@ -1,18 +1,53 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    #region Events
+    public delegate void StartTouch(Vector2 position, float time);
+    public event StartTouch OnStartTouch;
+    public delegate void EndTouch(Vector2 position, float time);
+    public event EndTouch OnEndTouch;
+    #endregion
+
+    private PlayerControls playerControl;
+    private Camera mainCamera;
+
+
+    private void Awake()
     {
-        
+        playerControl = new PlayerControls();
+        mainCamera = Camera.main;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnEnable()
     {
-        
+        playerControl.Enable();
+    }
+
+    private void OnDisable()
+    {
+        playerControl.Disable();
+    }
+
+    private void Start()
+    {
+        playerControl.Touch.PrimaryContact.started += ctx => StartTouchPrimary(ctx);
+        playerControl.Touch.PrimaryContact.canceled += ctx => EndTouchPrimary(ctx);
+    }
+
+    private void StartTouchPrimary(InputAction.CallbackContext context)
+    {
+        if (OnStartTouch != null) OnStartTouch(Utils.ScreenToWorld(mainCamera, playerControl.Touch.PrimaryPosition.ReadValue<Vector2>()), (float)context.startTime);
+    }
+
+    private void EndTouchPrimary(InputAction.CallbackContext context)
+    {
+        if (OnEndTouch != null) OnEndTouch(Utils.ScreenToWorld(mainCamera, playerControl.Touch.PrimaryPosition.ReadValue<Vector2>()), (float)context.time);
+    }
+
+    public Vector2 PrimaryPosition()
+    {
+        return Utils.ScreenToWorld(mainCamera, playerControl.Touch.PrimaryPosition.ReadValue<Vector2>());
     }
 }
