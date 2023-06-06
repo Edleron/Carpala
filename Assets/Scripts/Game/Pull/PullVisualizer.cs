@@ -1,9 +1,6 @@
 namespace Game.Pull
 {
-    using System.Collections;
-    using System.Collections.Generic;
     using UnityEngine;
-    using Edleron.Events;
 
     public class PullVisualizer : MonoBehaviour
     {

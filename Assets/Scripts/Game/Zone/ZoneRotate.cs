@@ -9,11 +9,6 @@ namespace Game.Zone
         private float rotationSpeed = 1.0f;
         private bool rotationControl = false;
 
-        private void Awake()
-        {
-
-        }
-
         void Update()
         {
             if (rotationControl)

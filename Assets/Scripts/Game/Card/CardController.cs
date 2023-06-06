@@ -3,7 +3,7 @@ namespace Game.Card
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
-    using Edleron.Events;
+    // using Edleron.Events;
 
     public class CardController : MonoBehaviour
     {
