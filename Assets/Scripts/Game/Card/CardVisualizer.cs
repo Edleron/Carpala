@@ -8,6 +8,7 @@ namespace Game.Card
     using Game.Zone;
     using UnityEngine.UI;
     using TMPro;
+    using Edleron.Events;
 
     public class CardVisualizer : MonoBehaviour
     {
@@ -50,7 +51,7 @@ namespace Game.Card
             }
 
             // Active Card Anim
-            animator.SetBool("visible", true);
+            SetBoolActiveTrue();
 
             // Active Pump
             PumpManager.Instance.StartPump();
@@ -119,6 +120,36 @@ namespace Game.Card
             }
 
             return false;
+        }
+
+
+        private void OnEnable()
+        {
+            EventManager.onSwipeUp += SetBoolActiveTrue;
+        }
+
+        private void OnDisable()
+        {
+            EventManager.onSwipeUp -= SetBoolActiveTrue;
+        }
+
+
+        // Animation Events
+        private void SetBoolActiveTrue()
+        {
+            animator.SetBool("active", true);
+        }
+        private void SetBoolActiveFalse()
+        {
+            animator.SetBool("active", false);
+        }
+        private void SetBoolPassiveTrue()
+        {
+            animator.SetBool("passive", true);
+        }
+        private void SetBoolPassiveFalse()
+        {
+            animator.SetBool("passive", false);
         }
     }
 }
