@@ -1,10 +1,13 @@
-using UnityEngine;
-
-public class Utils : MonoBehaviour
+namespace Edleron.Input
 {
-    public static Vector3 ScreenToWorld(Camera camera, Vector3 position)
+    using UnityEngine;
+
+    public class Utils : MonoBehaviour
     {
-        position.z = camera.nearClipPlane;
-        return camera.ScreenToWorldPoint(position);
+        public static Vector3 ScreenToWorld(Camera camera, Vector3 position)
+        {
+            position.z = camera.nearClipPlane;
+            return camera.ScreenToWorldPoint(position);
+        }
     }
 }
