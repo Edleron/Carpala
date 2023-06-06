@@ -14,24 +14,7 @@ namespace Game.Pull
             animator = GetComponent<Animator>();
         }
 
-        public void Init()
-        {
-
-        }
-
-        private void OnEnable()
-        {
-            EventManager.onSwipeUp += PullAnimActiveTrue;
-            EventManager.onSwipeDown += PullAnimPassiveTrue;
-        }
-
-        private void OnDisable()
-        {
-            EventManager.onSwipeUp -= PullAnimActiveTrue;
-            EventManager.onSwipeDown -= PullAnimPassiveTrue;
-        }
-
-        private void PullAnimActiveTrue()
+        public void PullAnimActiveTrue()
         {
             animator.SetBool("active", true);
         }
@@ -39,7 +22,7 @@ namespace Game.Pull
         {
             animator.SetBool("active", false);
         }
-        private void PullAnimPassiveTrue()
+        public void PullAnimPassiveTrue()
         {
             animator.SetBool("passive", true);
         }

@@ -6,9 +6,7 @@ namespace Game.Card
     using Game.Level;
     using Game.Pump;
     using Game.Zone;
-    using UnityEngine.UI;
     using TMPro;
-    using Edleron.Events;
 
     public class CardVisualizer : MonoBehaviour
     {
@@ -123,24 +121,8 @@ namespace Game.Card
             return false;
         }
 
-
-        private void OnEnable()
-        {
-            // TODO
-            // EventManager.onSwipeUp += CardAnimActiveTrue;
-            // EventManager.onSwipeDown += CardAnimPassiveTrue;
-        }
-
-        private void OnDisable()
-        {
-            // TODO
-            // EventManager.onSwipeUp -= CardAnimActiveTrue;
-            // EventManager.onSwipeDown -= CardAnimPassiveTrue;
-        }
-
-
         // Animation Events
-        private void CardAnimActiveTrue()
+        public void CardAnimActiveTrue()
         {
             animator.SetBool("active", true);
         }
@@ -148,7 +130,7 @@ namespace Game.Card
         {
             animator.SetBool("active", false);
         }
-        private void CardAnimPassiveTrue()
+        public void CardAnimPassiveTrue()
         {
             animator.SetBool("passive", true);
         }

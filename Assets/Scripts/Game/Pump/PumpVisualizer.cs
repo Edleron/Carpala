@@ -1,8 +1,5 @@
 namespace Game.Pump
 {
-    using System.Collections;
-    using System.Collections.Generic;
-    using Edleron.Events;
     using UnityEngine;
 
     public class PumpVisualizer : MonoBehaviour
@@ -14,19 +11,7 @@ namespace Game.Pump
             animator = GetComponent<Animator>();
         }
 
-        private void OnEnable()
-        {
-            EventManager.onSwipeUp += PumpAnimActiveTrue;
-            EventManager.onSwipeDown += PumpAnimPassiveTrue;
-        }
-
-        private void OnDisable()
-        {
-            EventManager.onSwipeUp -= PumpAnimActiveTrue;
-            EventManager.onSwipeDown -= PumpAnimPassiveTrue;
-        }
-
-        private void PumpAnimActiveTrue()
+        public void PumpAnimActiveTrue()
         {
             animator.SetBool("active", true);
         }
@@ -34,7 +19,7 @@ namespace Game.Pump
         {
             animator.SetBool("active", false);
         }
-        private void PumpAnimPassiveTrue()
+        public void PumpAnimPassiveTrue()
         {
             animator.SetBool("passive", true);
         }

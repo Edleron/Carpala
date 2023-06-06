@@ -3,6 +3,7 @@ namespace Game.Pull
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
+    using Edleron.Events;
 
     public class PullController : MonoBehaviour
     {
@@ -13,9 +14,17 @@ namespace Game.Pull
             pullVisualizer = GetComponent<PullVisualizer>();
         }
 
-        private void Start()
+        private void OnEnable()
         {
-            pullVisualizer.Init();
+            EventManager.onSwipeUp += pullVisualizer.PullAnimActiveTrue;
+            EventManager.onSwipeDown += pullVisualizer.PullAnimPassiveTrue;
         }
+
+        private void OnDisable()
+        {
+            EventManager.onSwipeUp -= pullVisualizer.PullAnimActiveTrue;
+            EventManager.onSwipeDown -= pullVisualizer.PullAnimPassiveTrue;
+        }
+
     }
 }
