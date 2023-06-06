@@ -16,22 +16,31 @@ namespace Game.Pump
 
         private void OnEnable()
         {
-            EventManager.onSwipeUp += ActivePumping;
+            EventManager.onSwipeUp += PumpAnimActiveTrue;
+            EventManager.onSwipeDown += PumpAnimPassiveTrue;
         }
 
         private void OnDisable()
         {
-            EventManager.onSwipeUp -= ActivePumping;
+            EventManager.onSwipeUp -= PumpAnimActiveTrue;
+            EventManager.onSwipeDown -= PumpAnimPassiveTrue;
         }
 
-        public void ActivePumping()
+        private void PumpAnimActiveTrue()
         {
-            animator.SetBool("pumping", true);
+            animator.SetBool("active", true);
         }
-
-        public void PassivePumping()
+        private void PumpAnimActiveFalse()
         {
-            animator.SetBool("pumping", false);
+            animator.SetBool("active", false);
+        }
+        private void PumpAnimPassiveTrue()
+        {
+            animator.SetBool("passive", true);
+        }
+        private void PumpAnimPassiveFalse()
+        {
+            animator.SetBool("passive", false);
         }
     }
 }

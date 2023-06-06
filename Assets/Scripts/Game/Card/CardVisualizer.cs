@@ -51,10 +51,10 @@ namespace Game.Card
             }
 
             // Active Card Anim
-            SetBoolActiveTrue();
+            CardAnimActiveTrue(); // TODO
 
             // Active Pump
-            PumpManager.Instance.StartPump();
+            // TODO
 
             // Active Stamp
             Invoke("ActiveStamp", 1f);
@@ -81,7 +81,8 @@ namespace Game.Card
                 zoneRotate.ActiveRotate(rotationSpeed, rotationControl);
             }
 
-            PumpManager.Instance.StopPump();
+            // Passive Pump
+            // TODO
         }
 
         private void ActiveRotate()
@@ -125,29 +126,33 @@ namespace Game.Card
 
         private void OnEnable()
         {
-            EventManager.onSwipeUp += SetBoolActiveTrue;
+            // TODO
+            // EventManager.onSwipeUp += CardAnimActiveTrue;
+            // EventManager.onSwipeDown += CardAnimPassiveTrue;
         }
 
         private void OnDisable()
         {
-            EventManager.onSwipeUp -= SetBoolActiveTrue;
+            // TODO
+            // EventManager.onSwipeUp -= CardAnimActiveTrue;
+            // EventManager.onSwipeDown -= CardAnimPassiveTrue;
         }
 
 
         // Animation Events
-        private void SetBoolActiveTrue()
+        private void CardAnimActiveTrue()
         {
             animator.SetBool("active", true);
         }
-        private void SetBoolActiveFalse()
+        private void CardAnimActiveFalse()
         {
             animator.SetBool("active", false);
         }
-        private void SetBoolPassiveTrue()
+        private void CardAnimPassiveTrue()
         {
             animator.SetBool("passive", true);
         }
-        private void SetBoolPassiveFalse()
+        private void CardAnimPassiveFalse()
         {
             animator.SetBool("passive", false);
         }

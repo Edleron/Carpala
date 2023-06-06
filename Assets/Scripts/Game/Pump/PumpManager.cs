@@ -18,11 +18,11 @@ namespace Game.Pump
 
         public void StartPump()
         {
-            pumpController.pumpVisualizer.ActivePumping();
+            // pumpController.pumpVisualizer.PumpAnimActiveTrue(); // TODO
         }
         public void StopPump()
         {
-            pumpController.pumpVisualizer.PassivePumping();
+            // pumpController.pumpVisualizer.PassivePumping(); // TODO
         }
     }
 }

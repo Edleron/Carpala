@@ -71,6 +71,7 @@ namespace Edleron.Input
             else if (Vector2.Dot(Vector2.down, direction) > directionThreshold)
             {
                 Debug.Log("Swipe Down");
+                EventManager.Fire_onSwipeDown();
             }
             else if (Vector2.Dot(Vector2.left, direction) > directionThreshold)
             {
