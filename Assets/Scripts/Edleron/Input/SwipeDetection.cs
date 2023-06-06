@@ -2,6 +2,7 @@ namespace Edleron.Input
 {
 
     using System.Collections;
+    using Edleron.Events;
     using UnityEngine;
 
     public class SwipeDetection : MonoBehaviour
@@ -65,6 +66,7 @@ namespace Edleron.Input
             if (Vector2.Dot(Vector2.up, direction) > directionThreshold)
             {
                 Debug.Log("Swipe Up");
+                EventManager.Fire_onSwipeUp();
             }
             else if (Vector2.Dot(Vector2.down, direction) > directionThreshold)
             {

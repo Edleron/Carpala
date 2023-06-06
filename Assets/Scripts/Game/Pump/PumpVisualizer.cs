@@ -2,6 +2,7 @@ namespace Game.Pump
 {
     using System.Collections;
     using System.Collections.Generic;
+    using Edleron.Events;
     using UnityEngine;
 
     public class PumpVisualizer : MonoBehaviour
@@ -11,6 +12,16 @@ namespace Game.Pump
         private void Awake()
         {
             animator = GetComponent<Animator>();
+        }
+
+        private void OnEnable()
+        {
+            EventManager.onSwipeUp += ActivePumping;
+        }
+
+        private void OnDisable()
+        {
+            EventManager.onSwipeUp -= ActivePumping;
         }
 
         public void ActivePumping()
