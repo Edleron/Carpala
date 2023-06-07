@@ -7,7 +7,7 @@
       "LevelDifficulty": "Easy",
       "TargetScore": 100,
       "Section": 15,
-      "PrepareStamp": [0, 4]
+      "PrepareStamp": [1, 2, 4, 6]
     },
     {
       "LevelNumber": 2,
@@ -26,6 +26,15 @@
       "TargetScore": 300,
       "Section": 5,
       "PrepareStamp": [1, 2, 4, 6]
+    },
+    {
+      "LevelNumber": 1,
+      "LevelName": "Modified",
+      "LevelDescription": "Modified",
+      "LevelDifficulty": "Easy",
+      "TargetScore": 100,
+      "Section": 15,
+      "PrepareStamp": [0, 4]
     }
   ]
 }
