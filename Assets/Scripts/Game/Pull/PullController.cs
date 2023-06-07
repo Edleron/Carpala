@@ -5,7 +5,7 @@ namespace Game.Pull
 
     public class PullController : MonoBehaviour
     {
-        private PullVisualizer pullVisualizer;
+        [HideInInspector] public PullVisualizer pullVisualizer;
 
         private void Awake()
         {

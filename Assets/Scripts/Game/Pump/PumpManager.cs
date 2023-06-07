@@ -16,13 +16,9 @@ namespace Game.Pump
             pumpController = GetComponent<PumpController>();
         }
 
-        public void StartPump()
+        public void StartPumping()
         {
-            // pumpController.pumpVisualizer.PumpAnimActiveTrue(); // TODO
-        }
-        public void StopPump()
-        {
-            // pumpController.pumpVisualizer.PassivePumping(); // TODO
+            pumpController.pumpVisualizer.PumpAnimActiveTrue(); // TODO
         }
     }
 }

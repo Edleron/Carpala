@@ -7,8 +7,7 @@ namespace Game.Pump
 
     public class PumpController : MonoBehaviour
     {
-        [HideInInspector]
-        public PumpVisualizer pumpVisualizer;
+        [HideInInspector] public PumpVisualizer pumpVisualizer;
 
         private void Awake()
         {

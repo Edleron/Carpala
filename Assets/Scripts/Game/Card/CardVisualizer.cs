@@ -4,7 +4,6 @@ namespace Game.Card
     using System.Collections.Generic;
     using UnityEngine;
     using Game.Level;
-    using Game.Pump;
     using Game.Zone;
     using TMPro;
 
@@ -20,28 +19,34 @@ namespace Game.Card
 
         private void Awake()
         {
-            animator = GetComponent<Animator>();
-            cardShake = GetComponent<CardShake>();
             rotationSpeed = 1.0f;
             rotationControl = false;
+            animator = GetComponent<Animator>();
+            cardShake = GetComponent<CardShake>();
         }
 
         private void Update()
         {
             if (rotationControl)
             {
-                ActiveRotate();
+                CardRotating();
             }
         }
 
-        public void Init()
+        public void Shake()
         {
             // Card Shake Effects
             cardShake.StartShake();
+        }
 
+        public void SetRotationSpeed()
+        {
             // Set Rotation
             rotationSpeed = rotationSpeed * LevelManager.Instance.GetSectionValue();
+        }
 
+        public void CardInit()
+        {
             // Set Stamp
             foreach (var item in stamp)
             {
@@ -50,17 +55,11 @@ namespace Game.Card
 
             // Active Card Anim
             CardAnimActiveTrue(); // TODO
-
-            // Active Pump
-            // TODO
-
-            // Active Stamp
-            Invoke("ActiveStamp", 1f);
         }
 
-        private void ActiveStamp()
+        public IEnumerator CardGenerate(int wait)
         {
-            rotationControl = true;
+            yield return new WaitForSeconds(wait);
 
             var arr = LevelManager.Instance.GetStampValue();
 
@@ -76,18 +75,23 @@ namespace Game.Card
                 ZoneRotate zoneRotate = stampObje.GetComponent<ZoneRotate>();
 
                 textObje.text = randomNumber[i].ToString();
-                zoneRotate.ActiveRotate(rotationSpeed, rotationControl);
+                zoneRotate.ZoneRotating(rotationSpeed, rotationControl);
             }
-
-            // Passive Pump
-            // TODO
         }
 
-        private void ActiveRotate()
+        public IEnumerator CardRotate(float wait, bool value)
+        {
+            yield return new WaitForSeconds(wait);
+
+            rotationControl = value;
+        }
+
+        private void CardRotating()
         {
             transform.Rotate(Vector3.back, rotationSpeed * Time.deltaTime);
         }
 
+        // Zone Number Text Generate
         private int[] GenerateRandomNumbers(int length)
         {
             int[] numbers = new int[length];

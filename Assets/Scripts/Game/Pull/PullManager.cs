@@ -14,5 +14,10 @@ namespace Game.Pull
             Instance = this;
             pullController = GetComponent<PullController>();
         }
+
+        public void StartPulling()
+        {
+            pullController.pullVisualizer.PullAnimActiveTrue();
+        }
     }
 }

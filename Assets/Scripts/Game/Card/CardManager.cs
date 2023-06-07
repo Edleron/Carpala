@@ -1,7 +1,5 @@
 namespace Game.Card
 {
-    using System.Collections;
-    using System.Collections.Generic;
     using UnityEngine;
 
     public class CardManager : MonoBehaviour
@@ -14,6 +12,11 @@ namespace Game.Card
         {
             Instance = this;
             cardController = GetComponent<CardController>();
+        }
+
+        public void StartCarding()
+        {
+            cardController.InitialCard();
         }
     }
 }

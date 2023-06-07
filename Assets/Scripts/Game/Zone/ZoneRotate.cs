@@ -1,7 +1,5 @@
 namespace Game.Zone
 {
-    using System.Collections;
-    using System.Collections.Generic;
     using UnityEngine;
 
     public class ZoneRotate : MonoBehaviour
@@ -17,7 +15,7 @@ namespace Game.Zone
             }
         }
 
-        public void ActiveRotate(float speed, bool control)
+        public void ZoneRotating(float speed, bool control)
         {
             rotationSpeed = -1 * speed;
             rotationControl = control;
