@@ -7,7 +7,7 @@
       "LevelDifficulty": "Easy",
       "TargetScore": 100,
       "Section": 15,
-      "PrepareStamp": [1, 2, 4, 6]
+      "PrepareStamp": [0, 2, 4, 6]
     },
     {
       "LevelNumber": 2,

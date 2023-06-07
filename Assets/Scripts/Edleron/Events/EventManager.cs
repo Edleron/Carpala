@@ -8,6 +8,9 @@ namespace Edleron.Events
 
         public static event Action onSwipeDown;
         public static void Fire_onSwipeDown() { onSwipeDown?.Invoke(); }
+
+        public static event Action onCorrectUp;
+        public static void Fire_onCorrectUp() { onCorrectUp?.Invoke(); }
     }
 }
 

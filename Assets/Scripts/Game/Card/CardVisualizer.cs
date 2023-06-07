@@ -42,7 +42,8 @@ namespace Game.Card
         public void SetRotationSpeed()
         {
             // Set Rotation
-            rotationSpeed = rotationSpeed * LevelManager.Instance.GetSectionValue();
+            rotationSpeed = LevelManager.Instance.GetSectionValue();
+            Debug.Log(rotationSpeed);
         }
 
         public void CardInit()

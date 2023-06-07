@@ -7,29 +7,32 @@ namespace Game.Zone
 
     public class ZoneDetect : MonoBehaviour
     {
-        public Transform target; // Hedef noktanın referansı
-        private bool checkDetect = false;
-        private bool checkSwipe = false;
+        public Transform target;
+        private bool IsInCheckDetect = false;
+        private Vector2 startPosition;
 
         private void Awake()
         {
-            checkDetect = false;
-            checkSwipe = false;
+            IsInCheckDetect = false;
+            ZoneUtils.IsInCheckSwipe = false;
+            startPosition = transform.position;
         }
 
         private void OnEnable()
         {
             EventManager.onSwipeUp += LaunchControl;
+            transform.position = startPosition;
         }
 
         private void OnDisable()
         {
             EventManager.onSwipeUp -= LaunchControl;
+            transform.position = startPosition;
         }
 
         private void Update()
         {
-            if (checkDetect && checkSwipe)
+            if (IsInCheckDetect && ZoneUtils.IsInCheckSwipe)
             {
                 LaunchObject();
             }
@@ -37,16 +40,17 @@ namespace Game.Zone
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.CompareTag(ZoneTags.Detect))
+            if (other.CompareTag(ZoneUtils.Detect))
             {
-                checkDetect = true;
+                IsInCheckDetect = true;
                 Debug.Log(gameObject.name);
             }
 
-            if (other.CompareTag(ZoneTags.Target))
+            if (other.CompareTag(ZoneUtils.Target))
             {
-                checkDetect = false;
-                checkSwipe = false;
+                IsInCheckDetect = false;
+                ZoneUtils.IsInCheckSwipe = false;
+                transform.position = startPosition;
                 gameObject.SetActive(false);
             }
         }
@@ -59,7 +63,7 @@ namespace Game.Zone
 
         private void LaunchControl()
         {
-            checkSwipe = true;
+            ZoneUtils.IsInCheckSwipe = true;
         }
     }
 }
