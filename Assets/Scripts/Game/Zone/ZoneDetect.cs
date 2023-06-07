@@ -42,6 +42,13 @@ namespace Game.Zone
                 checkDetect = true;
                 Debug.Log(gameObject.name);
             }
+
+            if (other.CompareTag(ZoneTags.Target))
+            {
+                checkDetect = false;
+                checkSwipe = false;
+                gameObject.SetActive(false);
+            }
         }
 
         private void LaunchObject()
