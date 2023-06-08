@@ -1,4 +1,4 @@
-namespace Game.Level
+namespace Game.JsonLevel
 {
     [System.Serializable]
     public class LevelData

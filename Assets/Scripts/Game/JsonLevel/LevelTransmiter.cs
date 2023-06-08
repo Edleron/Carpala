@@ -1,4 +1,4 @@
-namespace Game.Level
+namespace Game.JsonLevel
 {
     using System.Collections;
     using System.Collections.Generic;

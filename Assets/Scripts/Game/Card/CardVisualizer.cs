@@ -3,7 +3,7 @@ namespace Game.Card
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
-    using Game.Level;
+    using Game.JsonLevel;
     using Game.Zone;
     using TMPro;
 
