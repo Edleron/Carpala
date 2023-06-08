@@ -27,12 +27,19 @@ namespace Edleron.Input
         {
             inputManager.OnStartTouch += SwipeStart;
             inputManager.OnEndTouch += SwipeEnd;
+            inputManager.OnPressTouch += Presseed;
         }
 
         private void OnDisable()
         {
             inputManager.OnStartTouch -= SwipeStart;
             inputManager.OnEndTouch -= SwipeEnd;
+            inputManager.OnPressTouch -= Presseed;
+        }
+
+        private void Presseed()
+        {
+            EventManager.Fire_onTouch();
         }
 
         private void SwipeStart(Vector2 position, float time)

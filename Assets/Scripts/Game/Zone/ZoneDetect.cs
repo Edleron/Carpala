@@ -20,13 +20,13 @@ namespace Game.Zone
 
         private void OnEnable()
         {
-            EventManager.onSwipeUp += LaunchControl;
+            EventManager.onTouch += LaunchControl;
             transform.position = startPosition;
         }
 
         private void OnDisable()
         {
-            EventManager.onSwipeUp -= LaunchControl;
+            EventManager.onTouch -= LaunchControl;
             transform.position = startPosition;
         }
 
@@ -48,10 +48,17 @@ namespace Game.Zone
 
             if (other.CompareTag(ZoneUtils.Target))
             {
-                IsInCheckDetect = false;
-                ZoneUtils.IsInCheckSwipe = false;
                 transform.position = startPosition;
                 gameObject.SetActive(false);
+            }
+        }
+
+        private void OnTriggerExit2D(Collider2D other)
+        {
+            if (other.CompareTag(ZoneUtils.Detect))
+            {
+                IsInCheckDetect = false;
+                ZoneUtils.IsInCheckSwipe = false;
             }
         }
 
@@ -63,7 +70,10 @@ namespace Game.Zone
 
         private void LaunchControl()
         {
-            ZoneUtils.IsInCheckSwipe = true;
+            if (IsInCheckDetect)
+            {
+                ZoneUtils.IsInCheckSwipe = true;
+            }
         }
     }
 }

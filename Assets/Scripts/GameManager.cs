@@ -7,6 +7,13 @@ using Game.Pull;
 
 public class GameManager : MonoBehaviour
 {
+    // -> Düş yeri,
+    // -> Normal oyunlar kaybettiriyor -£eüitsel oyunlar kaybetmek yok ! daha kolay kazanma.
+    // Bu sebeple ara ekran tasarlanakcak !
+
+    // Tüm kombinasyonlar -> 4 * 6, 3 * 8 - 2 Yapıalcak !
+    // çocuklar, parmakları küçük olduğu için parmak boyutuna dikkat et
+
     private void Awake()
     {
         Debug.Log("Awake");

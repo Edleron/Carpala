@@ -16,13 +16,11 @@ namespace Game.Pump
 
         private void OnEnable()
         {
-            EventManager.onCorrectUp += pumpVisualizer.PumpAnimActiveTrue;
             EventManager.onSwipeDown += pumpVisualizer.PumpAnimPassiveTrue;
         }
 
         private void OnDisable()
         {
-            EventManager.onCorrectUp -= pumpVisualizer.PumpAnimActiveTrue;
             EventManager.onSwipeDown -= pumpVisualizer.PumpAnimPassiveTrue;
         }
     }

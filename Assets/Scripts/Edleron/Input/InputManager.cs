@@ -11,6 +11,8 @@ namespace Edleron.Input
         public event StartTouch OnStartTouch;
         public delegate void EndTouch(Vector2 position, float time);
         public event EndTouch OnEndTouch;
+        public delegate void PressTouch();
+        public event PressTouch OnPressTouch;
         #endregion
 
         private PlayerControls playerControl;
@@ -35,8 +37,17 @@ namespace Edleron.Input
 
         private void Start()
         {
+            playerControl.Touch.TouchPress.performed += ctx => TouchPressed(ctx);
             playerControl.Touch.PrimaryContact.started += ctx => StartTouchPrimary(ctx);
             playerControl.Touch.PrimaryContact.canceled += ctx => EndTouchPrimary(ctx);
+        }
+
+        public void TouchPressed(InputAction.CallbackContext context)
+        {
+            if (OnPressTouch != null) OnPressTouch();
+
+            // float value = context.ReadValue<float>();
+            // Debug.Log(value);
         }
 
         private void StartTouchPrimary(InputAction.CallbackContext context)

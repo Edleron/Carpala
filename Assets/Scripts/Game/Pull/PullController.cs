@@ -14,13 +14,11 @@ namespace Game.Pull
 
         private void OnEnable()
         {
-            EventManager.onCorrectUp += pullVisualizer.PullAnimActiveTrue;
             EventManager.onSwipeDown += pullVisualizer.PullAnimPassiveTrue;
         }
 
         private void OnDisable()
         {
-            EventManager.onCorrectUp -= pullVisualizer.PullAnimActiveTrue;
             EventManager.onSwipeDown -= pullVisualizer.PullAnimPassiveTrue;
         }
 
