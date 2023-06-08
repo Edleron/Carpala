@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c64258b37754bf4c9ce689c3e051866, type: 3}
+  m_Name: Level-1
+  m_EditorClassIdentifier: 
+  levelData:
+    LevelNumber: 1
+    LevelName: Level 1
+    LevelDescription: This is Level 1
+    LevelDifficulty: Easy
+    TargetScore: 100
+    PrepareStamp: 00000000020000000400000006000000
+    RotatineSpeed: 5

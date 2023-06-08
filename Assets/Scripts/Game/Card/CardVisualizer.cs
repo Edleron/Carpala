@@ -3,7 +3,7 @@ namespace Game.Card
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
-    using Game.JsonLevel;
+    using Game.SOLevel;
     using Game.Zone;
     using TMPro;
 
@@ -42,7 +42,7 @@ namespace Game.Card
         public void SetRotationSpeed()
         {
             // Set Rotation
-            rotationSpeed = LevelManager.Instance.GetSectionValue();
+            rotationSpeed = LevelManager.Instance.GetRotationSpeed();
             Debug.Log(rotationSpeed);
         }
 
@@ -62,7 +62,7 @@ namespace Game.Card
         {
             yield return new WaitForSeconds(wait);
 
-            var arr = LevelManager.Instance.GetStampValue();
+            var arr = LevelManager.Instance.GetPrepareStamp();
 
             int[] randomNumber = GenerateRandomNumbers(arr.Length);
 

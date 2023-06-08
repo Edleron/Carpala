@@ -48,6 +48,9 @@ namespace Game.Zone
 
             if (other.CompareTag(ZoneUtils.Target))
             {
+                IsInCheckDetect = false;
+                ZoneUtils.IsInCheckSwipe = false;
+
                 transform.position = startPosition;
                 gameObject.SetActive(false);
             }
@@ -57,8 +60,10 @@ namespace Game.Zone
         {
             if (other.CompareTag(ZoneUtils.Detect))
             {
-                IsInCheckDetect = false;
-                ZoneUtils.IsInCheckSwipe = false;
+                if (!ZoneUtils.IsInCheckSwipe)
+                {
+                    IsInCheckDetect = false;
+                }
             }
         }
 
