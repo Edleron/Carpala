@@ -17,7 +17,7 @@ namespace Game.Pull
 
         public void StartPulling()
         {
-            pullController.pullVisualizer.PullAnimActiveTrue();
+            pullController.InitialPull();
         }
     }
 }
