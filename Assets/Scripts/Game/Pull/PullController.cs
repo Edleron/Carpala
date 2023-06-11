@@ -5,11 +5,18 @@ namespace Game.Pull
 
     public class PullController : MonoBehaviour
     {
-        [HideInInspector] public PullVisualizer pullVisualizer;
+        private PullVisualizer pullVisualizer;
 
         private void Awake()
         {
             pullVisualizer = GetComponent<PullVisualizer>();
+        }
+
+        public void InitialPull()
+        {
+            pullVisualizer.PullAnimActiveTrue();
+            pullVisualizer.PullInit();
+            pullVisualizer.PullGenerate();
         }
 
         private void OnEnable()
