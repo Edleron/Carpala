@@ -13,10 +13,31 @@ MonoBehaviour:
   m_Name: Level-0
   m_EditorClassIdentifier: 
   levelData:
-    LevelNumber: 1
-    LevelName: Level 1
-    LevelDescription: This is Level 1
+    LevelNumber: 0
+    LevelName: Level 0
+    LevelDescription: This is Test Level; Game Learning Phase
     LevelDifficulty: Easy
     TargetScore: 100
-    PrepareStamp: 010000000400000007000000
     RotatineSpeed: 5
+    VisibleStamp: 3
+    PrepareStamp: 010000000400000007000000
+    PrepareValue: 020000000100000004000000
+    PrepareResult:
+    - result: 1
+      valueOne: 1
+      valueTwo: 1
+    - result: 2
+      valueOne: 2
+      valueTwo: 1
+    - result: 2
+      valueOne: 1
+      valueTwo: 2
+    - result: 4
+      valueOne: 2
+      valueTwo: 2
+    - result: 0
+      valueOne: 0
+      valueTwo: 1
+    - result: 0
+      valueOne: 1
+      valueTwo: 0
