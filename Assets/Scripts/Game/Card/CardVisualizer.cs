@@ -64,7 +64,7 @@ namespace Game.Card
 
             var arr = LevelManager.Instance.GetPrepareStamp();
 
-            int[] randomNumber = GenerateRandomNumbers(arr.Length);
+            var values = LevelManager.Instance.GetPrepareValue();
 
             for (int i = 0; i < arr.Length; i++)
             {
@@ -75,7 +75,7 @@ namespace Game.Card
                 TextMeshPro textObje = stampObje.GetComponent<TextMeshPro>();
                 ZoneRotate zoneRotate = stampObje.GetComponent<ZoneRotate>();
 
-                textObje.text = randomNumber[i].ToString();
+                textObje.text = values[i].ToString();
                 zoneRotate.ZoneRotating(rotationSpeed, rotationControl);
             }
         }
@@ -91,41 +91,6 @@ namespace Game.Card
         {
             transform.Rotate(Vector3.back, rotationSpeed * Time.deltaTime);
         }
-
-        // Zone Number Text Generate
-        private int[] GenerateRandomNumbers(int length)
-        {
-            int[] numbers = new int[length];
-            System.Random random = new System.Random();
-
-            for (int i = 0; i < length; i++)
-            {
-                int randomNumber;
-
-                do
-                {
-                    randomNumber = random.Next(1, 12);
-                } while (ArrayContains(numbers, randomNumber));
-
-                numbers[i] = randomNumber;
-            }
-
-            return numbers;
-        }
-
-        private bool ArrayContains(int[] array, int value)
-        {
-            for (int i = 0; i < array.Length; i++)
-            {
-                if (array[i] == value)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
         // Animation Events
         public void CardAnimActiveTrue()
         {
