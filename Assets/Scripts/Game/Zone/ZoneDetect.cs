@@ -20,13 +20,13 @@ namespace Game.Zone
 
         private void OnEnable()
         {
-            EventManager.onTouch += LaunchControl;
+            EventManager.onSwipeUp += LaunchControl;
             transform.position = startPosition;
         }
 
         private void OnDisable()
         {
-            EventManager.onTouch -= LaunchControl;
+            EventManager.onSwipeUp -= LaunchControl;
             transform.position = startPosition;
         }
 
