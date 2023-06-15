@@ -47,6 +47,8 @@ namespace Game.Pull
         private void PullAnimPassiveFalse()
         {
             animator.SetBool("passive", false);
+            PullGenerate();
+            PullAnimActiveTrue();
         }
     }
 }
