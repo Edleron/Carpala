@@ -22,7 +22,7 @@ namespace Game.Pull
 
         public void PullGenerate()
         {
-            var arr = LevelManager.Instance.GetPrepareResult();
+            var arr = LevelManager.Instance.GetPullValue();
 
             for (var i = 0; i < arr.Length; i++)
             {
