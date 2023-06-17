@@ -2,6 +2,7 @@ namespace Game.SOLevel
 {
     using System.Collections;
     using System.Collections.Generic;
+    using Edleron.Events;
     using UnityEngine;
 
     public class LevelManager : MonoBehaviour
@@ -12,11 +13,13 @@ namespace Game.SOLevel
         public List<LevelDataScriptableObject> levelList;
 
         private int LevelIndex { get; set; }
+        private int PullResult { get; set; }
 
         private void Awake()
         {
             Instance = this;
             LevelIndex = 0; // Todo PlayerPrefs
+            PullResult = 0; // Todo PlayerPrefs
         }
 
         #region Level Process
@@ -38,27 +41,54 @@ namespace Game.SOLevel
             return levelList[LevelIndex].levelData.RotatineSpeed;
         }
 
-        public int[] GetPrepareStamp()
+        public int[] GetPrepareField()
         {
             return levelList[LevelIndex].levelData.PrepareStamp;
         }
 
-        public int[] GetPrepareValue()
+        public int[] GetFieldValue()
         {
+            // Todo
             int[] values = levelList[LevelIndex].levelData.PrepareValue;
             return ShuffleArray(values);
         }
 
-        public int[] GetPrepareResult()
+        public int[] GetPullValue()
         {
+            // Todo
             int length = levelList[LevelIndex].levelData.PrepareResult.Length;
             int indis = Random.Range(1, length);
 
             int[] arr = new int[2];
             arr[0] = levelList[LevelIndex].levelData.PrepareResult[indis].valueOne;
             arr[1] = levelList[LevelIndex].levelData.PrepareResult[indis].valueTwo;
+            PullResult = arr[0] * arr[1];
             return arr;
         }
+
+        public void CheckResult(int fieldResult)
+        {
+            Debug.Log(PullResult.ToString() + " " + fieldResult.ToString());
+
+            EventManager.Fire_onExplosion();
+
+            if (PullResult == fieldResult)
+            {
+                EventManager.Fire_onCorrect();
+            }
+            else
+            {
+                EventManager.Fire_onWrong();
+            }
+
+            Invoke("NewRound", 1.0f);
+        }
+
+        private void NewRound()
+        {
+            EventManager.Fire_onPull();
+        }
+
         #endregion
 
         #region HELPERS
