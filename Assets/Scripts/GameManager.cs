@@ -7,6 +7,7 @@ using Game.Pull;
 
 public class GameManager : MonoBehaviour
 {
+    // Todo -> Swipe'lar yapıldığında, baykus ve pull aynı anda hareket etmemelidir.
     // -> Düş yeri,
     // -> Normal oyunlar kaybettiriyor -£eüitsel oyunlar kaybetmek yok ! daha kolay kazanma.
     // Bu sebeple ara ekran tasarlanakcak !
