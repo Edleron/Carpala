@@ -1,10 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Edleron.Events;
-using Game.Card;
-using Game.Pump;
-using Game.Pull;
+using Game.SOLevel;
+using TMPro;
 
 public class ZoneTarget : MonoBehaviour
 {
@@ -14,7 +12,8 @@ public class ZoneTarget : MonoBehaviour
         if (other.CompareTag(ZoneUtils.Zone))
         {
             // TODO
-            Debug.Log(other.name);
+            TextMeshPro textObje = other.gameObject.transform.GetChild(3).GetComponent<TextMeshPro>();
+            LevelManager.Instance.CheckResult(int.Parse(textObje.text));
         }
     }
 }
