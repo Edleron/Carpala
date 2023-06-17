@@ -4,7 +4,7 @@ namespace Game.Card
     using System.Collections.Generic;
     using UnityEngine;
     using Game.SOLevel;
-    using Game.Zone;
+    using Game.Field;
     using TMPro;
 
     public class CardVisualizer : MonoBehaviour
@@ -62,9 +62,9 @@ namespace Game.Card
         {
             yield return new WaitForSeconds(wait);
 
-            var arr = LevelManager.Instance.GetPrepareStamp();
+            var arr = LevelManager.Instance.GetPrepareField();
 
-            var values = LevelManager.Instance.GetPrepareValue();
+            var values = LevelManager.Instance.GetFieldValue();
 
             for (int i = 0; i < arr.Length; i++)
             {
@@ -73,10 +73,10 @@ namespace Game.Card
                 // TODO
                 Transform stampObje = stamp[arr[i]].transform.GetChild(3);
                 TextMeshPro textObje = stampObje.GetComponent<TextMeshPro>();
-                ZoneRotate zoneRotate = stampObje.GetComponent<ZoneRotate>();
+                FieldRotate fieldRotate = stampObje.GetComponent<FieldRotate>();
 
                 textObje.text = values[i].ToString();
-                zoneRotate.ZoneRotating(rotationSpeed, rotationControl);
+                fieldRotate.FieldRotating(rotationSpeed, rotationControl);
             }
         }
 
