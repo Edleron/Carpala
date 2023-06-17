@@ -14,6 +14,22 @@ namespace Edleron.Events
         // Parmak Basma Event'i
         public static event Action onTouch;
         public static void Fire_onTouch() { onTouch?.Invoke(); }
+
+        // Explosion Event
+        public static event Action onPull;
+        public static void Fire_onPull() { onPull?.Invoke(); }
+
+        // Explosion Event
+        public static event Action onExplosion;
+        public static void Fire_onExplosion() { onExplosion?.Invoke(); }
+
+        // Correct Event
+        public static event Action onCorrect;
+        public static void Fire_onCorrect() { onCorrect?.Invoke(); }
+
+        // Wrong Event
+        public static event Action onWrong;
+        public static void Fire_onWrong() { onWrong?.Invoke(); }
     }
 }
 
