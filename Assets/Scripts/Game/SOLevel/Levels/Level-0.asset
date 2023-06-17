@@ -21,7 +21,7 @@ MonoBehaviour:
     RotatineSpeed: 5
     VisibleStamp: 3
     PrepareStamp: 010000000400000007000000
-    PrepareValue: 020000000100000004000000
+    PrepareValue: 040000000100000002000000
     PrepareResult:
     - result: 1
       valueOne: 1
