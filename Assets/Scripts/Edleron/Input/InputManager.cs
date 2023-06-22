@@ -11,7 +11,7 @@ namespace Edleron.Input
         public event StartTouch OnStartTouch;
         public delegate void EndTouch(Vector2 position, float time);
         public event EndTouch OnEndTouch;
-        public delegate void PressTouch();
+        public delegate void PressTouch(Vector2 position);
         public event PressTouch OnPressTouch;
         #endregion
 
@@ -44,7 +44,7 @@ namespace Edleron.Input
 
         public void TouchPressed(InputAction.CallbackContext context)
         {
-            if (OnPressTouch != null) OnPressTouch();
+            if (OnPressTouch != null) OnPressTouch(Utils.ScreenToWorld(mainCamera, playerControl.Touch.PrimaryPosition.ReadValue<Vector2>()));
 
             // float value = context.ReadValue<float>();
             // Debug.Log(value);

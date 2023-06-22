@@ -17,6 +17,7 @@ namespace Edleron.Input
         private float startTime;
         private Vector2 endPosition;
         private float endTime;
+        private bool locked = false; // Swipe algılandı mı?
 
         private void Awake()
         {
@@ -37,9 +38,10 @@ namespace Edleron.Input
             inputManager.OnPressTouch -= Presseed;
         }
 
-        private void Presseed()
+        private void Presseed(Vector2 position)
         {
             EventManager.Fire_onTouch();
+            Debug.Log(position);
         }
 
         private void SwipeStart(Vector2 position, float time)
@@ -52,7 +54,21 @@ namespace Edleron.Input
         {
             endPosition = position;
             endTime = time;
+            if (!locked)
+            {
+                locked = true;
+                StartCoroutine(DelayedSwipeDetection());
+            }
+
+        }
+
+        private IEnumerator DelayedSwipeDetection()
+        {
             DetectSwipe();
+
+            yield return new WaitForSeconds(2f); // Bekleme süresi (1 saniye)
+
+            locked = false; // Swipe algılama sıfırla
         }
 
         private void DetectSwipe()
