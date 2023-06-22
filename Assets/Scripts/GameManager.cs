@@ -19,7 +19,6 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log("Awake");
     }
 
     private void OnEnable()
@@ -34,7 +33,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("Start");
         PumpManager.Instance.StartPumping();
         PullManager.Instance.StartPulling();
         CardManager.Instance.StartCarding();
