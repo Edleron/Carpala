@@ -43,7 +43,7 @@ namespace Game.Zone
             if (other.CompareTag(ZoneUtils.Detect))
             {
                 IsInCheckDetect = true;
-                Debug.Log(gameObject.name);
+                // Debug.Log(gameObject.name);
             }
 
             if (other.CompareTag(ZoneUtils.Target))
