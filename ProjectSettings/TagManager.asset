@@ -7,6 +7,8 @@ TagManager:
   - Zone
   - Detect
   - Target
+  - Next
+  - Prev
   layers:
   - Default
   - TransparentFX
