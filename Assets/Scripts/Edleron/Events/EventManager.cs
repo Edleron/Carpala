@@ -3,6 +3,7 @@ namespace Edleron.Events
     using System;
     public class EventManager
     {
+        #region Touch Input System
         // Parmak Yukarı Kaydırma Event'i
         public static event Action onSwipeUp;
         public static void Fire_onSwipeUp() { onSwipeUp?.Invoke(); }
@@ -14,11 +15,9 @@ namespace Edleron.Events
         // Parmak Basma Event'i
         public static event Action onTouch;
         public static void Fire_onTouch() { onTouch?.Invoke(); }
+        #endregion
 
-        // Explosion Event
-        public static event Action onPull;
-        public static void Fire_onPull() { onPull?.Invoke(); }
-
+        #region Particle FX Çalıştıran Eventler
         // Explosion Event
         public static event Action onExplosion;
         public static void Fire_onExplosion() { onExplosion?.Invoke(); }
@@ -30,6 +29,13 @@ namespace Edleron.Events
         // Wrong Event
         public static event Action onWrong;
         public static void Fire_onWrong() { onWrong?.Invoke(); }
+        #endregion
+
+        #region Leven Eventleri
+        // Explosion Event
+        public static event Action onCheckLevel;
+        public static void Fire_onCheckLevel() { onCheckLevel?.Invoke(); }
+        #endregion
     }
 }
 
