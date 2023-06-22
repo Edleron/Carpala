@@ -4,6 +4,8 @@ using UnityEngine;
 using Game.Card;
 using Game.Pump;
 using Game.Pull;
+using Game.SOLevel;
+using Edleron.Events;
 
 public class GameManager : MonoBehaviour
 {
@@ -19,11 +21,44 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Awake");
     }
+
+    private void OnEnable()
+    {
+        EventManager.onCheckLevel += EndLevel;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.onCheckLevel -= EndLevel;
+    }
+
     private void Start()
     {
         Debug.Log("Start");
         PumpManager.Instance.StartPumping();
         PullManager.Instance.StartPulling();
+        CardManager.Instance.StartCarding();
+    }
+
+    private void EndLevel()
+    {
+        int stamp = LevelManager.Instance.GetStampCount();
+        int round = LevelManager.Instance.GetRoundCount();
+
+        Debug.Log(stamp + " - " + round);
+
+        if (stamp == round)
+        {
+            CardManager.Instance.EndCarding();
+            LevelManager.Instance.SetRoundCount();
+            Invoke("NewLevel", 0.75f);
+        }
+    }
+
+    private void NewLevel()
+    {
+        PumpManager.Instance.StartPumping();
+        // PullManager.Instance.StartPulling();
         CardManager.Instance.StartCarding();
     }
 }
