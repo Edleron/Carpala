@@ -54,7 +54,12 @@ namespace Game.Heart
             }
         }
 
-        private void OnDestroy()
+        private void OnEnable()
+        {
+            counterCoroutine = StartCoroutine(StartCounter());
+        }
+
+        private void OnDisable()
         {
             // Script yok edildiğinde Coroutine'u durdur
             StopCounter();
