@@ -16,7 +16,13 @@ namespace Game.Card
 
         public void StartCarding()
         {
-            cardController.InitialCard();
+            cardController.StartCard();
         }
+
+        public void EndCarding()
+        {
+            cardController.EndCard();
+        }
+
     }
 }

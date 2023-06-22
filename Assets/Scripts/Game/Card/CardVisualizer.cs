@@ -46,16 +46,13 @@ namespace Game.Card
             Debug.Log(rotationSpeed);
         }
 
-        public void CardInit()
+        public void StampFalse()
         {
             // Set Stamp
             foreach (var item in stamp)
             {
                 item.SetActive(false);
             }
-
-            // Active Card Anim
-            CardAnimActiveTrue(); // TODO
         }
 
         public IEnumerator CardGenerate(int wait)
@@ -78,6 +75,11 @@ namespace Game.Card
                 textObje.text = values[i].ToString();
                 fieldRotate.FieldRotating(rotationSpeed, rotationControl);
             }
+        }
+
+        public void SetRotationReset()
+        {
+            transform.rotation = Quaternion.identity;
         }
 
         public IEnumerator CardRotate(float wait, bool value)

@@ -15,13 +15,22 @@ namespace Game.Card
             cardVisualizer = GetComponent<CardVisualizer>();
         }
 
-        public void InitialCard()
+        public void StartCard()
         {
             cardVisualizer.Shake();
-            cardVisualizer.CardInit();
+            cardVisualizer.CardAnimActiveTrue();
+            cardVisualizer.StampFalse();
             cardVisualizer.SetRotationSpeed();
+            cardVisualizer.SetRotationReset();
             StartCoroutine(cardVisualizer.CardGenerate(1));
             StartCoroutine(cardVisualizer.CardRotate(0.95f, true));
+        }
+
+        public void EndCard()
+        {
+            cardVisualizer.Shake();
+            cardVisualizer.CardAnimPassiveTrue();
+            cardVisualizer.rotationControl = false;
         }
 
         private void OnEnable()
