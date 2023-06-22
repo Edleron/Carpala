@@ -13,6 +13,7 @@ namespace Game.SOLevel
         public List<LevelDataScriptableObject> levelList;
 
         private int LevelIndex { get; set; }
+        private int RoundIndex { get; set; }
         private int PullResult { get; set; }
 
         private void Awake()
@@ -66,6 +67,21 @@ namespace Game.SOLevel
             return arr;
         }
 
+        public int GetStampCount()
+        {
+            return levelList[LevelIndex].levelData.VisibleStamp;
+        }
+        public int GetRoundCount()
+        {
+            return RoundIndex;
+        }
+        public void SetRoundCount()
+        {
+            RoundIndex = 0;
+        }
+        #endregion
+
+        #region Level Round
         public void CheckResult(int fieldResult)
         {
             Debug.Log(PullResult.ToString() + " " + fieldResult.ToString());
@@ -86,13 +102,15 @@ namespace Game.SOLevel
 
         private void NewRound()
         {
-            EventManager.Fire_onPull();
+            RoundIndex++;
+            EventManager.Fire_onSwipeDown();
+            EventManager.Fire_onCheckLevel();
         }
-
         #endregion
 
+
         #region HELPERS
-        public int[] ShuffleArray(int[] array)
+        private int[] ShuffleArray(int[] array)
         {
             System.Random random = new System.Random();
 
