@@ -40,8 +40,7 @@ namespace Edleron.Input
 
         private void Presseed(Vector2 position)
         {
-            EventManager.Fire_onTouch();
-            Debug.Log(position);
+            // EventManager.Fire_onTouch();
         }
 
         private void SwipeStart(Vector2 position, float time)
@@ -88,25 +87,25 @@ namespace Edleron.Input
         {
             if (Vector2.Dot(Vector2.up, direction) > directionThreshold)
             {
-                Debug.Log("Swipe Up");
+                // Debug.Log("Swipe Up");
                 EventManager.Fire_onSwipeUp();
             }
             else if (Vector2.Dot(Vector2.down, direction) > directionThreshold)
             {
-                Debug.Log("Swipe Down");
+                // Debug.Log("Swipe Down");
                 EventManager.Fire_onSwipeDown();
             }
             else if (Vector2.Dot(Vector2.left, direction) > directionThreshold)
             {
-                Debug.Log("Swipe Left");
+                // Debug.Log("Swipe Left");
             }
             else if (Vector2.Dot(Vector2.right, direction) > directionThreshold)
             {
-                Debug.Log("Swipe Right");
+                // Debug.Log("Swipe Right");
             }
             else
             {
-                Debug.Log("Swipe Error");
+                // Debug.Log("Swipe Error");
             }
         }
     }
