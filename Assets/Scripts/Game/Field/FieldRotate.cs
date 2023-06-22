@@ -15,6 +15,11 @@ namespace Game.Field
             }
         }
 
+        private void OnEnable()
+        {
+            transform.rotation = Quaternion.identity;
+        }
+
         public void FieldRotating(float speed, bool control)
         {
             rotationSpeed = -1 * speed;
