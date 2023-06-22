@@ -43,7 +43,6 @@ namespace Game.Card
         {
             // Set Rotation
             rotationSpeed = LevelManager.Instance.GetRotationSpeed();
-            Debug.Log(rotationSpeed);
         }
 
         public void StampFalse()
