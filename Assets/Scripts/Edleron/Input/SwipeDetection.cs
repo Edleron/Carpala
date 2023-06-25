@@ -65,7 +65,7 @@ namespace Edleron.Input
         {
             DetectSwipe();
 
-            yield return new WaitForSeconds(2f); // Bekleme süresi (1 saniye)
+            yield return new WaitForSeconds(0.5f); // Bekleme süresi (1 saniye)
 
             locked = false; // Swipe algılama sıfırla
         }
