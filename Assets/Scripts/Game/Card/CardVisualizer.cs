@@ -11,6 +11,7 @@ namespace Game.Card
     {
         private Animator animator;
         private CardShake cardShake;
+        private bool isGamePaused = false;
 
         public List<GameObject> stamp = new List<GameObject>();
 
@@ -27,9 +28,13 @@ namespace Game.Card
 
         private void Update()
         {
-            if (rotationControl)
+            if (!isGamePaused)
             {
-                CardRotating();
+                // Oyun devam ediyorsa Update içindeki işlemleri yap
+                if (rotationControl)
+                {
+                    CardRotating();
+                }
             }
         }
 
@@ -86,6 +91,34 @@ namespace Game.Card
             yield return new WaitForSeconds(wait);
 
             rotationControl = value;
+        }
+
+        public void PauseGame()
+        {
+            // Oyun durdurulduğunda
+            isGamePaused = true;
+
+            var arr = LevelManager.Instance.GetPrepareField();
+            for (int i = 0; i < arr.Length; i++)
+            {
+                Transform stampObje = stamp[arr[i]].transform.GetChild(3);
+                FieldRotate fieldRotate = stampObje.GetComponent<FieldRotate>();
+                fieldRotate.FieldRotating(0, false);
+            }
+        }
+
+        public void ResumeGame()
+        {
+            // Oyun devam ediyor
+            isGamePaused = false;
+
+            var arr = LevelManager.Instance.GetPrepareField();
+            for (int i = 0; i < arr.Length; i++)
+            {
+                Transform stampObje = stamp[arr[i]].transform.GetChild(3);
+                FieldRotate fieldRotate = stampObje.GetComponent<FieldRotate>();
+                fieldRotate.FieldRotating(rotationSpeed, true);
+            }
         }
 
         private void CardRotating()
