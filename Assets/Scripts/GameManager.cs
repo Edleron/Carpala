@@ -8,6 +8,7 @@ using Game.SOLevel;
 using Game.Panel;
 using Game.Stars;
 using Game.Rhythmic;
+using Game.MotivationText;
 using Edleron.Events;
 
 public enum TutorialState
@@ -77,6 +78,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Level Yeni Level");
             LevelManager.Instance.SetLevelIndex();
+            MTextVisualizer.Instance.SetNewLevel();
             int levelIndex = LevelManager.Instance.GetLevelIndex();            
             RhytmicManager.Instance.SetDict(levelIndex);            
             PumpManager.Instance.StartPumping();
@@ -87,6 +89,7 @@ public class GameManager : MonoBehaviour
             Debug.Log("Level Tekrarı");
             // Level Tekranı
             PumpManager.Instance.StartPumping();
+            MTextVisualizer.Instance.SetRepeatLevel();
             // PullManager.Instance.StartPulling();
             CardManager.Instance.StartCarding();
         }        
