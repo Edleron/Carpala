@@ -3,6 +3,7 @@ namespace Game.Field
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
+    using Edleron.Events;
     using Game.SOLevel;
     using TMPro;
 
@@ -15,6 +16,7 @@ namespace Game.Field
                 // TODO
                 TextMeshPro textObje = other.gameObject.transform.GetChild(3).GetComponent<TextMeshPro>();
                 LevelManager.Instance.CheckResult(int.Parse(textObje.text));
+                // EventManager.Fire_onSwipeLock(false);
             }
         }
     }
