@@ -4,13 +4,17 @@ namespace Edleron.Events
     public class EventManager
     {
         #region Touch Input System
-        // Parmak Yukarı Kaydırma Event'i
+        // Parmak Yukarı Kaydırma Event'i - Ateş Etme
         public static event Action onSwipeUp;
         public static void Fire_onSwipeUp() { onSwipeUp?.Invoke(); }
 
-        // Parmak Aşağı Kaydırma Event'i
+        // Parmak Aşağı Kaydırma Event'i - Pull Genere Etme
         public static event Action onSwipeDown;
         public static void Fire_onSwipeDown() { onSwipeDown?.Invoke(); }
+
+        // Swipe'ı Locked Sistem
+        public static event Action<bool> onSwipeLock;
+        public static void Fire_onSwipeLock(bool value) { onSwipeLock?.Invoke(value); }
 
         // Parmak Basma Event'i
         public static event Action onTouch;
