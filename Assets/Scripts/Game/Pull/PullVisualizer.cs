@@ -3,6 +3,7 @@ namespace Game.Pull
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
+    using Edleron.Events;
     using Game.SOLevel;
     using TMPro;
 
@@ -38,6 +39,13 @@ namespace Game.Pull
         }
         private void PullAnimActiveFalse()
         {
+            var Tutorials = LevelManager.Instance.GetTutorialLevel();
+
+            if (!Tutorials)
+            {
+                EventManager.Fire_onSwipeLock(false);
+            }
+
             animator.SetBool("active", false);
         }
         public void PullAnimPassiveTrue()
@@ -47,6 +55,7 @@ namespace Game.Pull
         private void PullAnimPassiveFalse()
         {
             animator.SetBool("passive", false);
+            Debug.Log("Pull Generate");
             PullGenerate();
             PullAnimActiveTrue();
         }
