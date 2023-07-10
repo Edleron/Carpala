@@ -9,7 +9,7 @@ namespace Edleron.Input
     {
         [SerializeField] private float mininumDistance = .2f;
         [SerializeField] private float maximumTime = 1f;
-        [SerializeField, Range(0f, 1f)] private float directionThreshold = .9f;
+        [SerializeField, Range(0f, 1f)] private float directionThreshold = .5f;
 
         private InputManager inputManager;
 
@@ -17,10 +17,11 @@ namespace Edleron.Input
         private float startTime;
         private Vector2 endPosition;
         private float endTime;
-        private bool locked = false; // Swipe algılandı mı?
+        private bool locked = false; // Swipe algılandı mı ?
 
         private void Awake()
         {
+            locked = false;
             inputManager = InputManager.Instance;
         }
 
@@ -29,6 +30,7 @@ namespace Edleron.Input
             inputManager.OnStartTouch += SwipeStart;
             inputManager.OnEndTouch += SwipeEnd;
             inputManager.OnPressTouch += Presseed;
+            EventManager.onSwipeLock += SwipeLock;
         }
 
         private void OnDisable()
@@ -36,6 +38,7 @@ namespace Edleron.Input
             inputManager.OnStartTouch -= SwipeStart;
             inputManager.OnEndTouch -= SwipeEnd;
             inputManager.OnPressTouch -= Presseed;
+            EventManager.onSwipeLock -= SwipeLock;
         }
 
         private void Presseed(Vector2 position)
@@ -53,33 +56,33 @@ namespace Edleron.Input
         {
             endPosition = position;
             endTime = time;
-            if (!locked)
-            {
-                locked = true;
-                StartCoroutine(DelayedSwipeDetection());
-            }
-
+            DetectSwipe();
         }
 
-        private IEnumerator DelayedSwipeDetection()
+        private void SwipeLock(bool value)
         {
-            DetectSwipe();
-
-            yield return new WaitForSeconds(0.5f); // Bekleme süresi (1 saniye)
-
-            locked = false; // Swipe algılama sıfırla
+            locked = value;
         }
 
         private void DetectSwipe()
         {
-            if (Vector3.Distance(startPosition, endPosition) >= mininumDistance && (endTime - startTime) <= maximumTime)
+            if (!locked)
             {
-                Debug.Log("Swipe Detected");
-                Debug.DrawLine(startPosition, endPosition, Color.red, 5f);
+                locked = true;
 
-                Vector3 direction = endPosition - startPosition;
-                Vector2 direction2D = new Vector3(direction.x, direction.y).normalized;
-                SwipeDirection(direction2D);
+                if (Vector3.Distance(startPosition, endPosition) >= mininumDistance && (endTime - startTime) <= maximumTime)
+                {
+                    Debug.Log("Swipe Detected");
+                    Debug.DrawLine(startPosition, endPosition, Color.red, 5f);
+
+                    Vector3 direction = endPosition - startPosition;
+                    Vector2 direction2D = new Vector3(direction.x, direction.y).normalized;
+                    SwipeDirection(direction2D);
+                }
+                else
+                {
+                    locked = false;
+                }
             }
         }
 
@@ -97,15 +100,18 @@ namespace Edleron.Input
             }
             else if (Vector2.Dot(Vector2.left, direction) > directionThreshold)
             {
+                locked = false;
                 // Debug.Log("Swipe Left");
             }
             else if (Vector2.Dot(Vector2.right, direction) > directionThreshold)
             {
+                locked = false;
                 // Debug.Log("Swipe Right");
             }
             else
             {
-                // Debug.Log("Swipe Error");
+                locked = false;
+                Debug.Log("Swipe Error");
             }
         }
     }
