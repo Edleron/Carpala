@@ -3,6 +3,7 @@ namespace Game.SOLevel
     using System.Collections;
     using System.Collections.Generic;
     using Edleron.Events;
+    using Game.Rhythmic;    
     using UnityEngine;
 
     public class LevelManager : MonoBehaviour
@@ -15,6 +16,7 @@ namespace Game.SOLevel
         private int LevelIndex { get; set; }
         private int RoundIndex { get; set; }
         private int PullResult { get; set; }
+        private bool TutorialLevel = true;
 
         private void Awake()
         {
@@ -24,14 +26,26 @@ namespace Game.SOLevel
         }
 
         #region Level Process
-        public void SetLevel()
+        public void SetLevelIndex()
         {
             LevelIndex++;
+        }
+        public int GetLevelIndex()
+        {
+            return LevelIndex;
         }
 
         public LevelData GetLevel()
         {
             return levelList[LevelIndex].levelData;
+        }        
+        public bool GetTutorialLevel()
+        {
+            return TutorialLevel;
+        }
+        public void SetTutorialLevel()
+        {
+            TutorialLevel = false;
         }
         #endregion
 
@@ -58,7 +72,7 @@ namespace Game.SOLevel
         {
             // Todo
             int length = levelList[LevelIndex].levelData.PrepareResult.Length;
-            int indis = Random.Range(1, length);
+            int indis = Random.Range(0, length);
 
             int[] arr = new int[2];
             arr[0] = levelList[LevelIndex].levelData.PrepareResult[indis].valueOne;
@@ -84,13 +98,14 @@ namespace Game.SOLevel
         #region Level Round
         public void CheckResult(int fieldResult)
         {
-            Debug.Log(PullResult.ToString() + " " + fieldResult.ToString());
+            // Debug.Log(PullResult.ToString() + " " + fieldResult.ToString()); // TODO
 
             EventManager.Fire_onExplosion();
 
             if (PullResult == fieldResult)
             {
                 EventManager.Fire_onCorrect();
+                RhytmicManager.Instance.SetRhytmic(LevelIndex, fieldResult.ToString());
             }
             else
             {
