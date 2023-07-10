@@ -3,7 +3,7 @@ namespace Game.SOLevel
     using System.Collections;
     using System.Collections.Generic;
     using Edleron.Events;
-    using Game.Rhythmic;    
+    using Game.Rhythmic;
     using UnityEngine;
 
     public class LevelManager : MonoBehaviour
@@ -12,7 +12,7 @@ namespace Game.SOLevel
         public static LevelManager Instance { get; private set; }
 
         public List<LevelDataScriptableObject> levelList;
-
+        private List<int> pullDataList = new List<int>();
         private int LevelIndex { get; set; }
         private int RoundIndex { get; set; }
         private int PullResult { get; set; }
@@ -38,7 +38,7 @@ namespace Game.SOLevel
         public LevelData GetLevel()
         {
             return levelList[LevelIndex].levelData;
-        }        
+        }
         public bool GetTutorialLevel()
         {
             return TutorialLevel;
@@ -72,7 +72,8 @@ namespace Game.SOLevel
         {
             // Todo
             int length = levelList[LevelIndex].levelData.PrepareResult.Length;
-            int indis = Random.Range(0, length);
+            // int indis = Random.Range(0, length); // TODO
+            int indis = pullDataList[RoundIndex];
 
             int[] arr = new int[2];
             arr[0] = levelList[LevelIndex].levelData.PrepareResult[indis].valueOne;
@@ -138,6 +139,33 @@ namespace Game.SOLevel
             }
 
             return array;
+        }
+
+        private List<int> PullDummyData(int len)
+        {
+            pullDataList = PullDummyData(levelList[LevelIndex].levelData.PrepareResult.Length);
+            List<int> arr = new List<int>();
+            for (int i = 0; i < len; i++)
+            {
+                arr.Add(i);
+            }
+            List<int> newArr = ShuffleList(arr);
+            return newArr;
+        }
+
+        private List<int> ShuffleList(List<int> arr)
+        {
+            System.Random random = new System.Random();
+
+            for (int i = arr.Count - 1; i > 0; i--)
+            {
+                int j = random.Next(i + 1);
+                int temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+
+            return arr;
         }
         #endregion
     }
