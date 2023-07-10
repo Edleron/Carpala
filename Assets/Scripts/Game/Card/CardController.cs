@@ -33,6 +33,16 @@ namespace Game.Card
             cardVisualizer.rotationControl = false;
         }
 
+        public void PausedGame()
+        {
+            cardVisualizer.PauseGame();
+        }
+
+        public void ResumedGame()
+        {
+            cardVisualizer.ResumeGame();
+        }
+
         private void OnEnable()
         {
             // TODO
