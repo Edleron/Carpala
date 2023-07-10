@@ -5,16 +5,22 @@ namespace Game.Field
     using UnityEngine;
     using Edleron.Events;
 
+    public enum FieldDetectState
+    {
+        Inactive,
+        Active,
+        Moving
+    }
+
     public class FieldDetect : MonoBehaviour
     {
         public Transform target;
-        private bool IsInCheckDetect = false;
+        private FieldDetectState state = FieldDetectState.Inactive;
         private Vector2 startPosition;
 
         private void Awake()
         {
-            IsInCheckDetect = false;
-            Constants.IsInCheckSwipe = false;
+            state = FieldDetectState.Inactive;
             startPosition = transform.position;
         }
 
@@ -32,7 +38,7 @@ namespace Game.Field
 
         private void Update()
         {
-            if (IsInCheckDetect && Constants.IsInCheckSwipe)
+            if (state == FieldDetectState.Moving)
             {
                 LaunchObject();
             }
@@ -42,14 +48,12 @@ namespace Game.Field
         {
             if (other.CompareTag(Constants.Detect))
             {
-                IsInCheckDetect = true;
+                state = FieldDetectState.Active;
             }
 
             if (other.CompareTag(Constants.Target))
             {
-                IsInCheckDetect = false;
-                Constants.IsInCheckSwipe = false;
-
+                state = FieldDetectState.Inactive;
                 transform.position = startPosition;
                 gameObject.SetActive(false);
             }
@@ -59,9 +63,9 @@ namespace Game.Field
         {
             if (other.CompareTag(Constants.Detect))
             {
-                if (!Constants.IsInCheckSwipe)
+                if (state != FieldDetectState.Moving)
                 {
-                    IsInCheckDetect = false;
+                    state = FieldDetectState.Inactive;
                 }
             }
         }
@@ -69,14 +73,18 @@ namespace Game.Field
         private void LaunchObject()
         {
             Vector2 currentPosition = transform.position;
-            transform.position = Vector2.MoveTowards(currentPosition, target.position, 10.0f * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(currentPosition, target.position, 5.0f * Time.deltaTime);
         }
 
         private void LaunchControl()
         {
-            if (IsInCheckDetect)
+            if (state == FieldDetectState.Active)
             {
-                Constants.IsInCheckSwipe = true;
+                state = FieldDetectState.Moving;
+            }
+            else
+            {
+                EventManager.Fire_onSwipeLock(false);
             }
         }
     }
