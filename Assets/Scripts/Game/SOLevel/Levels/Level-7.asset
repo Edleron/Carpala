@@ -1,0 +1,91 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c64258b37754bf4c9ce689c3e051866, type: 3}
+  m_Name: Level-7
+  m_EditorClassIdentifier: 
+  levelData:
+    LevelNumber: 7
+    LevelName: Level 7
+    LevelDescription: This is Game Level 9 & 36
+    LevelDifficulty: Difficult
+    TargetScore: 300
+    RotatineSpeed: 70
+    VisibleStamp: 4
+    PrepareStamp: 00000000020000000400000006000000
+    PrepareValue: 09000000120000001b00000024000000
+    PrepareResult:
+    - result: 9
+      valueOne: 1
+      valueTwo: 9
+    - result: 9
+      valueOne: 9
+      valueTwo: 1
+    - result: 9
+      valueOne: 3
+      valueTwo: 3
+    - result: 18
+      valueOne: 1
+      valueTwo: 18
+    - result: 18
+      valueOne: 18
+      valueTwo: 1
+    - result: 18
+      valueOne: 2
+      valueTwo: 9
+    - result: 18
+      valueOne: 9
+      valueTwo: 2
+    - result: 18
+      valueOne: 3
+      valueTwo: 6
+    - result: 18
+      valueOne: 6
+      valueTwo: 3
+    - result: 27
+      valueOne: 1
+      valueTwo: 27
+    - result: 27
+      valueOne: 27
+      valueTwo: 1
+    - result: 27
+      valueOne: 3
+      valueTwo: 9
+    - result: 27
+      valueOne: 9
+      valueTwo: 3
+    - result: 36
+      valueOne: 1
+      valueTwo: 36
+    - result: 36
+      valueOne: 36
+      valueTwo: 1
+    - result: 36
+      valueOne: 2
+      valueTwo: 18
+    - result: 36
+      valueOne: 18
+      valueTwo: 2
+    - result: 36
+      valueOne: 3
+      valueTwo: 12
+    - result: 36
+      valueOne: 12
+      valueTwo: 3
+    - result: 36
+      valueOne: 4
+      valueTwo: 9
+    - result: 36
+      valueOne: 9
+      valueTwo: 4
+    - result: 36
+      valueOne: 6
+      valueTwo: 6

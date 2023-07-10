@@ -1,0 +1,154 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c64258b37754bf4c9ce689c3e051866, type: 3}
+  m_Name: Level-6
+  m_EditorClassIdentifier: 
+  levelData:
+    LevelNumber: 6
+    LevelName: Level 6
+    LevelDescription: This is Game Level
+    LevelDifficulty: Medium
+    TargetScore: 250
+    RotatineSpeed: 60
+    VisibleStamp: 8
+    PrepareStamp: 0000000001000000020000000300000004000000050000000600000007000000
+    PrepareValue: 0800000010000000180000002000000028000000300000003800000040000000
+    PrepareResult:
+    - result: 8
+      valueOne: 2
+      valueTwo: 4
+    - result: 8
+      valueOne: 4
+      valueTwo: 2
+    - result: 16
+      valueOne: 2
+      valueTwo: 8
+    - result: 16
+      valueOne: 8
+      valueTwo: 2
+    - result: 16
+      valueOne: 4
+      valueTwo: 4
+    - result: 16
+      valueOne: 1
+      valueTwo: 16
+    - result: 24
+      valueOne: 2
+      valueTwo: 12
+    - result: 24
+      valueOne: 12
+      valueTwo: 2
+    - result: 24
+      valueOne: 3
+      valueTwo: 8
+    - result: 24
+      valueOne: 8
+      valueTwo: 3
+    - result: 24
+      valueOne: 4
+      valueTwo: 6
+    - result: 24
+      valueOne: 6
+      valueTwo: 4
+    - result: 24
+      valueOne: 1
+      valueTwo: 24
+    - result: 32
+      valueOne: 2
+      valueTwo: 16
+    - result: 32
+      valueOne: 16
+      valueTwo: 2
+    - result: 32
+      valueOne: 4
+      valueTwo: 8
+    - result: 32
+      valueOne: 8
+      valueTwo: 4
+    - result: 32
+      valueOne: 1
+      valueTwo: 32
+    - result: 40
+      valueOne: 2
+      valueTwo: 20
+    - result: 40
+      valueOne: 20
+      valueTwo: 2
+    - result: 40
+      valueOne: 10
+      valueTwo: 4
+    - result: 40
+      valueOne: 4
+      valueTwo: 10
+    - result: 40
+      valueOne: 5
+      valueTwo: 8
+    - result: 40
+      valueOne: 8
+      valueTwo: 5
+    - result: 48
+      valueOne: 2
+      valueTwo: 24
+    - result: 48
+      valueOne: 24
+      valueTwo: 2
+    - result: 48
+      valueOne: 3
+      valueTwo: 16
+    - result: 48
+      valueOne: 16
+      valueTwo: 3
+    - result: 48
+      valueOne: 4
+      valueTwo: 12
+    - result: 48
+      valueOne: 12
+      valueTwo: 4
+    - result: 48
+      valueOne: 6
+      valueTwo: 8
+    - result: 48
+      valueOne: 8
+      valueTwo: 6
+    - result: 56
+      valueOne: 2
+      valueTwo: 28
+    - result: 56
+      valueOne: 28
+      valueTwo: 2
+    - result: 56
+      valueOne: 4
+      valueTwo: 14
+    - result: 56
+      valueOne: 14
+      valueTwo: 4
+    - result: 56
+      valueOne: 7
+      valueTwo: 8
+    - result: 56
+      valueOne: 8
+      valueTwo: 7
+    - result: 64
+      valueOne: 2
+      valueTwo: 32
+    - result: 64
+      valueOne: 32
+      valueTwo: 2
+    - result: 64
+      valueOne: 4
+      valueTwo: 16
+    - result: 64
+      valueOne: 16
+      valueTwo: 4
+    - result: 64
+      valueOne: 8
+      valueTwo: 8

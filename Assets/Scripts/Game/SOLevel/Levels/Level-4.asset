@@ -1,0 +1,112 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c64258b37754bf4c9ce689c3e051866, type: 3}
+  m_Name: Level-4
+  m_EditorClassIdentifier: 
+  levelData:
+    LevelNumber: 4
+    LevelName: Level 4
+    LevelDescription: This is Game Level
+    LevelDifficulty: Medium
+    TargetScore: 150
+    RotatineSpeed: 40
+    VisibleStamp: 6
+    PrepareStamp: 000000000100000003000000040000000500000007000000
+    PrepareValue: 060000000c00000012000000180000001e00000024000000
+    PrepareResult:
+    - result: 6
+      valueOne: 3
+      valueTwo: 2
+    - result: 6
+      valueOne: 2
+      valueTwo: 3
+    - result: 12
+      valueOne: 2
+      valueTwo: 6
+    - result: 12
+      valueOne: 6
+      valueTwo: 2
+    - result: 12
+      valueOne: 3
+      valueTwo: 4
+    - result: 12
+      valueOne: 4
+      valueTwo: 3
+    - result: 18
+      valueOne: 2
+      valueTwo: 9
+    - result: 18
+      valueOne: 9
+      valueTwo: 2
+    - result: 18
+      valueOne: 3
+      valueTwo: 6
+    - result: 18
+      valueOne: 6
+      valueTwo: 3
+    - result: 24
+      valueOne: 2
+      valueTwo: 12
+    - result: 24
+      valueOne: 12
+      valueTwo: 2
+    - result: 24
+      valueOne: 3
+      valueTwo: 8
+    - result: 24
+      valueOne: 8
+      valueTwo: 3
+    - result: 24
+      valueOne: 4
+      valueTwo: 6
+    - result: 24
+      valueOne: 6
+      valueTwo: 4
+    - result: 30
+      valueOne: 2
+      valueTwo: 15
+    - result: 30
+      valueOne: 15
+      valueTwo: 2
+    - result: 30
+      valueOne: 3
+      valueTwo: 10
+    - result: 30
+      valueOne: 10
+      valueTwo: 3
+    - result: 30
+      valueOne: 5
+      valueTwo: 6
+    - result: 30
+      valueOne: 6
+      valueTwo: 5
+    - result: 36
+      valueOne: 2
+      valueTwo: 18
+    - result: 36
+      valueOne: 18
+      valueTwo: 2
+    - result: 36
+      valueOne: 3
+      valueTwo: 12
+    - result: 36
+      valueOne: 12
+      valueTwo: 3
+    - result: 36
+      valueOne: 4
+      valueTwo: 9
+    - result: 36
+      valueOne: 9
+      valueTwo: 4
+    - result: 36
+      valueOne: 6
+      valueTwo: 6

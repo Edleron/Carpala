@@ -1,0 +1,121 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c64258b37754bf4c9ce689c3e051866, type: 3}
+  m_Name: Level-9
+  m_EditorClassIdentifier: 
+  levelData:
+    LevelNumber: 9
+    LevelName: Level 9
+    LevelDescription: This is Game Level 10 & 50
+    LevelDifficulty: Difficult
+    TargetScore: 450
+    RotatineSpeed: 80
+    VisibleStamp: 5
+    PrepareStamp: 0100000003000000040000000500000007000000
+    PrepareValue: 0a000000140000001e0000002800000032000000
+    PrepareResult:
+    - result: 10
+      valueOne: 1
+      valueTwo: 10
+    - result: 10
+      valueOne: 10
+      valueTwo: 1
+    - result: 10
+      valueOne: 2
+      valueTwo: 5
+    - result: 10
+      valueOne: 5
+      valueTwo: 2
+    - result: 20
+      valueOne: 1
+      valueTwo: 20
+    - result: 20
+      valueOne: 20
+      valueTwo: 1
+    - result: 20
+      valueOne: 2
+      valueTwo: 10
+    - result: 20
+      valueOne: 10
+      valueTwo: 2
+    - result: 20
+      valueOne: 4
+      valueTwo: 5
+    - result: 20
+      valueOne: 5
+      valueTwo: 4
+    - result: 30
+      valueOne: 1
+      valueTwo: 30
+    - result: 30
+      valueOne: 30
+      valueTwo: 1
+    - result: 30
+      valueOne: 2
+      valueTwo: 15
+    - result: 30
+      valueOne: 15
+      valueTwo: 2
+    - result: 30
+      valueOne: 3
+      valueTwo: 10
+    - result: 30
+      valueOne: 10
+      valueTwo: 3
+    - result: 30
+      valueOne: 5
+      valueTwo: 6
+    - result: 30
+      valueOne: 6
+      valueTwo: 5
+    - result: 40
+      valueOne: 1
+      valueTwo: 40
+    - result: 40
+      valueOne: 40
+      valueTwo: 1
+    - result: 40
+      valueOne: 2
+      valueTwo: 20
+    - result: 40
+      valueOne: 20
+      valueTwo: 2
+    - result: 40
+      valueOne: 4
+      valueTwo: 10
+    - result: 40
+      valueOne: 10
+      valueTwo: 4
+    - result: 40
+      valueOne: 5
+      valueTwo: 8
+    - result: 40
+      valueOne: 8
+      valueTwo: 5
+    - result: 50
+      valueOne: 1
+      valueTwo: 50
+    - result: 50
+      valueOne: 50
+      valueTwo: 1
+    - result: 50
+      valueOne: 2
+      valueTwo: 25
+    - result: 50
+      valueOne: 25
+      valueTwo: 2
+    - result: 50
+      valueOne: 5
+      valueTwo: 10
+    - result: 50
+      valueOne: 10
+      valueTwo: 5
