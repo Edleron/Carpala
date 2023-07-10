@@ -24,5 +24,14 @@ namespace Game.Card
             cardController.EndCard();
         }
 
+        public void PauseGame()
+        {
+            cardController.PausedGame();
+        }
+
+        public void ResumeGame()
+        {
+            cardController.ResumedGame();
+        }
     }
 }
