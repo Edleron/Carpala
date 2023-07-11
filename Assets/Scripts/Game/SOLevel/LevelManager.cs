@@ -12,9 +12,10 @@ namespace Game.SOLevel
         public static LevelManager Instance { get; private set; }
 
         public List<LevelDataScriptableObject> levelList;
-        private List<int> pullDataList = new List<int>();
+        private List<int> IndixBlackList = new List<int>();
         private int LevelIndex { get; set; }
         private int RoundIndex { get; set; }
+        private int IndisIndex { get; set; }
         private int PullResult { get; set; }
         private bool TutorialLevel = true;
 
@@ -23,11 +24,14 @@ namespace Game.SOLevel
             Instance = this;
             LevelIndex = 0; // Todo PlayerPrefs
             PullResult = 0; // Todo PlayerPrefs
+            IndisIndex = -1;
+            IndixBlackList.Clear();
         }
 
         #region Level Process
         public void SetLevelIndex()
         {
+            IndisIndex = -1;
             LevelIndex++;
         }
         public int GetLevelIndex()
@@ -72,14 +76,23 @@ namespace Game.SOLevel
         {
             // Todo
             int length = levelList[LevelIndex].levelData.PrepareResult.Length;
-            // int indis = Random.Range(0, length); // TODO
-            int indis = pullDataList[RoundIndex];
+            IndisIndex = GenerateRandomIndex(levelList[LevelIndex].levelData.PrepareResult.Length);
 
             int[] arr = new int[2];
-            arr[0] = levelList[LevelIndex].levelData.PrepareResult[indis].valueOne;
-            arr[1] = levelList[LevelIndex].levelData.PrepareResult[indis].valueTwo;
+            arr[0] = levelList[LevelIndex].levelData.PrepareResult[IndisIndex].valueOne;
+            arr[1] = levelList[LevelIndex].levelData.PrepareResult[IndisIndex].valueTwo;
             PullResult = arr[0] * arr[1];
             return arr;
+        }
+
+        private int GenerateRandomIndex(int length)
+        {
+            int index;
+            do
+            {
+                index = Random.Range(0, length);
+            } while (IndixBlackList.Contains(index));
+            return index;
         }
 
         public int GetStampCount()
@@ -106,6 +119,25 @@ namespace Game.SOLevel
             if (PullResult == fieldResult)
             {
                 EventManager.Fire_onCorrect();
+
+                int length = levelList[LevelIndex].levelData.PrepareResult.Length;
+                var data = levelList[LevelIndex].levelData.PrepareResult;
+
+                for (int i = 0; i < length; i++)
+                {
+                    if (data[i].result == PullResult)
+                    {
+                        IndixBlackList.Add(i);
+                    }
+                }
+
+                Debug.Log("IndixBlackList Values:");
+                foreach (int value in IndixBlackList)
+                {
+                    Debug.Log(value);
+                }
+
+                IndixBlackList.Add(IndisIndex);
                 RhytmicManager.Instance.SetRhytmic(LevelIndex, fieldResult.ToString());
             }
             else
@@ -139,33 +171,6 @@ namespace Game.SOLevel
             }
 
             return array;
-        }
-
-        private List<int> PullDummyData(int len)
-        {
-            pullDataList = PullDummyData(levelList[LevelIndex].levelData.PrepareResult.Length);
-            List<int> arr = new List<int>();
-            for (int i = 0; i < len; i++)
-            {
-                arr.Add(i);
-            }
-            List<int> newArr = ShuffleList(arr);
-            return newArr;
-        }
-
-        private List<int> ShuffleList(List<int> arr)
-        {
-            System.Random random = new System.Random();
-
-            for (int i = arr.Count - 1; i > 0; i--)
-            {
-                int j = random.Next(i + 1);
-                int temp = arr[i];
-                arr[i] = arr[j];
-                arr[j] = temp;
-            }
-
-            return arr;
         }
         #endregion
     }
