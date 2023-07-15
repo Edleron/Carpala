@@ -26,7 +26,7 @@ namespace Game.Pump
         private void PumpAnimPassiveFalse()
         {
             animator.SetBool("passive", false);
-            Invoke("PumpAnimActiveTrue", .30f);
+            PumpAnimActiveTrue();
         }
     }
 }
