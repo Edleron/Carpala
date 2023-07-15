@@ -42,19 +42,5 @@ namespace Game.Card
         {
             cardVisualizer.ResumeGame();
         }
-
-        private void OnEnable()
-        {
-            // TODO
-            // EventManager.onSwipeUp += cardVisualizer.CardAnimActiveTrue;
-            // EventManager.onSwipeDown += cardVisualizer.CardAnimPassiveTrue;
-        }
-
-        private void OnDisable()
-        {
-            // TODO
-            // EventManager.onSwipeUp -= cardVisualizer.CardAnimActiveTrue;
-            // EventManager.onSwipeDown -= cardVisualizer.CardAnimPassiveTrue;
-        }
     }
 }
