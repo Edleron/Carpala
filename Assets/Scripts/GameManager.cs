@@ -46,53 +46,40 @@ public class GameManager : MonoBehaviour
 
     private void OnEnable()
     {
-
-        EventManager.onCheckLevel += EndLevel;
+        EventManager.onEndLevel += EndLEvel;
+        EventManager.onNewLevel += NewLevel;
+        EventManager.onRepeatLevel += RepeatLevel;
     }
 
     private void OnDisable()
     {
-        EventManager.onCheckLevel -= EndLevel;
+        EventManager.onEndLevel -= EndLEvel;
+        EventManager.onNewLevel -= NewLevel;
+        EventManager.onRepeatLevel -= RepeatLevel;
     }
 
-    private void EndLevel()
+    private void EndLEvel()
     {
-        int stamp = LevelManager.Instance.GetStampCount();
-        int round = LevelManager.Instance.GetRoundCount();
-
-        // Debug.Log(stamp + " - " + round); // TODO
-
-        if (stamp == round)
-        {
-            CardManager.Instance.EndCarding();
-            LevelManager.Instance.SetRoundCount();
-            Invoke("NewLevel", 0.75f);
-        }
+        Debug.Log("End Level");
+        CardManager.Instance.EndCarding();
     }
 
     private void NewLevel()
     {
-        bool newLevelControl = RhytmicManager.Instance.GetRhytmic();
+        Debug.Log("New Level");
+        MTextVisualizer.Instance.SetNewLevel();
+        int levelIndex = LevelManager.Instance.GetLevelIndex();
+        RhytmicManager.Instance.SetDict(levelIndex);
+        PumpManager.Instance.StartPumping();
+        CardManager.Instance.StartCarding();
+    }
 
-        if (newLevelControl)
-        {
-            Debug.Log("Level Yeni Level");
-            LevelManager.Instance.SetLevelIndex();
-            MTextVisualizer.Instance.SetNewLevel();
-            int levelIndex = LevelManager.Instance.GetLevelIndex();            
-            RhytmicManager.Instance.SetDict(levelIndex);            
-            PumpManager.Instance.StartPumping();
-            CardManager.Instance.StartCarding();
-        }
-        else
-        {          
-            Debug.Log("Level Tekrarı");
-            // Level Tekranı
-            PumpManager.Instance.StartPumping();
-            MTextVisualizer.Instance.SetRepeatLevel();
-            // PullManager.Instance.StartPulling();
-            CardManager.Instance.StartCarding();
-        }        
+    private void RepeatLevel()
+    {
+        Debug.Log("Repeat Level");
+        PumpManager.Instance.StartPumping();
+        MTextVisualizer.Instance.SetRepeatLevel();
+        CardManager.Instance.StartCarding();
     }
 
     private void TutorialsActive()
