@@ -17,12 +17,12 @@ namespace Game.MotivationText
 
         public void SetNewLevel()
         {
-            Instantiate(correctPrefab, new Vector3(0, -4.25f, 0), Quaternion.identity, mTransform);
+            Instantiate(correctPrefab, new Vector3(0, -4.5f, 0), Quaternion.identity, mTransform);
         }
 
         public void SetRepeatLevel()
         {
-            Instantiate(wrongPrefab, new Vector3(0, -4.25f, 0), Quaternion.identity, mTransform);
+            Instantiate(wrongPrefab, new Vector3(0, -4.5f, 0), Quaternion.identity, mTransform);
         }
     }
 }
