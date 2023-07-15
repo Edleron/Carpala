@@ -31,7 +31,6 @@ namespace Game.SOLevel
         #region Level Process
         public void SetLevelIndex()
         {
-            IndisIndex = -1;
             LevelIndex++;
         }
         public int GetLevelIndex()
@@ -87,11 +86,17 @@ namespace Game.SOLevel
 
         private int GenerateRandomIndex(int length)
         {
+            if (IndixBlackList.Count == length)
+            {
+                return -1;
+            }
+
             int index;
             do
             {
                 index = Random.Range(0, length);
             } while (IndixBlackList.Contains(index));
+
             return index;
         }
 
@@ -113,6 +118,8 @@ namespace Game.SOLevel
         public void CheckResult(int fieldResult)
         {
             // Debug.Log(PullResult.ToString() + " " + fieldResult.ToString()); // TODO
+
+            RoundIndex++;
 
             EventManager.Fire_onExplosion();
 
@@ -137,7 +144,6 @@ namespace Game.SOLevel
                     Debug.Log(value);
                 }
 
-                IndixBlackList.Add(IndisIndex);
                 RhytmicManager.Instance.SetRhytmic(LevelIndex, fieldResult.ToString());
             }
             else
@@ -145,14 +151,36 @@ namespace Game.SOLevel
                 EventManager.Fire_onWrong();
             }
 
-            Invoke("NewRound", 1.0f);
+            Invoke("NewRound", 0.25f);
         }
 
         private void NewRound()
         {
-            RoundIndex++;
+
+
+            int stamp = GetStampCount();
+            int round = GetRoundCount();
+
+            if (stamp == round)
+            {
+                IndisIndex = -1;
+                SetRoundCount();
+                SetLevelIndex();
+                IndixBlackList.Clear();
+                EventManager.Fire_onEndLevel();
+            }
+            // TODO
+            /*
+            else
+            {
+                // IndisIndex = -1;
+                // EventManager.Fire_onRepeatLevel();
+                // SetRoundCount();
+                // IndixBlackList.Clear();
+            }
+            */
+
             EventManager.Fire_onSwipeDown();
-            EventManager.Fire_onCheckLevel();
         }
         #endregion
 
