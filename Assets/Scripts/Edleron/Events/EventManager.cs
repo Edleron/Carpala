@@ -36,9 +36,14 @@ namespace Edleron.Events
         #endregion
 
         #region Leven Eventleri
+        public static event Action onEndLevel;
+        public static void Fire_onEndLevel() { onEndLevel?.Invoke(); }
         // Explosion Event
-        public static event Action onCheckLevel;
-        public static void Fire_onCheckLevel() { onCheckLevel?.Invoke(); }
+        public static event Action onNewLevel;
+        public static void Fire_onNewLevel() { onNewLevel?.Invoke(); }
+
+        public static event Action onRepeatLevel;
+        public static void Fire_onRepeatLevel() { onRepeatLevel?.Invoke(); }
         #endregion
     }
 }
