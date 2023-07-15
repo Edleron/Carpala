@@ -5,6 +5,7 @@ namespace Game.Card
     using UnityEngine;
     using Game.SOLevel;
     using Game.Field;
+    using Edleron.Events;
     using TMPro;
 
     public class CardVisualizer : MonoBehaviour
@@ -132,6 +133,7 @@ namespace Game.Card
         }
         private void CardAnimActiveFalse()
         {
+            EventManager.Fire_onNewLevel();
             animator.SetBool("active", false);
         }
         public void CardAnimPassiveTrue()
@@ -141,6 +143,7 @@ namespace Game.Card
         private void CardAnimPassiveFalse()
         {
             animator.SetBool("passive", false);
+            CardAnimActiveTrue();
         }
     }
 }
