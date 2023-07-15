@@ -120,8 +120,8 @@ namespace Game.Rhythmic
                         }
                     }
                     break;
-            }           
-        }        
+            }
+        }
 
         public void SetRhytmic(int level, string result)
         {
