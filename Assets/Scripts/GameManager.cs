@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         TutorialsActive();
-        PumpManager.Instance.StartPumping();
+        // PumpManager.Instance.StartPumping();
         PullManager.Instance.StartPulling();
         CardManager.Instance.StartCarding();
         Invoke("TutorialsDownActive", 3f);
