@@ -129,11 +129,12 @@ namespace Game.Card
         // Animation Events
         public void CardAnimActiveTrue()
         {
+            EventManager.Fire_onNewLevel();
             animator.SetBool("active", true);
         }
         private void CardAnimActiveFalse()
         {
-            EventManager.Fire_onNewLevel();
+            // EventManager.Fire_onNewLevel();
             animator.SetBool("active", false);
         }
         public void CardAnimPassiveTrue()

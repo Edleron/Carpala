@@ -33,6 +33,15 @@ namespace Game.Card
             cardVisualizer.rotationControl = false;
         }
 
+        public void NewCard()
+        {
+            cardVisualizer.StampFalse();
+            cardVisualizer.SetRotationSpeed();
+            cardVisualizer.SetRotationReset();
+            StartCoroutine(cardVisualizer.CardGenerate(1));
+            StartCoroutine(cardVisualizer.CardRotate(0.95f, true));
+        }
+
         public void PausedGame()
         {
             cardVisualizer.PauseGame();

@@ -71,7 +71,8 @@ public class GameManager : MonoBehaviour
         int levelIndex = LevelManager.Instance.GetLevelIndex();
         RhytmicManager.Instance.SetDict(levelIndex);
         PumpManager.Instance.StartPumping();
-        CardManager.Instance.StartCarding();
+        // CardManager.Instance.StartCarding();
+        CardManager.Instance.NewCard();
     }
 
     private void RepeatLevel()
