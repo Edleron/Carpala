@@ -144,7 +144,7 @@ namespace Game.SOLevel
                     Debug.Log(value);
                 }
 
-                RhytmicManager.Instance.SetRhytmic(LevelIndex, fieldResult.ToString());
+                RhythmicManager.Instance.SetRhytmic(LevelIndex, fieldResult.ToString());
             }
             else
             {
