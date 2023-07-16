@@ -38,17 +38,10 @@ namespace Game.Rhythmic
             dummyList.Add(rhythmicResult_7);
             dummyList.Add(rhythmicResult_8);
 
+            // Todo
             for (int i = 0; i < dummyList.Count; i++)
             {
-                checkList.Add(new List<string>()); // Boş bir liste ekleyin
-            }
-
-            foreach (List<GameObject> innerList in dummyList)
-            {
-                foreach (GameObject gameObject in innerList)
-                {
-                    Debug.Log(gameObject.name);
-                }
+                checkList.Add(new List<string>()); // Todo
             }
         }
 
@@ -96,10 +89,11 @@ namespace Game.Rhythmic
                 {
                     for (int j = 0; j < nameList[i].Count; j++)
                     {
-                        GameObject obj = GameObject.Find(nameList[i][j]);
+                        string objectName = nameList[i][j];
+                        GameObject obj = dummyList[i].Find(go => go.name == objectName);
                         if (obj != null)
                         {
-                            dummyList[i].Add(obj);
+                            checkList[i].Add(obj.name);
                         }
                     }
                 }
