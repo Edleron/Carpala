@@ -10,6 +10,7 @@ using Game.Stars;
 using Game.Rhythmic;
 using Game.MotivationText;
 using Edleron.Events;
+using System.IO;
 
 public enum TutorialState
 {
@@ -69,7 +70,10 @@ public class GameManager : MonoBehaviour
         Debug.Log("New Level");
         MTextVisualizer.Instance.SetNewLevel();
         int levelIndex = LevelManager.Instance.GetLevelIndex();
-        RhytmicManager.Instance.SetDict(levelIndex);
+
+        RhythmicManager.Instance.SaveResultListToJson(Path.Combine(Application.streamingAssetsPath, "rhythmicList.json")); // ResultList'i JSON dosyasına kaydet
+        // RhythmicManager.Instance.LoadResultListFromJson(Path.Combine(Application.streamingAssetsPath, "rhythmicList.json")); // JSON dosyasından ResultList'i yükle
+
         PumpManager.Instance.StartPumping();
         // CardManager.Instance.StartCarding();
         CardManager.Instance.NewCard();
