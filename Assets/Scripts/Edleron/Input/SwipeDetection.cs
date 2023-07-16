@@ -44,6 +44,16 @@ namespace Edleron.Input
         private void Presseed(Vector2 position)
         {
             // EventManager.Fire_onTouch();
+
+            RaycastHit2D hit = Physics2D.Raycast(position, Vector2.zero, 10f);
+
+            if (hit.collider != null)
+            {
+                if (hit.transform.TryGetComponent<Collider2D>(out Collider2D ts))
+                {
+                    Debug.Log(ts.name + " Ray2D Detect");
+                }
+            }
         }
 
         private void SwipeStart(Vector2 position, float time)
