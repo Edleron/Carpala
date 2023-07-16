@@ -1,12 +1,15 @@
 namespace Game.Rhythmic
 {
-    using System.Collections;
-    using System.Collections.Generic;
     using UnityEngine;
+    using System.Collections.Generic;
+    using System.IO;
+    using Newtonsoft.Json;
 
-    public class RhytmicManager : MonoBehaviour
+    public class RhythmicManager : MonoBehaviour
     {
-        public static RhytmicManager Instance { get; private set; }
+        public static RhythmicManager Instance { get; private set; }
+        public List<List<GameObject>> dummyList = new List<List<GameObject>>();
+        public List<List<string>> checkList = new List<List<string>>();
         public List<GameObject> rhythmicResult_0 = new List<GameObject>();
         public List<GameObject> rhythmicResult_1 = new List<GameObject>();
         public List<GameObject> rhythmicResult_2 = new List<GameObject>();
@@ -16,160 +19,95 @@ namespace Game.Rhythmic
         public List<GameObject> rhythmicResult_6 = new List<GameObject>();
         public List<GameObject> rhythmicResult_7 = new List<GameObject>();
         public List<GameObject> rhythmicResult_8 = new List<GameObject>();
-        private Dictionary<string, bool> rhythmicDict = new Dictionary<string, bool>();
 
         private void Awake()
         {
             Instance = this;
-            SetDict(0);
+            SetDict();
         }
 
-        public void SetDict(int level)
+        public void SetDict()
         {
-            switch (level)
+            dummyList.Add(rhythmicResult_0);
+            dummyList.Add(rhythmicResult_1);
+            dummyList.Add(rhythmicResult_2);
+            dummyList.Add(rhythmicResult_3);
+            dummyList.Add(rhythmicResult_4);
+            dummyList.Add(rhythmicResult_5);
+            dummyList.Add(rhythmicResult_6);
+            dummyList.Add(rhythmicResult_7);
+            dummyList.Add(rhythmicResult_8);
+
+            for (int i = 0; i < dummyList.Count; i++)
             {
-                case 0:
-                    foreach (GameObject obj in rhythmicResult_0)
-                    {
-                        string fileName = obj.name;
-                        if (!rhythmicDict.ContainsKey(fileName))
-                        {
-                            rhythmicDict.Add(fileName, false);
-                        }
-                    }
-                    break;
-                case 1:
-                    foreach (GameObject obj in rhythmicResult_1)
-                    {
-                        string fileName = obj.name;
-                        if (!rhythmicDict.ContainsKey(fileName))
-                        {
-                            rhythmicDict.Add(fileName, false);
-                        }
-                    }
-                    break;
-                case 2:
-                    foreach (GameObject obj in rhythmicResult_2)
-                    {
-                        string fileName = obj.name;
-                        if (!rhythmicDict.ContainsKey(fileName))
-                        {
-                            rhythmicDict.Add(fileName, false);
-                        }
-                    }
-                    break;
-                case 3:
-                    foreach (GameObject obj in rhythmicResult_3)
-                    {
-                        string fileName = obj.name;
-                        if (!rhythmicDict.ContainsKey(fileName))
-                        {
-                            rhythmicDict.Add(fileName, false);
-                        }
-                    }
-                    break;
-                case 4:
-                    foreach (GameObject obj in rhythmicResult_4)
-                    {
-                        string fileName = obj.name;
-                        if (!rhythmicDict.ContainsKey(fileName))
-                        {
-                            rhythmicDict.Add(fileName, false);
-                        }
-                    }
-                    break;
-                case 5:
-                    foreach (GameObject obj in rhythmicResult_5)
-                    {
-                        string fileName = obj.name;
-                        if (!rhythmicDict.ContainsKey(fileName))
-                        {
-                            rhythmicDict.Add(fileName, false);
-                        }
-                    }
-                    break;
-                case 6:
-                    foreach (GameObject obj in rhythmicResult_6)
-                    {
-                        string fileName = obj.name;
-                        if (!rhythmicDict.ContainsKey(fileName))
-                        {
-                            rhythmicDict.Add(fileName, false);
-                        }
-                    }
-                    break;
-                case 7:
-                case 8:
-                    foreach (GameObject obj in rhythmicResult_7)
-                    {
-                        string fileName = obj.name;
-                        if (!rhythmicDict.ContainsKey(fileName))
-                        {
-                            rhythmicDict.Add(fileName, false);
-                        }
-                    }
-                    break;
-                case 9:
-                case 10:
-                    foreach (GameObject obj in rhythmicResult_8)
-                    {
-                        string fileName = obj.name;
-                        if (!rhythmicDict.ContainsKey(fileName))
-                        {
-                            rhythmicDict.Add(fileName, false);
-                        }
-                    }
-                    break;
+                checkList.Add(new List<string>()); // Boş bir liste ekleyin
+            }
+
+            foreach (List<GameObject> innerList in dummyList)
+            {
+                foreach (GameObject gameObject in innerList)
+                {
+                    Debug.Log(gameObject.name);
+                }
             }
         }
 
         public void SetRhytmic(int level, string result)
         {
-            string fileName = "Detect - " + result;
-            if (rhythmicDict.ContainsKey(fileName))
-            {
-                rhythmicDict[fileName] = true;
-            }
+            List<GameObject> innerList = dummyList[level];
 
-            foreach (GameObject obj in rhythmicResult_1)
+            string fileName = "Detect - " + result;
+
+            foreach (GameObject obj in innerList)
             {
-                string objName = obj.name;
-                if (objName == fileName)
+                if (obj.name == fileName)
                 {
                     obj.SetActive(false);
+                    checkList[level].Add(obj.name);
                 }
             }
         }
 
-        public bool GetRhytmic()
+        public void SaveResultListToJson(string filePath)
         {
-            foreach (bool isActive in rhythmicDict.Values)
+            List<List<string>> nameList = new List<List<string>>();
+            foreach (List<string> innerList in checkList)
             {
-                if (!isActive)
+                List<string> names = new List<string>();
+                foreach (string fileName in innerList)
                 {
-                    return false;
+                    names.Add(fileName);
                 }
+                nameList.Add(names);
             }
 
-            rhythmicDict.Clear();
+            string jsonData = JsonConvert.SerializeObject(nameList, Formatting.Indented);
+            File.WriteAllText(filePath, jsonData);
+        }
 
-            return true;
+        public void LoadResultListFromJson(string filePath)
+        {
+            if (File.Exists(filePath))
+            {
+                string jsonData = File.ReadAllText(filePath);
+                List<List<string>> nameList = JsonConvert.DeserializeObject<List<List<string>>>(jsonData);
+
+                for (int i = 0; i < nameList.Count; i++)
+                {
+                    for (int j = 0; j < nameList[i].Count; j++)
+                    {
+                        GameObject obj = GameObject.Find(nameList[i][j]);
+                        if (obj != null)
+                        {
+                            dummyList[i].Add(obj);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                Debug.LogError("JSON file does not exist: " + filePath);
+            }
         }
     }
 }
-
-// NieR:Automata™
-// Immortals Fenyx Rising
-// Dragon Age™ Inquisition
-// Yaga
-// Red Dead Redemption 2
-// Assassin's Creed Valhalla
-// FOR HONOR™
-// Tails of Iron
-// Hellblade: Senua's Sacrifice
-// Bloodstained: Ritual of the Night
-// Don't Starve
-// Oxygen Not Included
-// Roadwarden
-// Celeste
-// Disco Elysium - The Final Cut
