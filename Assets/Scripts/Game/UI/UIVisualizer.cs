@@ -7,12 +7,16 @@ namespace Game.UI
 
     public class UIVisualizer : MonoBehaviour
     {
+        public static UIVisualizer Instance { get; private set; }
+
         public List<Transform> ButtonList = new List<Transform>();
         public List<GameObject> GamePanelList = new List<GameObject>();
         public List<GameObject> MenuPanelList = new List<GameObject>();
+        [HideInInspector] public bool locked = false;
 
         private void Awake()
         {
+            Instance = this;
             ButtonListNameSet();
         }
 
@@ -47,6 +51,8 @@ namespace Game.UI
 
         private void UITrigger(string value)
         {
+            if (locked) return;
+
             Debug.Log(value);
             switch (value)
             {
