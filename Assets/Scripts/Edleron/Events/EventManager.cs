@@ -35,7 +35,7 @@ namespace Edleron.Events
         public static void Fire_onWrong() { onWrong?.Invoke(); }
         #endregion
 
-        #region Leven Eventleri
+        #region Level Eventleri
         public static event Action onEndLevel;
         public static void Fire_onEndLevel() { onEndLevel?.Invoke(); }
         // Explosion Event
@@ -44,6 +44,11 @@ namespace Edleron.Events
 
         public static event Action onRepeatLevel;
         public static void Fire_onRepeatLevel() { onRepeatLevel?.Invoke(); }
+        #endregion
+
+        #region UI Eventleri
+        public static event Action<string> onUITrigger;
+        public static void Fire_onUITrigger(string value) { onUITrigger?.Invoke(value); }
         #endregion
     }
 }
