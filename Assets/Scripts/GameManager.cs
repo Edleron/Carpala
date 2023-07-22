@@ -9,6 +9,7 @@ using Game.Panel;
 using Game.Stars;
 using Game.Rhythmic;
 using Game.MotivationText;
+using Game.UI;
 using Edleron.Events;
 using System.IO;
 
@@ -98,7 +99,7 @@ public class GameManager : MonoBehaviour
         bool level = LevelManager.Instance.GetTutorialLevel();
         if (level && tutorialState == TutorialState.Inactive)
         {
-            PanelChange.Instance.locked = true;
+            UIVisualizer.Instance.locked = true;
 
             tutorialState = TutorialState.Down;
             CardManager.Instance.PauseGame();
@@ -149,7 +150,8 @@ public class GameManager : MonoBehaviour
             EventManager.onSwipeUp -= TutorialsUpPassive;
 
             LevelManager.Instance.SetTutorialLevel();
-            PanelChange.Instance.locked = false;
+
+            UIVisualizer.Instance.locked = false;
         }
     }
 }
