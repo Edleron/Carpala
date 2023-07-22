@@ -8,6 +8,8 @@ namespace Game.UI
     public class UIVisualizer : MonoBehaviour
     {
         public List<Transform> ButtonList = new List<Transform>();
+        public List<GameObject> GamePanelList = new List<GameObject>();
+        public List<GameObject> MenuPanelList = new List<GameObject>();
 
         private void Awake()
         {
@@ -49,24 +51,72 @@ namespace Game.UI
             switch (value)
             {
                 case Constants.Settings:
+                    GamePanelList[0].SetActive(false);
+                    GamePanelList[1].SetActive(true);
+
+                    MenuPanelList[0].SetActive(true);
+                    MenuPanelList[1].SetActive(false);
+                    MenuPanelList[2].SetActive(false);
+                    MenuPanelList[3].SetActive(false);
+                    MenuPanelList[4].SetActive(false);
                     break;
                 case Constants.Clue:
+                    // Todo
                     break;
                 case Constants.Closed:
+                    GamePanelList[0].SetActive(true);
+                    GamePanelList[1].SetActive(false);
+
+                    MenuPanelList[0].SetActive(true);
+                    MenuPanelList[1].SetActive(false);
+                    MenuPanelList[2].SetActive(false);
+                    MenuPanelList[3].SetActive(false);
+                    MenuPanelList[4].SetActive(false);
                     break;
                 case Constants.Achievements:
+                    MenuPanelList[0].SetActive(false);
+                    MenuPanelList[1].SetActive(false);
+                    MenuPanelList[2].SetActive(true);
+                    MenuPanelList[3].SetActive(false);
+                    MenuPanelList[4].SetActive(false);
                     break;
                 case Constants.Sound:
+                    // Todo
                     break;
                 case Constants.Back:
+                    MenuPanelList[0].SetActive(true);
+                    MenuPanelList[1].SetActive(false);
+                    MenuPanelList[2].SetActive(false);
+                    MenuPanelList[3].SetActive(false);
+                    MenuPanelList[4].SetActive(false);
                     break;
                 case Constants.Info:
+                    MenuPanelList[0].SetActive(false);
+                    MenuPanelList[1].SetActive(true);
+                    MenuPanelList[2].SetActive(false);
+                    MenuPanelList[3].SetActive(false);
+                    MenuPanelList[4].SetActive(false);
                     break;
                 case Constants.Rhythmic:
+                    MenuPanelList[0].SetActive(false);
+                    MenuPanelList[1].SetActive(false);
+                    MenuPanelList[2].SetActive(true);
+                    MenuPanelList[3].SetActive(false);
+                    MenuPanelList[4].SetActive(false);
                     break;
                 case Constants.Played:
+                    MenuPanelList[0].SetActive(false);
+                    MenuPanelList[1].SetActive(false);
+                    MenuPanelList[2].SetActive(false);
+                    MenuPanelList[3].SetActive(true);
+                    MenuPanelList[4].SetActive(false);
                     break;
                 case Constants.Preferences:
+                    MenuPanelList[0].SetActive(false);
+                    MenuPanelList[1].SetActive(false);
+                    MenuPanelList[2].SetActive(false);
+                    MenuPanelList[3].SetActive(false);
+                    MenuPanelList[4].SetActive(true);
                     break;
             }
         }
