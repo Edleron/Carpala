@@ -17,7 +17,7 @@ namespace Game.SOLevel
         private int RoundIndex { get; set; }
         private int IndisIndex { get; set; }
         private int PullResult { get; set; }
-        private bool TutorialLevel = true;
+        private bool TutorialLevel = false;
 
         private void Awake()
         {
