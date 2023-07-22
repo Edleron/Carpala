@@ -51,7 +51,8 @@ namespace Edleron.Input
             {
                 if (hit.transform.TryGetComponent<Collider2D>(out Collider2D ts))
                 {
-                    Debug.Log(ts.name + " Ray2D Detect");
+                    // Debug.Log(ts.name + " Ray2D Detect"); // TODO
+                    EventManager.Fire_onUITrigger(ts.name);
                 }
             }
         }
