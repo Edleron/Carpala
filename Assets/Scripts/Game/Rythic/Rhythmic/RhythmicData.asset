@@ -13,5 +13,124 @@ MonoBehaviour:
   m_Name: RhythmicData
   m_EditorClassIdentifier: 
   rhytmicData:
-  - RhythmicName: 
-    Status: 0
+  - list:
+    - RhythmicName: Detect - 1
+      Status: 1
+    - RhythmicName: Detect - 2
+      Status: 1
+    - RhythmicName: Detect - 4
+      Status: 1
+  - list:
+    - RhythmicName: Detect - 3
+      Status: 1
+    - RhythmicName: Detect - 6
+      Status: 1
+    - RhythmicName: Detect - 9
+      Status: 1
+  - list:
+    - RhythmicName: Detect - 4
+      Status: 1
+    - RhythmicName: Detect - 8
+      Status: 1
+    - RhythmicName: Detect - 12
+      Status: 1
+    - RhythmicName: Detect - 16
+      Status: 1
+  - list:
+    - RhythmicName: Detect - 5
+      Status: 1
+    - RhythmicName: Detect - 10
+      Status: 1
+    - RhythmicName: Detect - 15
+      Status: 1
+    - RhythmicName: Detect - 20
+      Status: 1
+    - RhythmicName: Detect - 25
+      Status: 1
+  - list:
+    - RhythmicName: Detect - 6
+      Status: 1
+    - RhythmicName: Detect - 12
+      Status: 1
+    - RhythmicName: Detect - 18
+      Status: 1
+    - RhythmicName: Detect - 24
+      Status: 1
+    - RhythmicName: Detect - 30
+      Status: 1
+    - RhythmicName: Detect - 36
+      Status: 1
+  - list:
+    - RhythmicName: Detect - 7
+      Status: 1
+    - RhythmicName: Detect - 14
+      Status: 1
+    - RhythmicName: Detect - 21
+      Status: 1
+    - RhythmicName: Detect - 28
+      Status: 1
+    - RhythmicName: Detect - 35
+      Status: 1
+    - RhythmicName: Detect - 42
+      Status: 1
+    - RhythmicName: Detect - 49
+      Status: 1
+  - list:
+    - RhythmicName: Detect - 8
+      Status: 1
+    - RhythmicName: Detect - 16
+      Status: 1
+    - RhythmicName: Detect - 24
+      Status: 1
+    - RhythmicName: Detect - 32
+      Status: 1
+    - RhythmicName: Detect - 40
+      Status: 1
+    - RhythmicName: Detect - 48
+      Status: 1
+    - RhythmicName: Detect - 56
+      Status: 1
+    - RhythmicName: Detect - 64
+      Status: 1
+  - list:
+    - RhythmicName: Detect - 9
+      Status: 1
+    - RhythmicName: Detect - 18
+      Status: 1
+    - RhythmicName: Detect - 27
+      Status: 1
+    - RhythmicName: Detect - 36
+      Status: 1
+  - list:
+    - RhythmicName: Detect - 45
+      Status: 1
+    - RhythmicName: Detect - 54
+      Status: 1
+    - RhythmicName: Detect - 63
+      Status: 1
+    - RhythmicName: Detect - 72
+      Status: 1
+    - RhythmicName: Detect - 81
+      Status: 1
+  - list:
+    - RhythmicName: Detect - 10
+      Status: 0
+    - RhythmicName: Detect - 20
+      Status: 0
+    - RhythmicName: Detect - 30
+      Status: 1
+    - RhythmicName: Detect - 40
+      Status: 1
+    - RhythmicName: Detect - 50
+      Status: 1
+  - list:
+    - RhythmicName: Detect - 60
+      Status: 0
+    - RhythmicName: Detect - 70
+      Status: 0
+    - RhythmicName: Detect - 80
+      Status: 1
+    - RhythmicName: Detect - 90
+      Status: 1
+    - RhythmicName: Detect - 100
+      Status: 1
