@@ -8,82 +8,96 @@ namespace Game.Rhythmic
     public class RhythmicManager : MonoBehaviour
     {
         public static RhythmicManager Instance { get; private set; }
-        public List<List<string>> checkList = new List<List<string>>();
-        public List<RhtyhmicDataAO> rhytmicData = new List<RhtyhmicDataAO>();
+        public List<RhtyhmicDataGM> rhytmicObje = new List<RhtyhmicDataGM>();
+
+        public RhythmicDataScriptableObject rhytmicSo;
 
         private void Awake()
         {
+            // rhytmicObje[0].list[0].Status = false;
+            // rhytmicSo.rhytmicData[0].list[0].Status = false;
             Instance = this;
-            SetDict();
         }
 
-        public void SetDict()
+        public void ActiveRhytmic(int level, string result)
         {
-            // Todo
-            for (int i = 0; i < rhytmicData.Count; i++)
-            {
-                checkList.Add(new List<string>()); // Todo
-            }
-        }
-
-        public void SetRhytmic(int level, string result)
-        {
-            /*
-            List<GameObject> innerList = rhytmicData[level].list;
-
             string fileName = "Detect - " + result;
 
-            foreach (GameObject obj in innerList)
+            if (level < 0 || level >= rhytmicObje.Count)
             {
-                if (obj.name == fileName)
+                foreach (var item in rhytmicObje)
                 {
-                    obj.SetActive(false);
-                    checkList[level].Add(obj.name);
-                }
-            }
-            */
-        }
-
-        public void SaveResultListToJson(string filePath)
-        {
-            List<List<string>> nameList = new List<List<string>>();
-            foreach (List<string> innerList in checkList)
-            {
-                List<string> names = new List<string>();
-                foreach (string fileName in innerList)
-                {
-                    names.Add(fileName);
-                }
-                nameList.Add(names);
-            }
-
-            string jsonData = JsonConvert.SerializeObject(nameList, Formatting.Indented);
-            File.WriteAllText(filePath, jsonData);
-        }
-
-        public void LoadResultListFromJson(string filePath)
-        {
-            if (File.Exists(filePath))
-            {
-                string jsonData = File.ReadAllText(filePath);
-                List<List<string>> nameList = JsonConvert.DeserializeObject<List<List<string>>>(jsonData);
-
-                for (int i = 0; i < nameList.Count; i++)
-                {
-                    for (int j = 0; j < nameList[i].Count; j++)
+                    foreach (var x in item.list)
                     {
-                        string objectName = nameList[i][j];
-                        GameObject obj = dummyList[i].Find(go => go.name == objectName);
-                        if (obj != null)
+                        if (x.RhythmicName == fileName)
                         {
-                            checkList[i].Add(obj.name);
+                            x.Status = true;
+                            x.Kratus.SetActive(false);
+                        }
+                    }
+                }
+
+                foreach (var item in rhytmicSo.rhytmicData)
+                {
+                    foreach (var x in item.list)
+                    {
+                        if (x.RhythmicName == fileName)
+                        {
+                            x.Status = true;
+                        }
+                    }
+                }
+                return;
+            }
+
+            RhtyhmicDataGM levelData = rhytmicObje[level];
+            List<RhtyhmicDataGameMode> innerList = levelData.list;
+
+            foreach (RhtyhmicDataGameMode data in innerList)
+            {
+                if (data.RhythmicName == fileName)
+                {
+                    data.Status = true;
+                    data.Kratus.SetActive(false);
+                }
+            }
+
+            RhtyhmicDataScriptableMode t = rhytmicSo.rhytmicData[level].list.Find(item => item.RhythmicName == fileName);
+            t.Status = true;
+        }
+
+        public List<int> GetRhytmic()
+        {
+            List<int> newData = new List<int>();
+
+            foreach (RhtyhmicDataSO dataSO in rhytmicSo.rhytmicData)
+            {
+                foreach (RhtyhmicDataScriptableMode data in dataSO.list)
+                {
+                    if (!data.Status)
+                    {
+                        // Debug.Log("RhythmicName: " + data.RhythmicName + ", Status: " + data.Status);
+
+                        string[] parts = data.RhythmicName.Split(' ');
+                        if (parts.Length >= 3 && int.TryParse(parts[2].Trim(), out int numericValue))
+                        {
+                            newData.Add(numericValue);
                         }
                     }
                 }
             }
-            else
+
+            return newData;
+        }
+
+        public void SetRhytmic(int level)
+        {
+            RhtyhmicDataSO levelData = rhytmicSo.rhytmicData[level];
+            List<RhtyhmicDataScriptableMode> innerList = levelData.list;
+
+            foreach (RhtyhmicDataScriptableMode data in innerList)
             {
-                Debug.LogError("JSON file does not exist: " + filePath);
+                data.Status = true;
             }
         }
     }
