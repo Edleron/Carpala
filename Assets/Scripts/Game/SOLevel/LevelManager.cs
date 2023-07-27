@@ -8,6 +8,7 @@ namespace Game.SOLevel
     using System.Linq;
     using Game.PlayerPrefs;
     using Game.Heart;
+    using Game.Audio;
 
     public class LevelManager : MonoBehaviour
     {
@@ -125,6 +126,7 @@ namespace Game.SOLevel
 
             if (PullResult == fieldResult)
             {
+                AudioManager.Instance.PlayCorrectShootingClip();
                 EventManager.Fire_onCorrect();
 
                 int length = levelList[LevelIndex].levelData.PrepareResult.Length;
@@ -142,6 +144,7 @@ namespace Game.SOLevel
             }
             else
             {
+                AudioManager.Instance.PlayWrongShootingClip();
                 EventManager.Fire_onWrong();
             }
 

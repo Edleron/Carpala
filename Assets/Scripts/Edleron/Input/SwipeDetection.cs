@@ -3,6 +3,7 @@ namespace Edleron.Input
 
     using System.Collections;
     using Edleron.Events;
+    using Game.Audio;
     using UnityEngine;
 
     public class SwipeDetection : MonoBehaviour
@@ -82,6 +83,7 @@ namespace Edleron.Input
                 if (Vector3.Distance(startPosition, endPosition) >= mininumDistance && (endTime - startTime) <= maximumTime)
                 {
                     Debug.Log("Swipe Detected");
+                    AudioManager.Instance.PlaySwipeClip();
                     Debug.DrawLine(startPosition, endPosition, Color.red, 5f);
 
                     Vector3 direction = endPosition - startPosition;
