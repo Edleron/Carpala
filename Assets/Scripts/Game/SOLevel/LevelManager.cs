@@ -22,7 +22,7 @@ namespace Game.SOLevel
         private int RoundIndex { get; set; }
         private int IndisIndex { get; set; }
         private int PullResult { get; set; }
-        private bool TutorialLevel = false;
+        private bool TutorialLevel = true;
 
         private void Awake()
         {
@@ -262,12 +262,13 @@ namespace Game.SOLevel
 
                 levelList.Add(scriptableObject);
 
+#if UNITY_EDITOR
                 // ScriptableObject'ı kaydedin (istediğiniz bir dosya yolunu belirleyin)
                 string savePath = "Assets/Scripts/Game/SOLevel/Levels/Level-X-" + (GetLevelIndex()).ToString() + ".asset";
                 UnityEditor.AssetDatabase.CreateAsset(scriptableObject, savePath);
                 UnityEditor.AssetDatabase.SaveAssets();
-
                 Debug.Log("LevelData asset oluşturuldu ve kaydedildi: " + savePath);
+#endif
             }
         }
 

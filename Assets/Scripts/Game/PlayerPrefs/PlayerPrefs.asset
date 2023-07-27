@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: PlayerPrefs
   m_EditorClassIdentifier: 
   Level: 0
-  Heart: 0
+  Heart: 5
