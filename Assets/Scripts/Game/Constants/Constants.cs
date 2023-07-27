@@ -22,5 +22,9 @@ public static class Constants
     public const string Rhythmic = "Rhythmic";
     public const string Played = "Played";
     public const string Preferences = "Preferences";
+
+    // TUTORIALS
+    public const string BtnPanelSwipeDown = "BtnPanelSwipeDown";
+    public const string BtnPanelSwipeUp = "BtnPanelSwipeUp";
     #endregion
 }
