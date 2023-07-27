@@ -4,25 +4,29 @@ namespace Game.Heart
     using System.Collections.Generic;
     using UnityEngine;
     using Edleron.Events;
+    using Game.PlayerPrefs;
     using TMPro;
 
     public class HeardVisualizer : MonoBehaviour
     {
+        public static HeardVisualizer Instance { get; private set; }
+        public PlayerPrefsManager pPrefManager;
         private Animator anim;
         private TextMeshPro textObje;
         private int currentScore = 0;
         private int targetScore = 0;
         private float elapsedTime = 0f;
         private float during = 2.0f;
+
         private void Awake()
         {
-            targetScore = 10;
-            currentScore = 10;
+            Instance = this;
+            targetScore = pPrefManager.LoadHeart();
+            currentScore = pPrefManager.LoadHeart();
             anim = GetComponent<Animator>();
             textObje = this.gameObject.transform.GetChild(0).GetComponent<TextMeshPro>();
             textObje.text = targetScore.ToString();
         }
-
         private void OnEnable()
         {
             EventManager.onCorrect += PlayCorrectSkore;
@@ -35,17 +39,30 @@ namespace Game.Heart
             EventManager.onWrong -= PlayWrongSkore;
         }
 
+        public int GetSkore()
+        {
+            return targetScore;
+        }
+
+        public void SetSkore(int value)
+        {
+            targetScore = value;
+            pPrefManager.SaveHeart(value);
+            StartScoreAnimation();
+        }
+
         private void PlayCorrectSkore()
         {
-            targetScore += 5;
+            targetScore += 1;
+            SetSkore(targetScore);
             anim.SetBool("Active", true);
             StartScoreAnimation();
             Invoke("CloseAnim", during);
         }
 
-        private void PlayWrongSkore()
+        public void PlayWrongSkore()
         {
-            targetScore -= 5;
+            targetScore -= 1;
             StartScoreAnimation();
             anim.SetBool("Active", true);
             Invoke("CloseAnim", during);

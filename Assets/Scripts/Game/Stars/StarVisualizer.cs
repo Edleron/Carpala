@@ -3,6 +3,8 @@ namespace Game.Stars
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
+    using Game.Speed;
+    using Edleron.Events;
     using TMPro;
     public class StarVisualizer : MonoBehaviour
     {
@@ -10,19 +12,32 @@ namespace Game.Stars
 
         private Animator anim;
         private TextMeshPro textObje;
-        private int count = 60;
+        private int count = 140;
         private Coroutine counterCoroutine;
+
+
+        private int currentScore = 0;
+        private int targetScore = 0;
+        private float elapsedTime = 0f;
+        private float during = 0.5f;
+
 
         private void Awake()
         {
             Instance = this;
+            targetScore = 0;
+            currentScore = 0;
             anim = GetComponent<Animator>();
             textObje = this.gameObject.transform.GetChild(0).GetComponent<TextMeshPro>();
         }
 
-        private void Start()
+        public int GetCount()
         {
-            // Coroutine'u başlat
+            return count;
+        }
+        public void SetCount(int value)
+        {
+            count = value;
             StartingCounter();
         }
 
@@ -44,10 +59,13 @@ namespace Game.Stars
         {
             count--;
             textObje.text = count.ToString();
+            SpeedVisualizer.Instance.CountSliderValue();
 
             if (count <= 0)
             {
-                count = 60;
+                count = 140;
+                StopCounter();
+                EventManager.Fire_onEndLevel();
             }
         }
 
@@ -61,14 +79,42 @@ namespace Game.Stars
             }
         }
 
+        public void StartTimeAnimation()
+        {
+            StopCounter();
+            elapsedTime = 0f;
+            targetScore = (count - 20);
+            StartCoroutine(AnimateScore());
+        }
+
+        private IEnumerator AnimateScore()
+        {
+            while (elapsedTime < during)
+            {
+                elapsedTime += Time.deltaTime;
+                float t = Mathf.Clamp01(elapsedTime / during);
+
+                // Yeni skoru hesapla ve UI üzerinde güncelle
+                int newScore = Mathf.RoundToInt(Mathf.Lerp(currentScore, targetScore, t));
+                textObje.text = newScore.ToString();
+
+                yield return null;
+            }
+
+            // Son skoru göster
+            textObje.text = targetScore.ToString();
+            currentScore = targetScore;
+            count = currentScore;
+            StartingCounter();
+        }
+
         private void OnEnable()
         {
-            counterCoroutine = StartCoroutine(StartCounter());
+            StartingCounter();
         }
 
         private void OnDisable()
         {
-            // Script yok edildiğinde Coroutine'u durdur
             StopCounter();
         }
     }
