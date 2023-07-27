@@ -82,6 +82,7 @@ namespace Game.Field
             {
                 state = FieldDetectState.Moving;
             }
+            // TODO -> Lock False Edilmesi Gerekiyor, Ama Oyun Hızlı Olduğu İçin Patlıyor.
             else
             {
                 EventManager.Fire_onSwipeLock(false);
