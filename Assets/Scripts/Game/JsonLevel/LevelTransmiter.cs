@@ -14,8 +14,8 @@ namespace Game.JsonLevel
 
         public LevelTransmiter()
         {
-            currentLevel = 0; // Todo
-            currentSection = 5; // Todo
+            currentLevel = 0;
+            currentSection = 5;
             levelDataList = LoadLevelDataFromSource();
         }
 
@@ -51,7 +51,7 @@ namespace Game.JsonLevel
 
         public LevelData GetLevelData()
         {
-            return levelDataList[currentLevel]; // Todo
+            return levelDataList[currentLevel];
         }
 
         public int GetSectionData()
@@ -61,7 +61,7 @@ namespace Game.JsonLevel
 
         private List<LevelData> LoadLevelDataFromSource()
         {
-            string filePath = Application.dataPath + "/LevelData.json"; // Todo
+            string filePath = Application.dataPath + "/LevelData.json";
             if (File.Exists(filePath))
             {
                 try
