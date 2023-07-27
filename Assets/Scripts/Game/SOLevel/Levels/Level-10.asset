@@ -18,10 +18,10 @@ MonoBehaviour:
     LevelDescription: This is Game Level 60 & 100
     LevelDifficulty: Difficult
     TargetScore: 500
-    RotatineSpeed: 90
+    RotatineSpeed: 60
     VisibleStamp: 5
     PrepareStamp: 0100000003000000040000000500000007000000
-    PrepareValue: 3c00000046000000500000005a00000064000000
+    PrepareValue: 3c0000005a000000640000005000000046000000
     PrepareResult:
     - result: 60
       valueOne: 1

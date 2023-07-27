@@ -18,10 +18,10 @@ MonoBehaviour:
     LevelDescription: This is Test Level; Game Learning Phase
     LevelDifficulty: Easy
     TargetScore: 100
-    RotatineSpeed: 20
+    RotatineSpeed: 40
     VisibleStamp: 3
     PrepareStamp: 010000000400000007000000
-    PrepareValue: 010000000200000004000000
+    PrepareValue: 010000000400000002000000
     PrepareResult:
     - result: 1
       valueOne: 1

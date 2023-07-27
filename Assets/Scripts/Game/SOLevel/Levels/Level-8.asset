@@ -18,7 +18,7 @@ MonoBehaviour:
     LevelDescription: This is Game Level 45 & 81
     LevelDifficulty: Difficult
     TargetScore: 400
-    RotatineSpeed: 70
+    RotatineSpeed: 55
     VisibleStamp: 5
     PrepareStamp: 0100000003000000040000000500000007000000
     PrepareValue: 2d000000360000003f0000004800000051000000

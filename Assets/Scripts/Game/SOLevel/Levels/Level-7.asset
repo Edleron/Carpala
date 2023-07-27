@@ -18,7 +18,7 @@ MonoBehaviour:
     LevelDescription: This is Game Level 9 & 36
     LevelDifficulty: Difficult
     TargetScore: 300
-    RotatineSpeed: 70
+    RotatineSpeed: 55
     VisibleStamp: 4
     PrepareStamp: 00000000020000000400000006000000
     PrepareValue: 09000000120000001b00000024000000
