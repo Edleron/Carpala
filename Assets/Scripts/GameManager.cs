@@ -1,17 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Game.Card;
 using Game.Pump;
 using Game.Pull;
 using Game.SOLevel;
-using Game.Panel;
-using Game.Stars;
-using Game.Rhythmic;
 using Game.MotivationText;
 using Game.UI;
+using Game.PlayerPrefs;
 using Edleron.Events;
-using System.IO;
+using Game.Heart;
+using Game.Stars;
+
 
 public enum TutorialState
 {
@@ -23,14 +21,8 @@ public enum TutorialState
 
 public class GameManager : MonoBehaviour
 {
-    // Todo -> Swipe'lar yapıldığında, baykus ve pull aynı anda hareket etmemelidir.
-    // -> Düş yeri,
-    // -> Normal oyunlar kaybettiriyor -£eüitsel oyunlar kaybetmek yok ! daha kolay kazanma.
-    // Bu sebeple ara ekran tasarlanakcak !
-
-    // Tüm kombinasyonlar -> 4 * 6, 3 * 8 - 2 Yapıalcak !
-    // çocuklar, parmakları küçük olduğu için parmak boyutuna dikkat et
     private TutorialState tutorialState = TutorialState.Inactive;
+    public PlayerPrefsManager pPrefManager;
 
     private void Awake()
     {
@@ -40,10 +32,10 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         TutorialsActive();
+        LevelGenerating();
         // PumpManager.Instance.StartPumping();
         PullManager.Instance.StartPulling();
         CardManager.Instance.StartCarding();
-        Invoke("TutorialsDownActive", 3f);
     }
 
     private void OnEnable()
@@ -51,6 +43,7 @@ public class GameManager : MonoBehaviour
         EventManager.onEndLevel += EndLEvel;
         EventManager.onNewLevel += NewLevel;
         EventManager.onRepeatLevel += RepeatLevel;
+        EventManager.onUITrigger += UITrigger;
     }
 
     private void OnDisable()
@@ -58,39 +51,78 @@ public class GameManager : MonoBehaviour
         EventManager.onEndLevel -= EndLEvel;
         EventManager.onNewLevel -= NewLevel;
         EventManager.onRepeatLevel -= RepeatLevel;
+        EventManager.onUITrigger -= UITrigger;
     }
 
     private void EndLEvel()
     {
         Debug.Log("End Level");
+        EventManager.Fire_onSwipeLock(true);
+        LevelGenerating();
         CardManager.Instance.EndCarding();
+        StarVisualizer.Instance.StopCounter();
+        pPrefManager.SaveLevel(LevelManager.Instance.GetLevelIndex());
     }
 
     private void NewLevel()
     {
         Debug.Log("New Level");
+        LevelManager.Instance.SetRoundCount();
+        EventManager.Fire_onSwipeLock(false);
         MTextVisualizer.Instance.SetNewLevel();
-        int levelIndex = LevelManager.Instance.GetLevelIndex();
-
-        RhythmicManager.Instance.SaveResultListToJson(Path.Combine(Application.streamingAssetsPath, "rhythmicList.json")); // ResultList'i JSON dosyasına kaydet
-        // RhythmicManager.Instance.LoadResultListFromJson(Path.Combine(Application.streamingAssetsPath, "rhythmicList.json")); // JSON dosyasından ResultList'i yükle
-
+        HeardVisualizer.Instance.SetSkore(5);
+        StarVisualizer.Instance.SetCount(140);
         PumpManager.Instance.StartPumping();
-        // CardManager.Instance.StartCarding();
         CardManager.Instance.NewCard();
     }
 
     private void RepeatLevel()
     {
         Debug.Log("Repeat Level");
-        PumpManager.Instance.StartPumping();
+        LevelManager.Instance.SetRoundCount();
+        EventManager.Fire_onSwipeLock(false);
         MTextVisualizer.Instance.SetRepeatLevel();
-        CardManager.Instance.StartCarding();
+        HeardVisualizer.Instance.SetSkore(5);
+        StarVisualizer.Instance.SetCount(140);
+        PumpManager.Instance.StartPumping();
+        CardManager.Instance.NewCard();
+    }
+
+    private void LevelGenerating()
+    {
+        int levelIndex = LevelManager.Instance.GetLevelIndex();
+        if (levelIndex > 10)
+        {
+            LevelManager.Instance.LevelGenerate();
+        }
+    }
+
+    private void UITrigger(string value)
+    {
+        switch (value)
+        {
+            case "CloseTutorialDownPanel":
+                TutorialsDownPassive();
+                break;
+            case "CloseTutorialUpPanel":
+                TutorialsUpPassive();
+                break;
+        }
     }
 
     private void TutorialsActive()
     {
-        EventManager.Fire_onSwipeLock(true);
+        bool triggerTutorials = LevelManager.Instance.GetTutorialLevel();
+        if (triggerTutorials)
+        {
+            EventManager.Fire_onSwipeLock(true);
+            UIVisualizer.Instance.locked = false;
+            Invoke("TutorialsDownActive", 2f);
+        }
+        else
+        {
+            UIVisualizer.Instance.locked = true;
+        }
     }
 
     // Invoke
@@ -99,14 +131,9 @@ public class GameManager : MonoBehaviour
         bool level = LevelManager.Instance.GetTutorialLevel();
         if (level && tutorialState == TutorialState.Inactive)
         {
-            UIVisualizer.Instance.locked = true;
-
             tutorialState = TutorialState.Down;
             CardManager.Instance.PauseGame();
-            StarVisualizer.Instance.StopCounter();
-            PanelTutorials.Instance.DownTutorials(true);
-            EventManager.onSwipeDown += TutorialsDownPassive;
-            EventManager.Fire_onSwipeLock(false);
+            UIVisualizer.Instance.DownTutorials();
         }
     }
 
@@ -116,11 +143,7 @@ public class GameManager : MonoBehaviour
         {
             tutorialState = TutorialState.Inactive;
             CardManager.Instance.ResumeGame();
-            StarVisualizer.Instance.StartingCounter();
-            PanelTutorials.Instance.DownTutorials(false);
-            EventManager.onSwipeDown -= TutorialsDownPassive;
-            EventManager.Fire_onSwipeLock(true);
-            Invoke("TutorialsUpActive", 3.0f);
+            Invoke("TutorialsUpActive", 2.0f);
         }
     }
 
@@ -132,10 +155,7 @@ public class GameManager : MonoBehaviour
         {
             tutorialState = TutorialState.Up;
             CardManager.Instance.PauseGame();
-            StarVisualizer.Instance.StopCounter();
-            PanelTutorials.Instance.UpTutorials(true);
-            EventManager.onSwipeUp += TutorialsUpPassive;
-            EventManager.Fire_onSwipeLock(false);
+            UIVisualizer.Instance.UpTutorials();
         }
     }
 
@@ -145,13 +165,9 @@ public class GameManager : MonoBehaviour
         {
             tutorialState = TutorialState.Passive;
             CardManager.Instance.ResumeGame();
-            PanelTutorials.Instance.UpTutorials(false);
-            StarVisualizer.Instance.StartingCounter();
-            EventManager.onSwipeUp -= TutorialsUpPassive;
-
             LevelManager.Instance.SetTutorialLevel();
-
-            UIVisualizer.Instance.locked = false;
+            UIVisualizer.Instance.locked = true;
+            EventManager.Fire_onSwipeLock(false);
         }
     }
 }
