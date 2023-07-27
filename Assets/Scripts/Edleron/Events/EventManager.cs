@@ -49,6 +49,9 @@ namespace Edleron.Events
         #region UI Eventleri
         public static event Action<string> onUITrigger;
         public static void Fire_onUITrigger(string value) { onUITrigger?.Invoke(value); }
+
+        public static event Action<int> onUISlider;
+        public static void Fire_onUISlider(int value) { onUISlider?.Invoke(value); }
         #endregion
     }
 }
