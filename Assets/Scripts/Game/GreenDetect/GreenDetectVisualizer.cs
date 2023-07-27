@@ -26,7 +26,7 @@ namespace GreenDetect
                 }
 
                 // Renk değişimi Coroutine'ini başlatın
-                colorChangeCoroutine = StartCoroutine(ChangeColorCoroutine(Color.white, 0.5f));
+                colorChangeCoroutine = StartCoroutine(ChangeColorCoroutine(Color.white, 0.15f));
             }
         }
 
@@ -41,7 +41,7 @@ namespace GreenDetect
                 }
 
                 // Renk değişimi Coroutine'ini başlatın
-                colorChangeCoroutine = StartCoroutine(ChangeColorCoroutine(Color.red, 0.5f));
+                colorChangeCoroutine = StartCoroutine(ChangeColorCoroutine(Color.red, 0.15f));
             }
         }
 
