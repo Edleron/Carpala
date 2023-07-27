@@ -6,6 +6,9 @@ namespace Game.Card
     using Game.SOLevel;
     using Game.Field;
     using Edleron.Events;
+    using Game.Speed;
+    using Game.Heart;
+    using Game.Stars;
     using TMPro;
 
     public class CardVisualizer : MonoBehaviour
@@ -16,7 +19,7 @@ namespace Game.Card
 
         public List<GameObject> stamp = new List<GameObject>();
 
-        [HideInInspector] public float rotationSpeed = 1.0f;
+        public float rotationSpeed = 1.0f;
         [HideInInspector] public bool rotationControl = false;
 
         private void Awake()
@@ -25,6 +28,21 @@ namespace Game.Card
             rotationControl = false;
             animator = GetComponent<Animator>();
             cardShake = GetComponent<CardShake>();
+        }
+
+        private void OnEnable()
+        {
+            EventManager.onUISlider += SetSpeed;
+        }
+
+        private void OnDisable()
+        {
+            EventManager.onUISlider -= SetSpeed;
+        }
+
+        private void SetSpeed(int value)
+        {
+            rotationSpeed = value;
         }
 
         private void Update()
@@ -49,6 +67,7 @@ namespace Game.Card
         {
             // Set Rotation
             rotationSpeed = LevelManager.Instance.GetRotationSpeed();
+            SpeedVisualizer.Instance.SetSliderValue((int)rotationSpeed);
         }
 
         public void StampFalse()
@@ -63,20 +82,15 @@ namespace Game.Card
         public IEnumerator CardGenerate(int wait)
         {
             yield return new WaitForSeconds(wait);
-
             var arr = LevelManager.Instance.GetPrepareField();
-
             var values = LevelManager.Instance.GetFieldValue();
 
             for (int i = 0; i < arr.Length; i++)
             {
                 stamp[arr[i]].SetActive(true);
-
-                // TODO
                 Transform stampObje = stamp[arr[i]].transform.GetChild(3);
                 TextMeshPro textObje = stampObje.GetComponent<TextMeshPro>();
                 FieldRotate fieldRotate = stampObje.GetComponent<FieldRotate>();
-
                 textObje.text = values[i].ToString();
                 fieldRotate.FieldRotating(rotationSpeed, rotationControl);
             }
@@ -129,12 +143,19 @@ namespace Game.Card
         // Animation Events
         public void CardAnimActiveTrue()
         {
-            EventManager.Fire_onNewLevel();
+            if (HeardVisualizer.Instance.GetSkore() < 1 || StarVisualizer.Instance.GetCount() < 1)
+            {
+                EventManager.Fire_onRepeatLevel();
+            }
+            else
+            {
+                EventManager.Fire_onNewLevel();
+            }
+
             animator.SetBool("active", true);
         }
         private void CardAnimActiveFalse()
         {
-            // EventManager.Fire_onNewLevel();
             animator.SetBool("active", false);
         }
         public void CardAnimPassiveTrue()

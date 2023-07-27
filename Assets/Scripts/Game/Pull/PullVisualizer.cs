@@ -39,13 +39,7 @@ namespace Game.Pull
         }
         private void PullAnimActiveFalse()
         {
-            var Tutorials = LevelManager.Instance.GetTutorialLevel();
-
-            if (!Tutorials)
-            {
-                EventManager.Fire_onSwipeLock(false);
-            }
-
+            EventManager.Fire_onSwipeLock(false);
             animator.SetBool("active", false);
         }
         public void PullAnimPassiveTrue()
@@ -55,7 +49,7 @@ namespace Game.Pull
         private void PullAnimPassiveFalse()
         {
             animator.SetBool("passive", false);
-            Debug.Log("Pull Generate");
+            // Debug.Log("Pull Generate");
             PullGenerate();
             PullAnimActiveTrue();
         }

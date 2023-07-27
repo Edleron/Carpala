@@ -18,7 +18,7 @@ namespace Game.Pump
 
         public void StartPumping()
         {
-            pumpController.pumpVisualizer.PumpAnimActiveTrue(); // TODO
+            pumpController.pumpVisualizer.PumpAnimActiveTrue();
         }
     }
 }
