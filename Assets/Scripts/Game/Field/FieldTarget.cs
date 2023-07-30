@@ -13,11 +13,8 @@ namespace Game.Field
         {
             if (other.CompareTag(Constants.Zone))
             {
-
                 TextMeshPro textObje = other.gameObject.transform.GetChild(3).GetComponent<TextMeshPro>();
-                LevelManager.Instance.CheckResult(int.Parse(textObje.text));
-                // TODO -> Lock False Edilmesi Gerekiyor, Ama Oyun Hızlı Olduğu İçin Patlıyor.
-                // EventManager.Fire_onSwipeLock(false);
+                EventManager.Fire_onResult(int.Parse(textObje.text));
             }
         }
     }
