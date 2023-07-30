@@ -1,4 +1,4 @@
-namespace GreenDetect
+namespace Game.GreenDetect
 {
     using System.Collections;
     using System.Collections.Generic;
@@ -6,19 +6,24 @@ namespace GreenDetect
 
     public class GreenDetectVisualizer : MonoBehaviour
     {
-        private SpriteRenderer rend;
+        public static GreenDetectVisualizer Instance { get; private set; }
 
+        private SpriteRenderer rend;
         private Coroutine colorChangeCoroutine; // Renk değişimi Coroutine referansı
+        private string DetectName = "None";
 
         private void Awake()
         {
+            Instance = this;
             rend = GetComponent<SpriteRenderer>();
+            DetectName = "None";
         }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (other.CompareTag(Constants.Zone))
             {
+                DetectName = other.name;
                 if (colorChangeCoroutine != null)
                 {
                     // Eğer bir renk değişimi Coroutine'i çalışıyorsa, durdurun
@@ -34,6 +39,7 @@ namespace GreenDetect
         {
             if (other.CompareTag(Constants.Zone))
             {
+                DetectName = "None";
                 if (colorChangeCoroutine != null)
                 {
                     // Eğer bir renk değişimi Coroutine'i çalışıyorsa, durdurun
@@ -62,6 +68,11 @@ namespace GreenDetect
 
             // Renk değişimi Coroutine'i tamamlandıktan sonra Coroutine referansını temizleyin
             colorChangeCoroutine = null;
+        }
+
+        public string GetDetectName()
+        {
+            return DetectName;
         }
     }
 
