@@ -12,6 +12,7 @@ namespace Game.Speed
         public static SpeedVisualizer Instance { get; private set; }
         private Slider slider;
         private float previousSliderValue = 0;
+        private bool locked = false;
 
         private void Awake()
         {
@@ -27,21 +28,25 @@ namespace Game.Speed
             slider.value = (slider.maxValue + slider.minValue) / 2;
 
             previousSliderValue = slider.value;
+            locked = true;
         }
 
         public void OnChangedValue()
         {
-            float currentSliderValue = slider.value;
-            float difference = Mathf.Abs(currentSliderValue - previousSliderValue);
-
-            if (difference >= 5f)
+            if (locked)
             {
-                StarVisualizer.Instance.StartTimeAnimation();
-            }
-            previousSliderValue = currentSliderValue;
+                float currentSliderValue = slider.value;
+                float difference = Mathf.Abs(currentSliderValue - previousSliderValue);
 
-            // Set Rotate
-            EventManager.Fire_onUISlider((int)slider.value);
+                if (difference >= 5f)
+                {
+                    StarVisualizer.Instance.ScoreTimerUpdated();
+                }
+                previousSliderValue = currentSliderValue;
+
+                // Set Rotate
+                EventManager.Fire_onUISlider((int)slider.value);
+            }
         }
 
         public void CountSliderValue()
