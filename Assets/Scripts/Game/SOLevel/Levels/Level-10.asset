@@ -21,7 +21,7 @@ MonoBehaviour:
     RotatineSpeed: 60
     VisibleStamp: 5
     PrepareStamp: 0100000003000000040000000500000007000000
-    PrepareValue: 3c0000005a000000640000005000000046000000
+    PrepareValue: 3c0000005a000000500000006400000046000000
     PrepareResult:
     - result: 60
       valueOne: 1
@@ -150,11 +150,11 @@ MonoBehaviour:
       valueOne: 10
       valueTwo: 9
     - result: 100
-      valueOne: 1
-      valueTwo: 100
+      valueOne: 10
+      valueTwo: 10
     - result: 100
-      valueOne: 100
-      valueTwo: 1
+      valueOne: 10
+      valueTwo: 10
     - result: 100
       valueOne: 2
       valueTwo: 50
@@ -173,6 +173,3 @@ MonoBehaviour:
     - result: 100
       valueOne: 20
       valueTwo: 5
-    - result: 100
-      valueOne: 10
-      valueTwo: 10
