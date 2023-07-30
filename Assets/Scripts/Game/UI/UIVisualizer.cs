@@ -10,19 +10,33 @@ namespace Game.UI
     public class UIVisualizer : MonoBehaviour
     {
         public static UIVisualizer Instance { get; private set; }
-
         public List<Transform> ButtonList = new List<Transform>();
-        public List<GameObject> GamePanelList = new List<GameObject>();
         public List<GameObject> MenuPanelList = new List<GameObject>();
-        public List<GameObject> TutorialsPanelList = new List<GameObject>();
-        public PlayerPrefsManager pPrefManager;
-        [HideInInspector] public bool locked = false;
+        public GameObject UIMenuPanel;
+        public GameObject GameMenuPanel;
+        public GameObject SliderPanel;
+        public GameObject TutorialsPanel;
+        public List<GameObject> TutorialState;
+        private int TutorialCount = 0;
+        private bool locked { get; set; }
 
         private void Awake()
         {
             Instance = this;
+            TutorialCount = -1;
             ButtonListNameSet();
         }
+
+        private void Start()
+        {
+            locked = true;
+        }
+
+        public void SetUILocked(bool value)
+        {
+            locked = value;
+        }
+
 
         private void ButtonListNameSet()
         {
@@ -32,7 +46,7 @@ namespace Game.UI
 
             // TOP Menu
             ButtonList[2].name = Constants.Closed;
-            ButtonList[3].name = Constants.Achievements;
+            ButtonList[3].name = Constants.Restart;
             ButtonList[4].name = Constants.Sound;
             ButtonList[5].name = Constants.Back;
 
@@ -43,154 +57,130 @@ namespace Game.UI
             ButtonList[9].name = Constants.Preferences;
         }
 
-        private void OnEnable()
+        public void onClick_Setting()
         {
-            EventManager.onUITrigger += UITrigger;
-        }
-
-        private void OnDisable()
-        {
-            EventManager.onUITrigger -= UITrigger;
-        }
-
-        public void DownTutorials()
-        {
-            GamePanelList[0].SetActive(false);
-            GamePanelList[1].SetActive(true);
-            GamePanelList[2].SetActive(true);
-            GamePanelList[3].SetActive(false);
-            TutorialsPanelList[0].SetActive(true);
-        }
-
-        public void UpTutorials()
-        {
-            GamePanelList[0].SetActive(false);
-            GamePanelList[1].SetActive(true);
-            GamePanelList[2].SetActive(true);
-            GamePanelList[3].SetActive(false);
-            TutorialsPanelList[0].SetActive(false);
-            TutorialsPanelList[1].SetActive(true);
-        }
-
-        private void UITrigger(string value)
-        {
-            if (locked)
+            if (!locked)
             {
-                switch (value)
+                return;
+            }
+
+            UIMenuPanel.SetActive(true);
+            SliderPanel.SetActive(false);
+            GameMenuPanel.SetActive(false);
+            TutorialsPanel.SetActive(false);
+
+            OpenMenuPanel(0);
+        }
+
+        public void onClick_Clue()
+        {
+            if (!locked)
+            {
+                return;
+            }
+            OpenMenuPanel(1);
+
+            UIMenuPanel.SetActive(false);
+            SliderPanel.SetActive(false);
+            GameMenuPanel.SetActive(false);
+            TutorialsPanel.SetActive(true);
+
+            TutorialCount = -1;
+            foreach (var item in TutorialState)
+            {
+                item.SetActive(false);
+            }
+            onTutorial_Clue();
+        }
+
+        public bool onTutorial_Clue()
+        {
+            TutorialCount++;
+
+            if (TutorialCount == 7)
+            {
+                UIMenuPanel.SetActive(false);
+                SliderPanel.SetActive(true);
+                GameMenuPanel.SetActive(true);
+                TutorialsPanel.SetActive(false);
+
+                return true;
+            }
+
+            SliderPanel.SetActive(TutorialCount == 4 ? true : false);
+
+            for (var i = 0; i < TutorialState.Count; i++)
+            {
+                TutorialState[i].SetActive(false);
+                if (i == TutorialCount)
                 {
-                    case Constants.Settings:
-                        GamePanelList[0].SetActive(false);
-                        GamePanelList[1].SetActive(true);
-                        GamePanelList[2].SetActive(false);
-                        GamePanelList[3].SetActive(false);
-
-                        MenuPanelList[0].SetActive(true);
-                        MenuPanelList[1].SetActive(false);
-                        MenuPanelList[2].SetActive(false);
-                        MenuPanelList[3].SetActive(false);
-                        MenuPanelList[4].SetActive(false);
-                        break;
-                    case Constants.Clue:
-                        GamePanelList[0].SetActive(false);
-                        GamePanelList[1].SetActive(true);
-                        GamePanelList[2].SetActive(false);
-                        GamePanelList[3].SetActive(false);
-
-                        MenuPanelList[0].SetActive(false);
-                        MenuPanelList[1].SetActive(false);
-                        MenuPanelList[2].SetActive(false);
-                        MenuPanelList[3].SetActive(true);
-                        MenuPanelList[4].SetActive(false);
-                        break;
-                    case Constants.Closed:
-                        GamePanelList[0].SetActive(true);
-                        GamePanelList[1].SetActive(false);
-                        GamePanelList[2].SetActive(false);
-                        GamePanelList[3].SetActive(true);
-
-                        MenuPanelList[0].SetActive(true);
-                        MenuPanelList[1].SetActive(false);
-                        MenuPanelList[2].SetActive(false);
-                        MenuPanelList[3].SetActive(false);
-                        MenuPanelList[4].SetActive(false);
-                        break;
-                    case Constants.Achievements:
-                        MenuPanelList[0].SetActive(false);
-                        MenuPanelList[1].SetActive(false);
-                        MenuPanelList[2].SetActive(false);
-                        MenuPanelList[3].SetActive(false);
-                        MenuPanelList[4].SetActive(false);
-
-                        GamePanelList[0].SetActive(true);
-                        GamePanelList[1].SetActive(false);
-                        GamePanelList[2].SetActive(false);
-                        GamePanelList[3].SetActive(true);
-
-                        EventManager.Fire_onEndLevel();
-                        pPrefManager.SaveHeart(5);
-                        pPrefManager.SaveLevel(0);
-                        break;
-                    case Constants.Sound:
-                        // Todo
-                        break;
-                    case Constants.Back:
-                        MenuPanelList[0].SetActive(true);
-                        MenuPanelList[1].SetActive(false);
-                        MenuPanelList[2].SetActive(false);
-                        MenuPanelList[3].SetActive(false);
-                        MenuPanelList[4].SetActive(false);
-                        break;
-                    case Constants.Info:
-                        MenuPanelList[0].SetActive(false);
-                        MenuPanelList[1].SetActive(true);
-                        MenuPanelList[2].SetActive(false);
-                        MenuPanelList[3].SetActive(false);
-                        MenuPanelList[4].SetActive(false);
-                        break;
-                    case Constants.Rhythmic:
-                        MenuPanelList[0].SetActive(false);
-                        MenuPanelList[1].SetActive(false);
-                        MenuPanelList[2].SetActive(true);
-                        MenuPanelList[3].SetActive(false);
-                        MenuPanelList[4].SetActive(false);
-                        break;
-                    case Constants.Played:
-                        MenuPanelList[0].SetActive(false);
-                        MenuPanelList[1].SetActive(false);
-                        MenuPanelList[2].SetActive(false);
-                        MenuPanelList[3].SetActive(true);
-                        MenuPanelList[4].SetActive(false);
-                        break;
-                    case Constants.Preferences:
-                        MenuPanelList[0].SetActive(false);
-                        MenuPanelList[1].SetActive(false);
-                        MenuPanelList[2].SetActive(false);
-                        MenuPanelList[3].SetActive(false);
-                        MenuPanelList[4].SetActive(true);
-                        break;
+                    TutorialState[i].SetActive(true);
                 }
             }
 
-            if (LevelManager.Instance.GetTutorialLevel())
+            return false;
+        }
+
+        public void onClick_Closed()
+        {
+
+            UIMenuPanel.SetActive(false);
+            SliderPanel.SetActive(true);
+            GameMenuPanel.SetActive(true);
+            TutorialsPanel.SetActive(false);
+
+            OpenMenuPanel(0);
+        }
+
+        public void onClick_Restart()
+        {
+
+            UIMenuPanel.SetActive(false);
+            SliderPanel.SetActive(true);
+            GameMenuPanel.SetActive(true);
+            TutorialsPanel.SetActive(false);
+
+            OpenMenuPanel(-1);
+        }
+
+        public void onClick_Sound()
+        {
+            // TODO
+        }
+
+        public void onClick_Back()
+        {
+            OpenMenuPanel(0);
+        }
+
+        public void onClick_Info()
+        {
+            OpenMenuPanel(1);
+        }
+
+        public void onClick_Rhythmic()
+        {
+            OpenMenuPanel(2);
+        }
+
+        public void onClick_Played()
+        {
+            OpenMenuPanel(3);
+        }
+
+        public void onClick_Preferences()
+        {
+            OpenMenuPanel(4);
+        }
+
+        private void OpenMenuPanel(int value)
+        {
+            for (int i = 0; i < MenuPanelList.Count; i++)
             {
-                switch (value)
+                MenuPanelList[i].SetActive(false);
+                if (i == value)
                 {
-                    case Constants.BtnPanelSwipeDown:
-                        GamePanelList[0].SetActive(true);
-                        GamePanelList[1].SetActive(false);
-                        GamePanelList[2].SetActive(false);
-                        GamePanelList[3].SetActive(true);
-                        TutorialsPanelList[0].SetActive(false);
-                        EventManager.Fire_onUITrigger("CloseTutorialDownPanel");
-                        break;
-                    case Constants.BtnPanelSwipeUp:
-                        GamePanelList[0].SetActive(true);
-                        GamePanelList[1].SetActive(false);
-                        GamePanelList[2].SetActive(false);
-                        GamePanelList[3].SetActive(true);
-                        TutorialsPanelList[1].SetActive(false);
-                        EventManager.Fire_onUITrigger("CloseTutorialUpPanel");
-                        break;
+                    MenuPanelList[i].SetActive(true);
                 }
             }
         }
