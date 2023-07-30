@@ -16,6 +16,7 @@ namespace Game.Field
             }
         }
 
+        #region ROTATIONSPEEDFEATURE
         private void OnEnable()
         {
             transform.rotation = Quaternion.identity;
@@ -31,6 +32,7 @@ namespace Game.Field
         {
             rotationSpeed = -1 * value;
         }
+        #endregion
 
         public void FieldRotating(float speed, bool control)
         {
