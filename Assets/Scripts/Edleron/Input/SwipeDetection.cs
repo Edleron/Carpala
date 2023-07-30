@@ -52,8 +52,6 @@ namespace Edleron.Input
                     EventManager.Fire_onUITrigger(ts.name);
                 }
             }
-
-            Debug.Log("Pressed");
         }
 
         private void SwipeStart(Vector2 position, float time)
@@ -78,21 +76,15 @@ namespace Edleron.Input
         {
             if (!locked)
             {
-                locked = true;
-
                 if (Vector3.Distance(startPosition, endPosition) >= mininumDistance && (endTime - startTime) <= maximumTime)
                 {
-                    Debug.Log("Swipe Detected");
+                    // Debug.Log("Swipe Detected");
                     AudioManager.Instance.PlaySwipeClip();
                     Debug.DrawLine(startPosition, endPosition, Color.red, 5f);
 
                     Vector3 direction = endPosition - startPosition;
                     Vector2 direction2D = new Vector3(direction.x, direction.y).normalized;
                     SwipeDirection(direction2D);
-                }
-                else
-                {
-                    locked = false;
                 }
             }
         }
@@ -101,28 +93,25 @@ namespace Edleron.Input
         {
             if (Vector2.Dot(Vector2.up, direction) > directionThreshold)
             {
-                Debug.Log("Swipe Up");
+                // Debug.Log("Swipe Up");
                 EventManager.Fire_onSwipeUp();
             }
             else if (Vector2.Dot(Vector2.down, direction) > directionThreshold)
             {
-                Debug.Log("Swipe Down");
+                // Debug.Log("Swipe Down");
                 EventManager.Fire_onSwipeDown();
             }
             else if (Vector2.Dot(Vector2.left, direction) > directionThreshold)
             {
-                locked = false;
-                Debug.Log("Swipe Left");
+                // Debug.Log("Swipe Left");
             }
             else if (Vector2.Dot(Vector2.right, direction) > directionThreshold)
             {
-                locked = false;
-                Debug.Log("Swipe Right");
+                // Debug.Log("Swipe Right");
             }
             else
             {
-                locked = false;
-                Debug.Log("Swipe Error");
+                // Debug.Log("Swipe Error");
             }
         }
     }
