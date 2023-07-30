@@ -10,7 +10,6 @@ namespace Game.Heart
     public class HeardVisualizer : MonoBehaviour
     {
         public static HeardVisualizer Instance { get; private set; }
-        public PlayerPrefsManager pPrefManager;
         private Animator anim;
         private TextMeshPro textObje;
         private int currentScore = 0;
@@ -21,12 +20,20 @@ namespace Game.Heart
         private void Awake()
         {
             Instance = this;
-            targetScore = pPrefManager.LoadHeart();
-            currentScore = pPrefManager.LoadHeart();
             anim = GetComponent<Animator>();
+            targetScore = 0;
+            currentScore = 0;
             textObje = this.gameObject.transform.GetChild(0).GetComponent<TextMeshPro>();
-            textObje.text = targetScore.ToString();
+
         }
+        private void Start()
+        {
+            currentScore = PlayerPrefsManager.Instance.LoadHeart();
+            textObje.text = currentScore.ToString();
+            targetScore = currentScore;
+            Debug.Log("Heart -> " + currentScore);
+        }
+
         private void OnEnable()
         {
             EventManager.onCorrect += PlayCorrectSkore;
@@ -41,54 +48,57 @@ namespace Game.Heart
 
         public int GetSkore()
         {
-            return targetScore;
+            return currentScore;
         }
 
         public void SetSkore(int value)
         {
             targetScore = value;
-            pPrefManager.SaveHeart(value);
-            StartScoreAnimation();
+            Invoke("CloseAnim", during);
+            anim.SetBool("Active", true);
+
+            PlayerPrefsManager.Instance.SaveHeart(targetScore);
+            ScoreTimerUpdated();
         }
 
         private void PlayCorrectSkore()
         {
-            targetScore += 1;
-            SetSkore(targetScore);
-            anim.SetBool("Active", true);
-            StartScoreAnimation();
-            Invoke("CloseAnim", during);
+            // TODO
+            // targetScore += 1;
+            // Invoke("CloseAnim", during);
+            // anim.SetBool("Active", true);
+
+            // PlayerPrefsManager.Instance.SaveHeart(targetScore);
+            // ScoreTimerUpdated();
         }
 
         public void PlayWrongSkore()
         {
             targetScore -= 1;
-            StartScoreAnimation();
-            anim.SetBool("Active", true);
             Invoke("CloseAnim", during);
+            anim.SetBool("Active", true);
+
+            PlayerPrefsManager.Instance.SaveHeart(targetScore);
+            ScoreTimerUpdated();
         }
 
-        private void StartScoreAnimation()
+        private void ScoreTimerUpdated()
         {
             elapsedTime = 0f;
-            StartCoroutine(AnimateScore());
+            StartCoroutine(AnimatedScore());
         }
 
-        private IEnumerator AnimateScore()
+        private IEnumerator AnimatedScore()
         {
             while (elapsedTime < during)
             {
                 elapsedTime += Time.deltaTime;
                 float t = Mathf.Clamp01(elapsedTime / during);
-
-                // Yeni skoru hesapla ve UI üzerinde güncelle
                 int newScore = Mathf.RoundToInt(Mathf.Lerp(currentScore, targetScore, t));
                 textObje.text = newScore.ToString();
 
                 yield return null;
             }
-
-            // Son skoru göster
             textObje.text = targetScore.ToString();
             currentScore = targetScore;
         }
