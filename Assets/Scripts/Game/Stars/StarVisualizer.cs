@@ -1,26 +1,22 @@
 namespace Game.Stars
 {
     using System.Collections;
-    using System.Collections.Generic;
     using UnityEngine;
     using Game.Speed;
     using Edleron.Events;
     using TMPro;
+
     public class StarVisualizer : MonoBehaviour
     {
         public static StarVisualizer Instance { get; private set; }
 
         private Animator anim;
         private TextMeshPro textObje;
-        private int count = 140;
-        private Coroutine counterCoroutine;
-
-
+        private int Counter = 60;
         private int currentScore = 0;
         private int targetScore = 0;
         private float elapsedTime = 0f;
         private float during = 0.5f;
-
 
         private void Awake()
         {
@@ -33,89 +29,58 @@ namespace Game.Stars
 
         public int GetCount()
         {
-            return count;
+            return Counter;
         }
         public void SetCount(int value)
         {
-            count = value;
-            StartingCounter();
+            Counter = value;
         }
 
-        public void StartingCounter()
+        public void CounterLauncher()
         {
-            counterCoroutine = StartCoroutine(StartCounter());
+            anim.SetBool("Active", true);
         }
 
-        private IEnumerator StartCounter()
+        public void CounterCover()
         {
-            while (true)
-            {
-                anim.SetTrigger("Active");
-                yield return new WaitForSeconds(1f); // 1 saniye bekle
-            }
+            anim.SetBool("Active", false);
         }
 
         private void SetText()
         {
-            count--;
-            textObje.text = count.ToString();
+            Counter--;
+            textObje.text = Counter.ToString();
             SpeedVisualizer.Instance.CountSliderValue();
 
-            if (count <= 0)
+            if (Counter <= 0)
             {
-                count = 140;
-                StopCounter();
-                EventManager.Fire_onEndLevel();
+                CounterCover();
+                EventManager.Fire_onFinishedTime();
             }
         }
 
-        public void StopCounter()
+        public void ScoreTimerUpdated()
         {
-            // Coroutine'u durdur
-            if (counterCoroutine != null)
-            {
-                StopCoroutine(counterCoroutine);
-                counterCoroutine = null;
-            }
-        }
-
-        public void StartTimeAnimation()
-        {
-            StopCounter();
+            CounterCover();
             elapsedTime = 0f;
-            targetScore = (count - 20);
-            StartCoroutine(AnimateScore());
+            targetScore = Counter != 60 ? (Counter - 10) : Counter;
+            StartCoroutine(AnimatedScore());
         }
 
-        private IEnumerator AnimateScore()
+        private IEnumerator AnimatedScore()
         {
             while (elapsedTime < during)
             {
                 elapsedTime += Time.deltaTime;
                 float t = Mathf.Clamp01(elapsedTime / during);
-
-                // Yeni skoru hesapla ve UI üzerinde güncelle
                 int newScore = Mathf.RoundToInt(Mathf.Lerp(currentScore, targetScore, t));
                 textObje.text = newScore.ToString();
-
                 yield return null;
             }
-
-            // Son skoru göster
             textObje.text = targetScore.ToString();
             currentScore = targetScore;
-            count = currentScore;
-            StartingCounter();
-        }
-
-        private void OnEnable()
-        {
-            StartingCounter();
-        }
-
-        private void OnDisable()
-        {
-            StopCounter();
+            Counter = currentScore;
+            CounterLauncher();
         }
     }
 }
