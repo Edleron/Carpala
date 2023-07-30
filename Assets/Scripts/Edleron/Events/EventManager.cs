@@ -3,7 +3,7 @@ namespace Edleron.Events
     using System;
     public class EventManager
     {
-        #region Touch Input System
+        #region INPUT
         // Parmak Yukarı Kaydırma Event'i - Ateş Etme
         public static event Action onSwipeUp;
         public static void Fire_onSwipeUp() { onSwipeUp?.Invoke(); }
@@ -17,11 +17,14 @@ namespace Edleron.Events
         public static void Fire_onSwipeLock(bool value) { onSwipeLock?.Invoke(value); }
 
         // Parmak Basma Event'i
-        public static event Action onTouch;
-        public static void Fire_onTouch() { onTouch?.Invoke(); }
         #endregion
 
-        #region Particle FX Çalıştıran Eventler
+        #region RESULT
+        public static event Action<int> onResult;
+        public static void Fire_onResult(int value) { onResult?.Invoke(value); }
+        #endregion
+
+        #region PARTICLE
         // Explosion Event
         public static event Action onExplosion;
         public static void Fire_onExplosion() { onExplosion?.Invoke(); }
@@ -35,18 +38,12 @@ namespace Edleron.Events
         public static void Fire_onWrong() { onWrong?.Invoke(); }
         #endregion
 
-        #region Level Eventleri
-        public static event Action onEndLevel;
-        public static void Fire_onEndLevel() { onEndLevel?.Invoke(); }
-        // Explosion Event
-        public static event Action onNewLevel;
-        public static void Fire_onNewLevel() { onNewLevel?.Invoke(); }
-
-        public static event Action onRepeatLevel;
-        public static void Fire_onRepeatLevel() { onRepeatLevel?.Invoke(); }
+        #region TIME
+        public static event Action onFinishedTime;
+        public static void Fire_onFinishedTime() { onFinishedTime?.Invoke(); }
         #endregion
 
-        #region UI Eventleri
+        #region UI
         public static event Action<string> onUITrigger;
         public static void Fire_onUITrigger(string value) { onUITrigger?.Invoke(value); }
 
