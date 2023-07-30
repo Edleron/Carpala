@@ -14,7 +14,6 @@ namespace Game.SOLevel
     {
         // Start is called before the first frame update
         public static LevelManager Instance { get; private set; }
-        public PlayerPrefsManager pPrefManager;
 
         public List<LevelDataScriptableObject> levelList;
         private List<int> IndixBlackList = new List<int>();
@@ -22,50 +21,80 @@ namespace Game.SOLevel
         private int RoundIndex { get; set; }
         private int IndisIndex { get; set; }
         private int PullResult { get; set; }
-        private bool TutorialLevel = true;
+        private bool TutorialLevel = false;
 
         private void Awake()
         {
             Instance = this;
-            LevelIndex = LevelIndex = pPrefManager.LoadLevel();
+            LevelIndex = 0;
             PullResult = 0;
             IndisIndex = -1;
             IndixBlackList.Clear();
         }
 
-        #region Level Process
-        public void SetLevelIndex()
+        private void Start()
         {
-            LevelIndex++;
+            LevelIndex = PlayerPrefsManager.Instance.LoadLevel();
+            Debug.Log("Level -> " + LevelIndex);
+        }
+
+        #region Level Process
+        public void SetTutorialLevel()
+        {
+            TutorialLevel = false;
+        }
+        public bool GetTutorialLevel()
+        {
+            return TutorialLevel;
+        }
+
+        public void SetLevelIndex(int value)
+        {
+            LevelIndex = value;
+            PlayerPrefsManager.Instance.SaveLevel(value);
         }
         public int GetLevelIndex()
         {
             return LevelIndex;
         }
 
-        public LevelData GetLevel()
+        public void SetResult(int value)
         {
-            return levelList[LevelIndex].levelData;
+            PullResult = value;
         }
-        public bool GetTutorialLevel()
+        public int GetResult()
         {
-            return TutorialLevel;
+            return PullResult;
         }
-        public void SetTutorialLevel()
+
+        public void SetRoundCount(int value)
         {
-            TutorialLevel = false;
+            RoundIndex = value;
+        }
+        public int GetRoundCount()
+        {
+            return RoundIndex;
+        }
+
+        public int GetStampCount()
+        {
+            return levelList[LevelIndex].levelData.VisibleStamp;
         }
         #endregion
+
 
 
         #region Level Prepare
         public int GetRotationSpeed()
         {
+            // Debug.Log("EEE ->" + LevelIndex);
             return levelList[LevelIndex].levelData.RotatineSpeed;
         }
 
         public int[] GetPrepareField()
         {
+            Debug.Log("EEE ->" + LevelIndex);
+            Debug.Log("EEE ->" + levelList[LevelIndex].levelData.PrepareStamp.Length);
             return levelList[LevelIndex].levelData.PrepareStamp;
         }
 
@@ -83,7 +112,7 @@ namespace Game.SOLevel
             int[] arr = new int[2];
             arr[0] = levelList[LevelIndex].levelData.PrepareResult[IndisIndex].valueOne;
             arr[1] = levelList[LevelIndex].levelData.PrepareResult[IndisIndex].valueTwo;
-            PullResult = arr[0] * arr[1];
+            SetResult(arr[0] * arr[1]);
             return arr;
         }
 
@@ -102,79 +131,26 @@ namespace Game.SOLevel
 
             return index;
         }
-
-        public int GetStampCount()
-        {
-            return levelList[LevelIndex].levelData.VisibleStamp;
-        }
-        public int GetRoundCount()
-        {
-            return RoundIndex;
-        }
-        public void SetRoundCount()
-        {
-            RoundIndex = 0;
-        }
         #endregion
 
-        #region Level Round
-        public void CheckResult(int fieldResult)
+        #region BLACK LIST
+        public void AddBlackList(int levelIndex)
         {
-            RoundIndex++;
+            int length = levelList[levelIndex].levelData.PrepareResult.Length;
+            var data = levelList[levelIndex].levelData.PrepareResult;
 
-            EventManager.Fire_onExplosion();
-
-            if (PullResult == fieldResult)
+            for (int i = 0; i < length; i++)
             {
-                AudioManager.Instance.PlayCorrectShootingClip();
-                EventManager.Fire_onCorrect();
-
-                int length = levelList[LevelIndex].levelData.PrepareResult.Length;
-                var data = levelList[LevelIndex].levelData.PrepareResult;
-
-                for (int i = 0; i < length; i++)
+                if (data[i].result == PullResult)
                 {
-                    if (data[i].result == PullResult)
-                    {
-                        IndixBlackList.Add(i);
-                    }
+                    IndixBlackList.Add(i);
                 }
-
-                RhythmicManager.Instance.ActiveRhytmic(LevelIndex, fieldResult.ToString());
             }
-            else
-            {
-                AudioManager.Instance.PlayWrongShootingClip();
-                EventManager.Fire_onWrong();
-            }
-
-            Invoke("NewRound", 0.25f);
         }
-
-        private void NewRound()
+        public void ClearBlackLiset()
         {
-            if (HeardVisualizer.Instance.GetSkore() < 1)
-            {
-                IndisIndex = -1;
-                IndixBlackList.Clear();
-                SetRoundCount();
-                EventManager.Fire_onEndLevel();
-            }
-            else
-            {
-                int stamp = GetStampCount();
-                int round = GetRoundCount();
-
-                if (stamp == round)
-                {
-                    IndisIndex = -1;
-                    SetRoundCount();
-                    SetLevelIndex();
-                    IndixBlackList.Clear();
-                    EventManager.Fire_onEndLevel();
-                }
-                EventManager.Fire_onSwipeDown();
-            }
+            IndisIndex = -1;
+            IndixBlackList.Clear();
         }
         #endregion
 
@@ -185,23 +161,25 @@ namespace Game.SOLevel
 
             if (data.Count > 0)
             {
+                Debug.Log("RYTMIC");
                 CustomRytmicLevel(data);
             }
             else
             {
+                Debug.Log("CUSTOM");
                 CustomNewLevel();
             }
+        }
+
+        private void CustomRytmicLevel(List<int> data)
+        {
+            List<int> miniData = TakeFirstEight(data, 4);
+            CustomLevel(miniData);
         }
 
         private void CustomNewLevel()
         {
             List<int> data = GenerateRandomPrepare();
-            CustomLevel(data);
-        }
-
-        private void CustomRytmicLevel(List<int> data)
-        {
-            List<int> miniData = TakeFirstEight(data, 8);
             CustomLevel(data);
         }
 
@@ -222,11 +200,40 @@ namespace Game.SOLevel
                 newLevelData.VisibleStamp = data.Count;
 
                 // PrepareStamp dizisini doldurun
-                newLevelData.PrepareStamp = new int[data.Count];
-                for (int j = 0; j < data.Count; j++)
+                if (data.Count == 8)
                 {
-                    newLevelData.PrepareStamp[j] = j;
+                    newLevelData.PrepareStamp = new int[data.Count];
+                    for (int j = 0; j < data.Count; j++)
+                    {
+                        newLevelData.PrepareStamp[j] = j;
+                    }
                 }
+                else
+                {
+                    newLevelData.PrepareStamp = new int[data.Count];
+                    switch (data.Count)
+                    {
+                        case 1:
+                            newLevelData.PrepareStamp[0] = 0;
+                            break;
+                        case 2:
+                            newLevelData.PrepareStamp[0] = 0;
+                            newLevelData.PrepareStamp[1] = 4;
+                            break;
+                        case 3:
+                            newLevelData.PrepareStamp[0] = 0;
+                            newLevelData.PrepareStamp[1] = 2;
+                            newLevelData.PrepareStamp[2] = 5;
+                            break;
+                        case 4:
+                            newLevelData.PrepareStamp[0] = 0;
+                            newLevelData.PrepareStamp[1] = 2;
+                            newLevelData.PrepareStamp[2] = 4;
+                            newLevelData.PrepareStamp[3] = 6;
+                            break;
+                    }
+                }
+
 
                 // PrepareValue dizisini doldurun
                 newLevelData.PrepareValue = new int[data.Count];
@@ -486,6 +493,7 @@ namespace Game.SOLevel
         {
             int countToTake = System.Math.Min(size, list.Count);
             List<int> firstEight = list.GetRange(0, countToTake);
+            Debug.Log("TTT ->" + firstEight.Count);
             return firstEight;
         }
         private bool CheckPrime(int num)
