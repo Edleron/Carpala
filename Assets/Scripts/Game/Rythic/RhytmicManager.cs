@@ -50,6 +50,7 @@ namespace Game.Rhythmic
                 return;
             }
 
+            // LEVEL 10' Sonrası
             RhtyhmicDataGM levelData = rhytmicObje[level];
             List<RhtyhmicDataGameMode> innerList = levelData.list;
 
@@ -90,15 +91,24 @@ namespace Game.Rhythmic
             return newData;
         }
 
-        public void SetRhytmic(int level)
+        public int CorrectRhytmic(int level)
         {
+            if (level > 10)
+            {
+                return -1;
+            }
+
             RhtyhmicDataSO levelData = rhytmicSo.rhytmicData[level];
             List<RhtyhmicDataScriptableMode> innerList = levelData.list;
 
             foreach (RhtyhmicDataScriptableMode data in innerList)
             {
-                data.Status = true;
+                if (data.Status == false)
+                {
+                    return 0;
+                }
             }
+            return 1;
         }
     }
 }
