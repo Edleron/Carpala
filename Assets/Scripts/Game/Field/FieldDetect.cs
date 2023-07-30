@@ -16,7 +16,7 @@ namespace Game.Field
     {
         public Transform target;
         private FieldDetectState state = FieldDetectState.Inactive;
-        private Vector2 startPosition;
+        [HideInInspector] public Vector2 startPosition;
 
         private void Awake()
         {
@@ -26,13 +26,11 @@ namespace Game.Field
 
         private void OnEnable()
         {
-            EventManager.onSwipeUp += LaunchControl;
             transform.position = startPosition;
         }
 
         private void OnDisable()
         {
-            EventManager.onSwipeUp -= LaunchControl;
             transform.position = startPosition;
         }
 
@@ -76,16 +74,11 @@ namespace Game.Field
             transform.position = Vector2.MoveTowards(currentPosition, target.position, 5.0f * Time.deltaTime);
         }
 
-        private void LaunchControl()
+        public void LaunchControl()
         {
             if (state == FieldDetectState.Active)
             {
                 state = FieldDetectState.Moving;
-            }
-            // TODO -> Lock False Edilmesi Gerekiyor, Ama Oyun Hızlı Olduğu İçin Patlıyor.
-            else
-            {
-                EventManager.Fire_onSwipeLock(false);
             }
         }
     }
