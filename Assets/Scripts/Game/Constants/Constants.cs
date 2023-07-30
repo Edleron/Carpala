@@ -13,7 +13,7 @@ public static class Constants
 
     // TOP
     public const string Closed = "Closed";
-    public const string Achievements = "Achievements";
+    public const string Restart = "Restart";
     public const string Sound = "Sound";
     public const string Back = "Back";
 
@@ -22,9 +22,5 @@ public static class Constants
     public const string Rhythmic = "Rhythmic";
     public const string Played = "Played";
     public const string Preferences = "Preferences";
-
-    // TUTORIALS
-    public const string BtnPanelSwipeDown = "BtnPanelSwipeDown";
-    public const string BtnPanelSwipeUp = "BtnPanelSwipeUp";
     #endregion
 }
