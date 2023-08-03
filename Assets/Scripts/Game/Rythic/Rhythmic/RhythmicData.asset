@@ -17,7 +17,7 @@ MonoBehaviour:
     - RhythmicName: Detect - 1
       Status: 0
     - RhythmicName: Detect - 2
-      Status: 0
+      Status: 1
     - RhythmicName: Detect - 4
       Status: 0
   - list:
@@ -51,9 +51,9 @@ MonoBehaviour:
     - RhythmicName: Detect - 6
       Status: 0
     - RhythmicName: Detect - 12
-      Status: 0
+      Status: 1
     - RhythmicName: Detect - 18
-      Status: 0
+      Status: 1
     - RhythmicName: Detect - 24
       Status: 0
     - RhythmicName: Detect - 30
