@@ -9,62 +9,114 @@ namespace Game.Rhythmic
     {
         public static RhythmicManager Instance { get; private set; }
         public List<RhtyhmicDataGM> rhytmicObje = new List<RhtyhmicDataGM>();
-
         public RhythmicDataScriptableObject rhytmicSo;
 
         private void Awake()
         {
-            // rhytmicObje[0].list[0].Status = false;
-            // rhytmicSo.rhytmicData[0].list[0].Status = false;
             Instance = this;
         }
 
-        public void ActiveRhytmic(int level, string result)
+        private void Start()
+        {
+            AwakeRhytmic();
+        }
+
+        private void AwakeRhytmic()
+        {
+            for (var i = 0; i < rhytmicSo.rhytmicData.Count; i++)
+            {
+                for (var j = 0; j < rhytmicSo.rhytmicData[i].list.Count; j++)
+                {
+                    if (rhytmicSo.rhytmicData[i].list[j].Status == true)
+                    {
+                        string resName = rhytmicSo.rhytmicData[i].list[j].RhythmicName;
+
+                        List<RhtyhmicDataGameMode> test = rhytmicObje[i].list.FindAll(x => x.RhythmicName == resName);
+
+                        for (var f = 0; f < test.Count; f++)
+                        {
+                            test[f].Kratus.SetActive(false);
+                            test[f].Status = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        public void RestartRhytmic()
+        {
+            for (var i = 0; i < rhytmicSo.rhytmicData.Count; i++)
+            {
+                for (var j = 0; j < rhytmicSo.rhytmicData[i].list.Count; j++)
+                {
+                    rhytmicSo.rhytmicData[i].list[j].Status = false;
+                }
+            }
+
+            for (var i = 0; i < rhytmicObje.Count; i++)
+            {
+                for (var j = 0; j < rhytmicObje[i].list.Count; j++)
+                {
+                    rhytmicObje[i].list[j].Kratus.SetActive(true);
+                    rhytmicObje[i].list[j].Status = false;
+                }
+            }
+        }
+
+        public void ActiveRhytmic(int level = -1, string result = "None")
+        {
+            string fileName = "Detect - " + result;
+            if (level != -1)
+            {
+                for (var i = 0; i < rhytmicSo.rhytmicData[level].list.Count; i++)
+                {
+                    if (rhytmicSo.rhytmicData[level].list[i].RhythmicName == fileName)
+                    {
+                        rhytmicSo.rhytmicData[level].list[i].Status = true;
+                    }
+                }
+
+                for (var i = 0; i < rhytmicObje[level].list.Count; i++)
+                {
+                    if (rhytmicObje[level].list[i].RhythmicName == fileName)
+                    {
+                        rhytmicObje[level].list[i].Status = true;
+                        rhytmicObje[level].list[i].Kratus.SetActive(false);
+                    }
+                }
+            }
+            else
+            {
+                foreach (var item in rhytmicSo.rhytmicData)
+                {
+                    foreach (var xItem in item.list)
+                    {
+                        if (xItem.RhythmicName == fileName)
+                        {
+                            xItem.Status = true;
+                        }
+                    }
+                }
+
+                foreach (var item in rhytmicObje)
+                {
+                    foreach (var xItem in item.list)
+                    {
+                        if (xItem.RhythmicName == fileName)
+                        {
+                            xItem.Kratus.SetActive(false);
+                            xItem.Status = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        public void ActiveHardRhytmic(int level, string result)
         {
             string fileName = "Detect - " + result;
 
-            if (level < 0 || level >= rhytmicObje.Count)
-            {
-                foreach (var item in rhytmicObje)
-                {
-                    foreach (var x in item.list)
-                    {
-                        if (x.RhythmicName == fileName)
-                        {
-                            x.Status = true;
-                            x.Kratus.SetActive(false);
-                        }
-                    }
-                }
 
-                foreach (var item in rhytmicSo.rhytmicData)
-                {
-                    foreach (var x in item.list)
-                    {
-                        if (x.RhythmicName == fileName)
-                        {
-                            x.Status = true;
-                        }
-                    }
-                }
-                return;
-            }
-
-            // LEVEL 10' Sonrası
-            RhtyhmicDataGM levelData = rhytmicObje[level];
-            List<RhtyhmicDataGameMode> innerList = levelData.list;
-
-            foreach (RhtyhmicDataGameMode data in innerList)
-            {
-                if (data.RhythmicName == fileName)
-                {
-                    data.Status = true;
-                    data.Kratus.SetActive(false);
-                }
-            }
-
-            RhtyhmicDataScriptableMode t = rhytmicSo.rhytmicData[level].list.Find(item => item.RhythmicName == fileName);
-            t.Status = true;
         }
 
         public List<int> GetRhytmic()
