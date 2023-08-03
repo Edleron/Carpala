@@ -15,6 +15,8 @@ public static class Constants
     public const string Closed = "Closed";
     public const string Restart = "Restart";
     public const string Sound = "Sound";
+    public const string Achievements = "Achievements";
+    public const string Result = "Result";
     public const string Back = "Back";
 
     // MENU
