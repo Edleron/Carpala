@@ -13,6 +13,7 @@ using Game.Stars;
 using Game.Audio;
 using Edleron.Events;
 using Game.Rhythmic;
+using Game.Popup;
 
 public enum TutorialState
 {
@@ -26,8 +27,13 @@ public class GameManager : MonoBehaviour
 {
     private TutorialState tutorialState = TutorialState.Inactive;
     private bool finishTimeActive = false;
+    private int correctCont = 0;
+    private int wrondCont = 0;
 
     // TUTORIALS ANIMASYON EKLEME
+    // INFORMATİON TEXT
+    // SOUND BUTTON
+    // ROZET
 
     private void Awake()
     {
@@ -38,7 +44,10 @@ public class GameManager : MonoBehaviour
     {
         // HeardVisualizer.Instance.SetSkore(3);
         // StarVisualizer.Instance.SetCount(60);
-        // LevelManager.Instance.SetLevelIndex(0);
+        // LevelManager.Instance.SetLevelIndex(2);
+
+        correctCont = 0;
+        wrondCont = 0;
 
         EventManager.Fire_onSwipeLock(true);
         Invoke("StartGame", 2f);
@@ -55,7 +64,6 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            if (levelIndex > 10) LevelManager.Instance.LevelGenerate();
             CriticalGame();
         }
     }
@@ -129,162 +137,119 @@ public class GameManager : MonoBehaviour
 
     private void OnResult(int fieldResult)
     {
+        if (finishTimeActive)
+        {
+            return;
+        }
+
         EventManager.Fire_onExplosion();
 
-        // SURE SIFIRIN ALTINDA ISE |||||FinishedTİme Çalışacak -> EVENT Sistemine Bağlandı
-        if (!finishTimeActive)
+        // Cevabın Çek Edilmesi
+        int PullResult = LevelManager.Instance.GetResult();
+        int levelIndex = LevelManager.Instance.GetLevelIndex();
+        int setLevelRhytmic = levelIndex > 10 ? -1 : levelIndex;
+        if (PullResult == fieldResult)
         {
-            int PullResult = LevelManager.Instance.GetResult();
+            correctCont++;
+            EventManager.Fire_onCorrect();
+            AudioManager.Instance.PlayCorrectShootingClip();
+            LevelManager.Instance.AddBlackList(levelIndex, fieldResult);
+            RhythmicManager.Instance.ActiveRhytmic(setLevelRhytmic, fieldResult.ToString());
+        }
+        else
+        {
+            wrondCont++;
+            EventManager.Fire_onWrong();
+            AudioManager.Instance.PlayWrongShootingClip();
+            LevelManager.Instance.AddBlackList(levelIndex, fieldResult);
+        }
 
-            // Debug.Log("Result -> " + PullResult);
-            // Debug.Log("Field -> " + fieldResult);
+        OnStatus();
+    }
 
-            if (PullResult == fieldResult)
+
+    private void OnStatus()
+    {
+        // CAN SIFIR OLDU ISE
+        int heart = HeardVisualizer.Instance.GetSkore();
+        if (heart == 0)
+        {
+            SetStatus("Heart");
+            return;
+        }
+
+        int stamp = LevelManager.Instance.GetStampCount();
+        int round = LevelManager.Instance.GetRoundCount();
+        if (stamp == round)
+        {
+            if (correctCont >= wrondCont)
             {
-                // CEVAP DOĞRU ISE
-                int levelIndex = LevelManager.Instance.GetLevelIndex();
-
-                EventManager.Fire_onCorrect();
-                AudioManager.Instance.PlayCorrectShootingClip();
-                RhythmicManager.Instance.ActiveRhytmic(levelIndex, fieldResult.ToString());
-
-                LevelManager.Instance.AddBlackList(levelIndex);
-
-                int stamp = LevelManager.Instance.GetStampCount();
-                int round = LevelManager.Instance.GetRoundCount();
-                // YENİ LEVEL GEÇİŞ'E BAK
-                if (stamp == round)
-                {
-                    // YANLIŞ'TA OLSA DOĞRU DA OLSA YENI LEVEL'E GEÇİLECEK
-                    if (levelIndex >= 10) LevelManager.Instance.LevelGenerate();
-                    levelIndex = levelIndex + 1;
-
-                    // CAN BARI YENILEME
-                    int correctStatus = RhythmicManager.Instance.CorrectRhytmic(levelIndex);
-                    switch (correctStatus)
-                    {
-                        case -1:
-                            HeardVisualizer.Instance.SetSkore(HeardVisualizer.Instance.GetSkore());
-                            break;
-                        case 0:
-                            HeardVisualizer.Instance.SetSkore(HeardVisualizer.Instance.GetSkore());
-                            break;
-                        case 1:
-                            int skore = HeardVisualizer.Instance.GetSkore();
-                            skore = skore + 1;
-                            HeardVisualizer.Instance.SetSkore(skore);
-                            break;
-                    }
-                    StarVisualizer.Instance.SetCount(60);
-
-                    LevelManager.Instance.SetRoundCount(0);
-                    LevelManager.Instance.SetLevelIndex(levelIndex);
-                    LevelManager.Instance.ClearBlackLiset();
-
-                    CardActuator.Instance.FinishCarding();
-
-                    int rotationSpeed = LevelManager.Instance.GetRotationSpeed();
-                    CardActuator.Instance.SetSpeed(rotationSpeed);
-                    SpeedVisualizer.Instance.SetSliderValue((int)rotationSpeed);
-                }
-
-                PumpActuator.Instance.RunPumping();
-                PullActuator.Instance.RunPulling();
+                SetStatus("NewLevel");
             }
             else
             {
-                // CEVAP YANLIŞ ISE
-
-                EventManager.Fire_onWrong();
-                AudioManager.Instance.PlayWrongShootingClip();
-
-                // CAN SIFIRIN ALTINDA ISE
-                int heart = HeardVisualizer.Instance.GetSkore();
-                if (heart == 0)
-                {
-                    // AMA CAN = ' 0 LEVEL BAŞA DÖN
-                    //AYNI LEVEL'I GONDER
-                    int levelIndex = LevelManager.Instance.GetLevelIndex();
-                    levelIndex = levelIndex <= 10 ? levelIndex - 1 : levelIndex;
-
-                    LevelManager.Instance.SetRoundCount(0);
-
-                    LevelManager.Instance.SetLevelIndex(levelIndex);
-                    LevelManager.Instance.ClearBlackLiset();
-
-                    CardActuator.Instance.FinishCarding();
-
-                    StarVisualizer.Instance.SetCount(60);
-                    HeardVisualizer.Instance.SetSkore(3);
-
-                    PumpActuator.Instance.RunPumping();
-                    PullActuator.Instance.RunPulling();
-
-                    int rotationSpeed = LevelManager.Instance.GetRotationSpeed();
-                    CardActuator.Instance.SetSpeed(rotationSpeed);
-                    SpeedVisualizer.Instance.SetSliderValue((int)rotationSpeed);
-
-                    return;
-                }
-
-                int stamp = LevelManager.Instance.GetStampCount();
-                int round = LevelManager.Instance.GetRoundCount();
-
-                // YENİ LEVEL GEÇİŞ'E BAK
-                if (stamp == round)
-                {
-                    // YANLIŞ'TA OLSA DOĞRU DA OLSA YENI LEVEL'E GEÇİLECEK, YANLIZ LEVEL 10'DAN KÜÇÜKSE BU ŞART SAĞLANACAK
-                    int levelIndex = LevelManager.Instance.GetLevelIndex();
-                    if (levelIndex >= 10) LevelManager.Instance.LevelGenerate();
-                    levelIndex = levelIndex <= 10 ? levelIndex + 1 : levelIndex;
-
-                    StarVisualizer.Instance.SetCount(60);
-
-                    LevelManager.Instance.SetRoundCount(0);
-                    LevelManager.Instance.SetLevelIndex(levelIndex);
-                    LevelManager.Instance.ClearBlackLiset();
-
-                    CardActuator.Instance.FinishCarding();
-
-                    int rotationSpeed = LevelManager.Instance.GetRotationSpeed();
-                    CardActuator.Instance.SetSpeed(rotationSpeed);
-                    SpeedVisualizer.Instance.SetSliderValue((int)rotationSpeed);
-                }
-
-                PumpActuator.Instance.RunPumping();
-                PullActuator.Instance.RunPulling();
+                SetStatus("RepeatLevel");
             }
+
+            return;
         }
+
+        PumpActuator.Instance.RunPumping();
+        PullActuator.Instance.RunPulling();
     }
 
     private void FinishedTime()
     {
         // SÜRE BİTTİ
         finishTimeActive = true;
+        SetStatus("Timer");
+    }
 
-        EventManager.Fire_onSwipeLock(true); // False Edilen Yer ^^PullActuator^^^ -> PullAnimActiveFalse
-
-        int levelIndex = LevelManager.Instance.GetLevelIndex();
-        levelIndex = levelIndex <= 10 ? levelIndex : levelIndex;
-
-        LevelManager.Instance.SetRoundCount(0);
-
-        LevelManager.Instance.SetLevelIndex(levelIndex);
-        LevelManager.Instance.ClearBlackLiset();
-
+    private void SetStatus(string status)
+    {
+        GamePaused();
         CardActuator.Instance.FinishCarding();
 
+        int levelIndex = LevelManager.Instance.GetLevelIndex();
+        switch (status)
+        {
+            case "Timer":
+                levelIndex = levelIndex - 1;
+                if (levelIndex < 0) levelIndex = 0;
+                PopupVisualizer.Instance.ActiveTimer();
+                break;
+            case "Heart":
+                levelIndex = levelIndex - 1;
+                if (levelIndex < 0) levelIndex = 0;
+                PopupVisualizer.Instance.ActiveHeart();
+                break;
+            case "NewLevel":
+                levelIndex = levelIndex + 1;
+                if (levelIndex < 0) levelIndex = 0;
+                PopupVisualizer.Instance.ActivePopup(correctCont, wrondCont);
+                MTextVisualizer.Instance.SetCorrectLevel();
+                break;
+            case "RepeatLevel":
+                levelIndex = levelIndex + 0;
+                if (levelIndex < 0) levelIndex = 0;
+                PopupVisualizer.Instance.ActivePopup(correctCont, wrondCont);
+                MTextVisualizer.Instance.SetWrongLevel();
+                break;
+            case "Restart":
+                levelIndex = 0;
+                if (levelIndex < 0) levelIndex = 0;
+                PopupVisualizer.Instance.ActiveRestart();
+                RhythmicManager.Instance.RestartRhytmic();
+                break;
+        }
+
+        wrondCont = 0;
+        correctCont = 0;
+        LevelManager.Instance.SetRoundCount(0);
+        LevelManager.Instance.ClearBlackList();
+        LevelManager.Instance.SetLevelIndex(levelIndex);
         StarVisualizer.Instance.SetCount(60);
         HeardVisualizer.Instance.SetSkore(3);
-
-        PumpActuator.Instance.RunPumping();
-        PullActuator.Instance.RunPulling();
-
-        int rotationSpeed = LevelManager.Instance.GetRotationSpeed();
-        CardActuator.Instance.SetSpeed(rotationSpeed);
-        SpeedVisualizer.Instance.SetSliderValue((int)rotationSpeed);
-
-        finishTimeActive = false;
     }
 
     private void GamePaused()
@@ -322,22 +287,17 @@ public class GameManager : MonoBehaviour
                 break;
             case Constants.Restart:
                 UIVisualizer.Instance.onClick_Restart();
-
-                HeardVisualizer.Instance.SetSkore(3);
-                StarVisualizer.Instance.SetCount(60);
-
-                LevelManager.Instance.SetLevelIndex(0);
-                LevelManager.Instance.SetRoundCount(0);
-
-                CardActuator.Instance.FinishCarding();
-                PumpActuator.Instance.RunPumping();
-                PullActuator.Instance.RunPulling();
-
                 UIVisualizer.Instance.SetUILocked(true);
-                GameStart();
-                // TODO
+                SetStatus("Restart");
                 break;
             case Constants.Sound:
+                UIVisualizer.Instance.onClick_Sound();
+                break;
+            case Constants.Achievements:
+                UIVisualizer.Instance.onClick_Achievements();
+                break;
+            case Constants.Result:
+                UIVisualizer.Instance.onClick_Result();
                 break;
             case Constants.Back:
                 UIVisualizer.Instance.onClick_Back();
@@ -362,6 +322,31 @@ public class GameManager : MonoBehaviour
                     UIVisualizer.Instance.SetUILocked(true);
                     GameStart();
                 }
+                break;
+            case "ClosePopup":
+
+                if (!LevelManager.Instance.GetLevelProcess())
+                {
+                    UITrigger("END GAME");
+                    PopupVisualizer.Instance.EndGame();
+                    PopupVisualizer.Instance.PassivePopup();
+                    return;
+                }
+
+                int rotationSpeed = LevelManager.Instance.GetRotationSpeed();
+                CardActuator.Instance.SetSpeed(rotationSpeed);
+                SpeedVisualizer.Instance.SetSliderValue((int)rotationSpeed);
+
+                GameStart();
+                PopupVisualizer.Instance.PassivePopup();
+                CardActuator.Instance.StartCarding();
+                PumpActuator.Instance.RunPumping();
+                PullActuator.Instance.RunPulling();
+                break;
+            case "END GAME":
+                PopupVisualizer.Instance.PassivePopup();
+                UIVisualizer.Instance.onClick_EndGame();
+                UIVisualizer.Instance.SetUILocked(false);
                 break;
         }
     }
