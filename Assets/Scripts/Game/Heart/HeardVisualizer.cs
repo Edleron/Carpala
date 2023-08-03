@@ -48,7 +48,7 @@ namespace Game.Heart
 
         public int GetSkore()
         {
-            return currentScore;
+            return targetScore;
         }
 
         public void SetSkore(int value)
