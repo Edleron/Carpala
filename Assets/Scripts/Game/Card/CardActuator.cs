@@ -183,7 +183,6 @@ namespace Game.Card
             {
                 stamp[arr[i]].SetActive(true);
                 stamp[arr[i]].transform.position = stamp[arr[i]].GetComponent<FieldDetect>().startPosition;
-                Debug.Log(stamp[arr[i]].transform.position);
                 Transform stampObje = stamp[arr[i]].transform.GetChild(3);
                 TextMeshPro textObje = stampObje.GetComponent<TextMeshPro>();
                 FieldRotate fieldRotate = stampObje.GetComponent<FieldRotate>();
