@@ -85,16 +85,21 @@ namespace Game.SOLevel
 
 
         #region Level Prepare
+        public bool GetLevelProcess()
+        {
+            if (LevelIndex < 50)
+            {
+                return true;
+            }
+            return false;
+        }
         public int GetRotationSpeed()
         {
-            // Debug.Log("EEE ->" + LevelIndex);
             return levelList[LevelIndex].levelData.RotatineSpeed;
         }
 
         public int[] GetPrepareField()
         {
-            Debug.Log("EEE ->" + LevelIndex);
-            Debug.Log("EEE ->" + levelList[LevelIndex].levelData.PrepareStamp.Length);
             return levelList[LevelIndex].levelData.PrepareStamp;
         }
 
@@ -134,20 +139,20 @@ namespace Game.SOLevel
         #endregion
 
         #region BLACK LIST
-        public void AddBlackList(int levelIndex)
+        public void AddBlackList(int levelIndex, int field)
         {
             int length = levelList[levelIndex].levelData.PrepareResult.Length;
             var data = levelList[levelIndex].levelData.PrepareResult;
 
             for (int i = 0; i < length; i++)
             {
-                if (data[i].result == PullResult)
+                if (data[i].result == field)
                 {
                     IndixBlackList.Add(i);
                 }
             }
         }
-        public void ClearBlackLiset()
+        public void ClearBlackList()
         {
             IndisIndex = -1;
             IndixBlackList.Clear();
@@ -271,7 +276,7 @@ namespace Game.SOLevel
 
 #if UNITY_EDITOR
                 // ScriptableObject'ı kaydedin (istediğiniz bir dosya yolunu belirleyin)
-                string savePath = "Assets/Scripts/Game/SOLevel/Levels/Level-X-" + (GetLevelIndex()).ToString() + ".asset";
+                string savePath = "Assets/Scripts/Game/SOLevel/Levels/Level-" + (GetLevelIndex()).ToString() + ".asset";
                 UnityEditor.AssetDatabase.CreateAsset(scriptableObject, savePath);
                 UnityEditor.AssetDatabase.SaveAssets();
                 Debug.Log("LevelData asset oluşturuldu ve kaydedildi: " + savePath);
