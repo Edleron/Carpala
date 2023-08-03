@@ -15,14 +15,14 @@ namespace Game.MotivationText
             mTransform = this.gameObject.transform;
         }
 
-        public void SetNewLevel()
+        public void SetCorrectLevel()
         {
-            Instantiate(correctPrefab, new Vector3(0, -4.5f, 0), Quaternion.identity, mTransform);
+            Instantiate(correctPrefab, new Vector3(0, -0.225F, 0), Quaternion.identity, mTransform);
         }
 
-        public void SetRepeatLevel()
+        public void SetWrongLevel()
         {
-            Instantiate(wrongPrefab, new Vector3(0, -4.5f, 0), Quaternion.identity, mTransform);
+            Instantiate(wrongPrefab, new Vector3(0, -0.225F, 0), Quaternion.identity, mTransform);
         }
     }
 }
