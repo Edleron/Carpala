@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c64258b37754bf4c9ce689c3e051866, type: 3}
+  m_Name: Level-19
+  m_EditorClassIdentifier: 
+  levelData:
+    LevelNumber: 20
+    LevelName: Rytmic LEvel
+    LevelDescription: This is a sample level description.
+    LevelDifficulty: Difficult
+    TargetScore: 100
+    RotatineSpeed: 70
+    VisibleStamp: 8
+    PrepareStamp: 0000000001000000020000000300000004000000050000000600000007000000
+    PrepareValue: 5d00000060000000560000004b00000014000000060000003100000012000000
+    PrepareResult:
+    - result: 93
+      valueOne: 3
+      valueTwo: 31
+    - result: 96
+      valueOne: 6
+      valueTwo: 16
+    - result: 86
+      valueOne: 2
+      valueTwo: 43
+    - result: 75
+      valueOne: 5
+      valueTwo: 15
+    - result: 20
+      valueOne: 4
+      valueTwo: 5
+    - result: 6
+      valueOne: 2
+      valueTwo: 3
+    - result: 49
+      valueOne: 7
+      valueTwo: 7
+    - result: 18
+      valueOne: 2
+      valueTwo: 9
