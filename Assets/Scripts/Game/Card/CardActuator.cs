@@ -73,6 +73,11 @@ namespace Game.Card
             CardAnimActiveTrue();
         }
 
+        public void StartCarding()
+        {
+            CardAnimActiveTrue();
+        }
+
         public void FinishCarding()
         {
             CardAnimPassiveTrue();
@@ -178,6 +183,7 @@ namespace Game.Card
             {
                 stamp[arr[i]].SetActive(true);
                 stamp[arr[i]].transform.position = stamp[arr[i]].GetComponent<FieldDetect>().startPosition;
+                Debug.Log(stamp[arr[i]].transform.position);
                 Transform stampObje = stamp[arr[i]].transform.GetChild(3);
                 TextMeshPro textObje = stampObje.GetComponent<TextMeshPro>();
                 FieldRotate fieldRotate = stampObje.GetComponent<FieldRotate>();
@@ -193,24 +199,28 @@ namespace Game.Card
             Shake();
             StampFalse(false);
             rotationControl = false;
+            sp.enabled = true;
         }
         private void CardAnimActiveFalse()
         {
             animator.SetBool("active", false);
             rotationControl = true;
+            sp.enabled = true;
             CardGenerate();
         }
         public void CardAnimPassiveTrue()
         {
             animator.SetBool("passive", true);
             rotationControl = false;
+            StampFalse(false);
+            sp.enabled = true;
             Shake();
         }
         private void CardAnimPassiveFalse()
         {
             animator.SetBool("passive", false);
             rotationControl = false;
-            CardAnimActiveTrue();
+            sp.enabled = false;
         }
     }
 }
