@@ -50,6 +50,8 @@ namespace Edleron.Input
                 if (hit.transform.TryGetComponent<Collider2D>(out Collider2D ts))
                 {
                     EventManager.Fire_onUITrigger(ts.name);
+
+                    Debug.Log(ts.name);
                 }
             }
         }
