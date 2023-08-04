@@ -29,7 +29,7 @@ namespace Game.Popup
 
         public void ActivePopup(int correct, int wrong)
         {
-            Button.name = "ClosePopup";
+            Button.SetActive(true);
             Popup.SetActive(true);
             CorrectText.text = "Doğru Sayısı : " + correct.ToString();
             WrongText.text = "Yanlış Sayısı : " + wrong.ToString();
@@ -37,7 +37,7 @@ namespace Game.Popup
 
         public void PassivePopup()
         {
-            Button.name = "ClosePopup";
+            Button.SetActive(true);
             Popup.SetActive(false);
             CorrectText.text = " ";
             WrongText.text = " ";
@@ -45,7 +45,7 @@ namespace Game.Popup
 
         public void ActiveHeart()
         {
-            Button.name = "ClosePopup";
+            Button.SetActive(true);
             Popup.SetActive(true);
             CorrectText.text = "Canınız Yetersizdir, Bir önceki Seviyeyi Tekrar Etmek Zorundasınız.";
             WrongText.text = " ";
@@ -54,7 +54,7 @@ namespace Game.Popup
 
         public void ActiveTimer()
         {
-            Button.name = "ClosePopup";
+            Button.SetActive(true);
             Popup.SetActive(true);
             CorrectText.text = "Süreniz Bitmiştir, Bir önceki Seviyeyi Tekrar Etmek Zorundasınız.";
             WrongText.text = " ";
@@ -62,7 +62,7 @@ namespace Game.Popup
 
         public void ActiveRestart()
         {
-            Button.name = "ClosePopup";
+            Button.SetActive(true);
             Popup.SetActive(true);
             CorrectText.text = "Oyun Yeniden Sıfır Ayarlarında Başlatılacaktır.";
             WrongText.text = " ";
@@ -70,7 +70,7 @@ namespace Game.Popup
 
         public void EndGame()
         {
-            Button.name = "END GAME";
+            Button.SetActive(false);
             Popup.SetActive(true);
             CorrectText.text = "Oyun Başarıyla Tamamlanmıştır.";
             WrongText.text = " ";
