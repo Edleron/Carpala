@@ -6,6 +6,7 @@ namespace Game.Pull
     using Edleron.Events;
     using Game.SOLevel;
     using TMPro;
+    using Game.UI;
 
     public class PullActuator : MonoBehaviour
     {
@@ -77,6 +78,7 @@ namespace Game.Pull
         }
         private void PullAnimActiveFalse()
         {
+            UIVisualizer.Instance.SetUILocked(true);
             EventManager.Fire_onSwipeLock(false);
             animator.SetBool("active", false);
         }
