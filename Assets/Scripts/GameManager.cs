@@ -115,6 +115,7 @@ public class GameManager : MonoBehaviour
     private void TriggerSwipeDown()
     {
         EventManager.Fire_onSwipeLock(true); // False Edilen Yer ^^PullActuator^^^ -> PullAnimActiveFalse
+        UIVisualizer.Instance.SetUILocked(false);
 
         PumpActuator.Instance.RunPumping();
         PullActuator.Instance.RunPulling();
@@ -127,6 +128,7 @@ public class GameManager : MonoBehaviour
         if (detect != "None")
         {
             EventManager.Fire_onSwipeLock(true); // False Edilen Yer ^^PullActuator^^^ -> PullAnimActiveFalse
+            UIVisualizer.Instance.SetUILocked(false);
 
             CardActuator.Instance.RunFielding(detect);
             int round = LevelManager.Instance.GetRoundCount();
@@ -314,7 +316,7 @@ public class GameManager : MonoBehaviour
             case Constants.Preferences:
                 UIVisualizer.Instance.onClick_Preferences();
                 break;
-            case "CloseBtn":
+            case "CloseTutorial":
                 bool returnGame = UIVisualizer.Instance.onTutorial_Clue();
                 if (returnGame)
                 {
@@ -324,12 +326,10 @@ public class GameManager : MonoBehaviour
                 }
                 break;
             case "ClosePopup":
-
                 if (!LevelManager.Instance.GetLevelProcess())
                 {
-                    UITrigger("END GAME");
                     PopupVisualizer.Instance.EndGame();
-                    PopupVisualizer.Instance.PassivePopup();
+                    Invoke("EndGame", 3f);
                     return;
                 }
 
@@ -337,17 +337,21 @@ public class GameManager : MonoBehaviour
                 CardActuator.Instance.SetSpeed(rotationSpeed);
                 SpeedVisualizer.Instance.SetSliderValue((int)rotationSpeed);
 
-                GameStart();
                 PopupVisualizer.Instance.PassivePopup();
                 CardActuator.Instance.StartCarding();
                 PumpActuator.Instance.RunPumping();
                 PullActuator.Instance.RunPulling();
-                break;
-            case "END GAME":
-                PopupVisualizer.Instance.PassivePopup();
-                UIVisualizer.Instance.onClick_EndGame();
-                UIVisualizer.Instance.SetUILocked(false);
+
+                finishTimeActive = false;
+                GameStart();
                 break;
         }
+    }
+
+    private void EndGame()
+    {
+        PopupVisualizer.Instance.PassivePopup();
+        UIVisualizer.Instance.onClick_EndGame();
+        UIVisualizer.Instance.SetUILocked(false);
     }
 }
