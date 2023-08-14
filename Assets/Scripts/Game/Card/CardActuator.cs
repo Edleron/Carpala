@@ -179,14 +179,24 @@ namespace Game.Card
             var arr = LevelManager.Instance.GetPrepareField();
             var values = LevelManager.Instance.GetFieldValue();
 
+            // TEXT
             for (int i = 0; i < arr.Length; i++)
             {
                 stamp[arr[i]].SetActive(true);
                 stamp[arr[i]].transform.position = stamp[arr[i]].GetComponent<FieldDetect>().startPosition;
                 Transform stampObje = stamp[arr[i]].transform.GetChild(3);
                 TextMeshPro textObje = stampObje.GetComponent<TextMeshPro>();
-                FieldRotate fieldRotate = stampObje.GetComponent<FieldRotate>();
                 textObje.text = values[i].ToString();
+            }
+
+            // BE CAREFULL
+            rotationControl = true;
+
+            // ROTATE
+            for (int i = 0; i < arr.Length; i++)
+            {
+                Transform stampObje = stamp[arr[i]].transform.GetChild(3);
+                FieldRotate fieldRotate = stampObje.GetComponent<FieldRotate>();
                 fieldRotate.FieldRotating(rotationSpeed, rotationControl);
             }
         }
@@ -203,7 +213,6 @@ namespace Game.Card
         private void CardAnimActiveFalse()
         {
             animator.SetBool("active", false);
-            rotationControl = true;
             sp.enabled = true;
             CardGenerate();
         }
