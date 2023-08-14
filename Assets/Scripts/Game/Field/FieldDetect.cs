@@ -16,22 +16,21 @@ namespace Game.Field
     {
         public Transform target;
         private FieldDetectState state = FieldDetectState.Inactive;
-        [HideInInspector] public Vector2 startPosition;
+        public Vector3 startPosition;
 
         private void Awake()
         {
             state = FieldDetectState.Inactive;
-            startPosition = transform.position;
         }
 
         private void OnEnable()
         {
-            transform.position = startPosition;
+            transform.localPosition = startPosition;
         }
 
         private void OnDisable()
         {
-            transform.position = startPosition;
+            transform.localPosition = startPosition;
         }
 
         private void Update()
