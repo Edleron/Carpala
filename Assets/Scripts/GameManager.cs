@@ -14,6 +14,7 @@ using Game.Audio;
 using Edleron.Events;
 using Game.Rhythmic;
 using Game.Popup;
+using System.Runtime.InteropServices;
 
 public enum TutorialState
 {
@@ -27,6 +28,7 @@ public class GameManager : MonoBehaviour
 {
     private TutorialState tutorialState = TutorialState.Inactive;
     private bool finishTimeActive = false;
+    private bool IsRestart = false;
     private int correctCont = 0;
     private int wrondCont = 0;
 
@@ -240,7 +242,6 @@ public class GameManager : MonoBehaviour
             case "Restart":
                 levelIndex = 0;
                 if (levelIndex < 0) levelIndex = 0;
-                PopupVisualizer.Instance.ActiveRestart();
                 RhythmicManager.Instance.RestartRhytmic();
                 break;
         }
@@ -288,9 +289,11 @@ public class GameManager : MonoBehaviour
                 GameStart();
                 break;
             case Constants.Restart:
+                GamePaused();
+                IsRestart = true;
                 UIVisualizer.Instance.onClick_Restart();
                 UIVisualizer.Instance.SetUILocked(true);
-                SetStatus("Restart");
+                PopupVisualizer.Instance.ActiveRestart();
                 break;
             case Constants.Sound:
                 UIVisualizer.Instance.onClick_Sound();
@@ -333,19 +336,45 @@ public class GameManager : MonoBehaviour
                     return;
                 }
 
-                int rotationSpeed = LevelManager.Instance.GetRotationSpeed();
-                CardActuator.Instance.SetSpeed(rotationSpeed);
-                SpeedVisualizer.Instance.SetSliderValue((int)rotationSpeed);
+                if (IsRestart)
+                {
+                    PopupVisualizer.Instance.PassivePopup();
+                    GameStart();
+                }
+                else
+                {
+                    ContinueGame();
+                }
 
-                PopupVisualizer.Instance.PassivePopup();
-                CardActuator.Instance.StartCarding();
-                PumpActuator.Instance.RunPumping();
-                PullActuator.Instance.RunPulling();
 
-                finishTimeActive = false;
-                GameStart();
+                break;
+            case "OkPopup":
+
+                if (IsRestart)
+                {
+                    PopupVisualizer.Instance.PassivePopup();
+                    SetStatus("Restart");
+                    IsRestart = false;
+                }
+
+                Invoke("ContinueGame", 1f);
                 break;
         }
+    }
+
+    private void ContinueGame()
+    {
+        int rotationSpeed = LevelManager.Instance.GetRotationSpeed();
+        CardActuator.Instance.SetSpeed(rotationSpeed);
+        SpeedVisualizer.Instance.SetSliderValue((int)rotationSpeed);
+
+        PopupVisualizer.Instance.PassivePopup();
+        CardActuator.Instance.StartCarding();
+        PumpActuator.Instance.RunPumping();
+        PullActuator.Instance.RunPulling();
+
+        finishTimeActive = false;
+        GameStart();
     }
 
     private void EndGame()
