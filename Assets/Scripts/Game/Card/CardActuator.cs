@@ -183,7 +183,6 @@ namespace Game.Card
             for (int i = 0; i < arr.Length; i++)
             {
                 stamp[arr[i]].SetActive(true);
-                stamp[arr[i]].transform.position = stamp[arr[i]].GetComponent<FieldDetect>().startPosition;
                 Transform stampObje = stamp[arr[i]].transform.GetChild(3);
                 TextMeshPro textObje = stampObje.GetComponent<TextMeshPro>();
                 textObje.text = values[i].ToString();
