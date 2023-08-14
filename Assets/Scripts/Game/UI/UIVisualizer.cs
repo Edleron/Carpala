@@ -115,10 +115,10 @@ namespace Game.UI
             {
                 item.SetActive(false);
             }
-            onTutorial_Clue();
+            onOpenTutorial_Clue();
         }
 
-        public bool onTutorial_Clue()
+        public bool onOpenTutorial_Clue()
         {
             TutorialCount++;
 
@@ -145,6 +145,17 @@ namespace Game.UI
 
             return false;
         }
+
+
+        public void onCloseTutorial_Clue()
+        {
+            UIMenuPanel.SetActive(false);
+            SliderPanel.SetActive(true);
+            GameMenuPanel.SetActive(true);
+            TutorialsPanel.SetActive(false);
+        }
+
+
 
         public void onClick_Closed()
         {
