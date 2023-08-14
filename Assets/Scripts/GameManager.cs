@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     private TutorialState tutorialState = TutorialState.Inactive;
     private bool finishTimeActive = false;
     private bool IsRestart = false;
+    private bool IsShow = false;
     private int correctCont = 0;
     private int wrondCont = 0;
 
@@ -228,6 +229,7 @@ public class GameManager : MonoBehaviour
                 PopupVisualizer.Instance.ActiveHeart();
                 break;
             case "NewLevel":
+                IsShow = true;
                 levelIndex = levelIndex + 1;
                 if (levelIndex < 0) levelIndex = 0;
                 PopupVisualizer.Instance.ActivePopup(correctCont, wrondCont);
@@ -286,6 +288,12 @@ public class GameManager : MonoBehaviour
             case Constants.Closed:
                 UIVisualizer.Instance.onClick_Closed();
                 UIVisualizer.Instance.SetUILocked(true);
+
+                if (IsShow)
+                {
+                    IsShow = false;
+                    ContinueGame();
+                }
                 GameStart();
                 break;
             case Constants.Restart:
@@ -319,8 +327,8 @@ public class GameManager : MonoBehaviour
             case Constants.Preferences:
                 UIVisualizer.Instance.onClick_Preferences();
                 break;
-            case "CloseTutorial":
-                bool returnGame = UIVisualizer.Instance.onTutorial_Clue();
+            case "NextTutorial":
+                bool returnGame = UIVisualizer.Instance.onOpenTutorial_Clue();
                 if (returnGame)
                 {
                     UIVisualizer.Instance.onClick_Closed();
@@ -328,11 +336,26 @@ public class GameManager : MonoBehaviour
                     GameStart();
                 }
                 break;
+            case "CloseTutorial":
+                UIVisualizer.Instance.onCloseTutorial_Clue();
+                UIVisualizer.Instance.onClick_Closed();
+                UIVisualizer.Instance.SetUILocked(true);
+                GameStart();
+                break;
             case "ClosePopup":
                 if (!LevelManager.Instance.GetLevelProcess())
                 {
                     PopupVisualizer.Instance.EndGame();
                     Invoke("EndGame", 3f);
+                    return;
+                }
+
+                if (IsShow)
+                {
+                    PopupVisualizer.Instance.PassivePopup();
+                    UIVisualizer.Instance.SetUILocked(true);
+                    UIVisualizer.Instance.onClick_Setting();
+                    UIVisualizer.Instance.onClick_Achievements();
                     return;
                 }
 
@@ -349,6 +372,14 @@ public class GameManager : MonoBehaviour
 
                 break;
             case "OkPopup":
+                if (IsShow)
+                {
+                    PopupVisualizer.Instance.PassivePopup();
+                    UIVisualizer.Instance.SetUILocked(true);
+                    UIVisualizer.Instance.onClick_Setting();
+                    UIVisualizer.Instance.onClick_Achievements();
+                    return;
+                }
 
                 if (IsRestart)
                 {
