@@ -12,7 +12,7 @@ namespace Game.Stars
 
         private Animator anim;
         private TextMeshPro textObje;
-        private int Counter = 60;
+        private int Counter = 80;
         private int currentScore = 0;
         private int targetScore = 0;
         private float elapsedTime = 0f;
@@ -63,7 +63,7 @@ namespace Game.Stars
         {
             CounterCover();
             elapsedTime = 0f;
-            targetScore = Counter != 60 ? (Counter - 10) : Counter;
+            targetScore = Counter != 80 ? (Counter - 10) : Counter;
             StartCoroutine(AnimatedScore());
         }
 
