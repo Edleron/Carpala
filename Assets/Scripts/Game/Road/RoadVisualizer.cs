@@ -45,7 +45,16 @@ namespace Game.Road
             }
 
             Text.text = level.ToString();
-            Target.transform.position = RoadTarget[level];
+
+            try
+            {
+                Target.transform.position = RoadTarget[level];
+            }
+            catch (System.Exception ex)
+            {
+                Target.transform.position = RoadTarget[RoadTarget.Count - 1];
+            }
+
         }
     }
 }
