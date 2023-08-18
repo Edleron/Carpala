@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
     {
         // HeardVisualizer.Instance.SetSkore(3);
         // StarVisualizer.Instance.SetCount(60);
-        // LevelManager.Instance.SetLevelIndex(2);
+        // LevelManager.Instance.SetLevelIndex(0);
 
         correctCont = 0;
         wrondCont = 0;
@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour
         PullActuator.Instance.BeginPulling();
         CardActuator.Instance.BeginCarding();
 
-        StarVisualizer.Instance.SetCount(60);
+        StarVisualizer.Instance.SetCount(80);
 
         int rotationSpeed = LevelManager.Instance.GetRotationSpeed();
         CardActuator.Instance.SetSpeed(rotationSpeed);
@@ -253,7 +253,7 @@ public class GameManager : MonoBehaviour
         LevelManager.Instance.SetRoundCount(0);
         LevelManager.Instance.ClearBlackList();
         LevelManager.Instance.SetLevelIndex(levelIndex);
-        StarVisualizer.Instance.SetCount(60);
+        StarVisualizer.Instance.SetCount(80);
         HeardVisualizer.Instance.SetSkore(3);
     }
 
@@ -343,13 +343,6 @@ public class GameManager : MonoBehaviour
                 GameStart();
                 break;
             case "ClosePopup":
-                if (!LevelManager.Instance.GetLevelProcess())
-                {
-                    PopupVisualizer.Instance.EndGame();
-                    Invoke("EndGame", 3f);
-                    return;
-                }
-
                 if (IsShow)
                 {
                     PopupVisualizer.Instance.PassivePopup();
@@ -395,6 +388,13 @@ public class GameManager : MonoBehaviour
 
     private void ContinueGame()
     {
+        if (!LevelManager.Instance.GetLevelProcess())
+        {
+            PopupVisualizer.Instance.EndGame();
+            Invoke("EndGame", 10f);
+            return;
+        }
+
         int rotationSpeed = LevelManager.Instance.GetRotationSpeed();
         CardActuator.Instance.SetSpeed(rotationSpeed);
         SpeedVisualizer.Instance.SetSliderValue((int)rotationSpeed);
