@@ -21,8 +21,7 @@ namespace Game.Audio
         [SerializeField] AudioClip WrongShootingClip;
         [SerializeField][Range(0f, 1f)] float WrongShootingVolume = 1.0f;
 
-
-
+        public bool soundEnabled = true;
 
         public static AudioManager Instance { get; private set; }
 
@@ -46,6 +45,7 @@ namespace Game.Audio
                 Instance = this;
                 DontDestroyOnLoad(gameObject);
             }
+
         }
 
         public void PlayCorrectShootingClip()
@@ -68,8 +68,11 @@ namespace Game.Audio
         {
             if (clip != null)
             {
-                Vector3 camPos = Camera.main.transform.position;
-                AudioSource.PlayClipAtPoint(clip, camPos, volume);
+                if (soundEnabled)
+                {
+                    Vector3 camPos = Camera.main.transform.position;
+                    AudioSource.PlayClipAtPoint(clip, camPos, volume);
+                }
             }
         }
     }
