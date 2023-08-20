@@ -4,6 +4,7 @@ namespace Game.UI
     using System.Collections.Generic;
     using UnityEngine;
     using Game.Road;
+    using Game.Audio;
 
     public class UIVisualizer : MonoBehaviour
     {
@@ -192,6 +193,7 @@ namespace Game.UI
                     // Texture'ı değiştirme
                     renderer.sprite = sTexture[1];
                     audioListener.enabled = false;
+                    AudioManager.Instance.soundEnabled = false;
                 }
                 else
                 {
@@ -205,6 +207,7 @@ namespace Game.UI
                     // Texture'ı değiştirme
                     renderer.sprite = sTexture[0];
                     audioListener.enabled = true;
+                    AudioManager.Instance.soundEnabled = true;
                 }
                 else
                 {
