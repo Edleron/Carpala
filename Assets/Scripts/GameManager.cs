@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
     {
         // HeardVisualizer.Instance.SetSkore(3);
         // StarVisualizer.Instance.SetCount(60);
-        // LevelManager.Instance.SetLevelIndex(0);
+        LevelManager.Instance.SetLevelIndex(50);
 
         correctCont = 0;
         wrondCont = 0;
